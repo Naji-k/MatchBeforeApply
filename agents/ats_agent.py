@@ -1,8 +1,9 @@
+import os
 from google.adk.agents import LlmAgent
 
 ats_agent = LlmAgent(
     name="ats_agent",
-    model="gemini-2.5-flash",
+    model=os.getenv("MODEL", "gemini-2.5-flash-lite"),
     output_key="ats_tips",
     instruction="""You are an ATS (Applicant Tracking System) optimization expert.
 

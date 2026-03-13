@@ -1,9 +1,9 @@
+import os
 from google.adk.agents import LlmAgent
-
 
 match_agent = LlmAgent(
     name="match_agent",
-    model="gemini-2.5-flash",
+    model=os.getenv("MODEL", "gemini-2.5-flash-lite"),
     output_key="match_result",
     instruction="""You are a CV-to-Job match scorer.
 

@@ -1,8 +1,9 @@
+import os
 from google.adk.agents import LlmAgent
 
 cv_agent = LlmAgent(
     name="cv_agent",
-    model="gemini-2.5-flash",
+    model=os.getenv("MODEL", "gemini-2.5-flash-lite"),
     output_key="cv_data",
     instruction="""You are a CV/Resume parser.
 

@@ -1,9 +1,23 @@
+import os
 from google.adk.agents import LlmAgent
 from tools.web_scraper import scrape_url
+from pydantic import BaseModel
+from typing import List
+
+
+class JobDescription(BaseModel):
+    job_title: str
+    company: str
+    required_skills: List[str]
+    preferred_skills: List[str]
+    nice_to_have: List[str]
+    experience_required: str
+    keywords: List[str]
+
 
 jd_agent = LlmAgent(
     name="jd_agent",
-    model="gemini-2.5-flash",
+    model=os.getenv("MODEL", "gemini-2.5-flash-lite"),
     output_key="jd_data",
     tools=[scrape_url],
     instruction="""You are a Job Description parser.
@@ -22,10 +36,9 @@ Extract the following information and return ONLY a valid JSON object with no ex
   "company": "string",
   "required_skills": ["skill1", "skill2"],
   "preferred_skills": ["skill1", "skill2"],
-  "nice_to_have": ["nice_to_have1", "nice_to_have2"]
-  "experience_required": "string (e.g. '5+ years')",
-  "key_responsibilities": ["responsibility1", "responsibility2"],
-  "keywords": ["keyword1", "keyword2"],
+  "nice_to_have": ["skill1", "skill2"],
+  "experience_required": "string",
+  "keywords": ["keyword1", "keyword2"]
 }}
 
 Return only the JSON. No markdown, no explanation, """,
