@@ -12,6 +12,6 @@ sqlalchemy[asyncio]
 asyncpg
 alembic
 python-jose[cryptography]
-passlib[bcrypt]
+passlib[argon2]
 pydantic[email]
 pydantic-settings

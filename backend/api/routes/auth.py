@@ -6,7 +6,7 @@ from core.middleware import get_current_user
 from core.security import create_access_token
 from db.database import get_db
 from db.models import User
-from schemas.auth import Token, UserCreate, UserResponse
+from schemas.auth import Token, UserCreate, UserLogin, UserResponse
 from services.auth_service import authenticate_user, register_user
 
 router = APIRouter(prefix="/api/auth", tags=["auth"])
@@ -22,10 +22,10 @@ async def register(user_in: UserCreate, db: AsyncSession = Depends(get_db)):
 
 @router.post("/login", response_model=Token)
 async def login(
-    form: OAuth2PasswordRequestForm = Depends(),
+    form: UserLogin,
     db: AsyncSession = Depends(get_db),
 ):
-    user = await authenticate_user(db, form.username, form.password)
+    user = await authenticate_user(db, form.email, form.password)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
