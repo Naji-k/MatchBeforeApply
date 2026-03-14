@@ -39,7 +39,6 @@ mock = {
         "summary": "Marc possesses a strong technical foundation in Python, Java, and C++, with practical experience in Redux, SQL/NoSQL databases, and cloud platforms, matching many core technical requirements. While the candidate's software engineering tenure is approximately 1.5 years, falling short of the 4+ years required, their experience at TomTom demonstrates high impact, leadership potential, and delivery on significant projects.",
     },
     "ats_tips": {},
-    "cover_letter": "",
 }
 
 
@@ -75,5 +74,4 @@ mock2 = {
         "summary": "John Doe is a highly suitable candidate with over 5 years of backend engineering experience, including a senior role, and strong proficiency in Python (FastAPI, Django), PostgreSQL, Docker, Kubernetes, and AWS. He demonstrates excellent alignment with core technical requirements like REST APIs, microservices, and CI/CD, and has leadership experience. While he lacks explicit experience with message queues (Kafka, RabbitMQ), Go, GraphQL, and Terraform, his foundational skills and proven track record make him an excellent fit.",
     },
     "ats_tips": {},
-    "cover_letter": "",
 }
