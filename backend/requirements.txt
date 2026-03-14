@@ -7,4 +7,11 @@ fastapi
 uvicorn[standard]
 python-dotenv
 python-multipart
-deprecated
+
+sqlalchemy[asyncio]
+asyncpg
+alembic
+python-jose[cryptography]
+passlib[bcrypt]
+pydantic[email]
+pydantic-settings
