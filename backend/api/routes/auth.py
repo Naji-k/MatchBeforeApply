@@ -10,7 +10,11 @@ from schemas.auth import Token, UserCreate, UserLogin, UserResponse
 from services.auth_service import authenticate_user, register_user
 
 router = APIRouter(prefix="/api/auth", tags=["auth"])
-
+"""
+Authentication endpoints:
+- `POST /api/auth/register`: Register a new user with email and password.
+- `POST /api/auth/login`: Authenticate user and return JWT token.
+- `GET /api/auth/me`: Get current user info (requires Bearer token)."""
 
 @router.post(
     "/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED
@@ -22,17 +26,17 @@ async def register(user_in: UserCreate, db: AsyncSession = Depends(get_db)):
 
 @router.post("/login", response_model=Token)
 async def login(
-    form: UserLogin,
+    form: OAuth2PasswordRequestForm = Depends(),
     db: AsyncSession = Depends(get_db),
 ):
-    user = await authenticate_user(db, form.email, form.password)
+    user = await authenticate_user(db, form.username, form.password)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect email or password",
             headers={"WWW-Authenticate": "Bearer"},
         )
-    access_token = create_access_token(data={"sub": user.id})
+    access_token = create_access_token(data={"sub": str(user.id)})
     return Token(access_token=access_token)
 
 

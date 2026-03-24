@@ -2,6 +2,8 @@ from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
+    """
+    Application configuration settings loaded from environment variables."""
 
     DATABASE_URL: str = (
         "postgresql+asyncpg://postgres:postgres@localhost:5432/job_board"

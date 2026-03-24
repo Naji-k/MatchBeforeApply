@@ -31,4 +31,4 @@ async def analyze(
             status_code=400, detail="PDF appears to be empty or unreadable."
         )
 
-    return run_analysis(cv_text, jd_type, jd_input)
+    return await run_analysis(cv_text, jd_type, jd_input)

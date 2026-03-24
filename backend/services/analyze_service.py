@@ -80,4 +80,6 @@ async def run_analysis(cv_text: str, jd_type: str, jd_input: str) -> dict:
     return {
         "match_result": parse_json_field(state, "match_result"),
         "ats_tips": parse_json_field(state, "ats_tips"),
+        "jd_data": parse_json_field(state, "jd_data"),
+        "cv_data": parse_json_field(state, "cv_data"),
     }

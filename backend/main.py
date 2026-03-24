@@ -12,7 +12,8 @@ from contextlib import asynccontextmanager
 
 from db.database import engine, Base
 from api.routes.auth import router as auth_router
-from api.routes.analyze import router as analyze_router
+from api.routes.profile import router as profile_router
+from api.routes.applications import router as applications_router
 
 
 # Database initialization on startup
@@ -35,7 +36,8 @@ app.add_middleware(
 )
 
 app.include_router(auth_router)
-app.include_router(analyze_router)
+app.include_router(profile_router)
+app.include_router(applications_router)
 
 
 # ── Frontend static file serving

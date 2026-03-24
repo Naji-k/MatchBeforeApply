@@ -11,5 +11,6 @@ root_agent = SequentialAgent(
         jd_agent,
         cv_agent,
         match_agent,
+        ats_agent,
     ],
 )
