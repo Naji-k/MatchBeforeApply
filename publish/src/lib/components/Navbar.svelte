@@ -1,18 +1,18 @@
 <script lang="ts">
-  import { goto } from '$app/navigation';
-  import { page } from '$app/state';
-  import { authStore, logout } from '$lib/stores.js';
+  import { goto } from "$app/navigation";
+  import { page } from "$app/state";
+  import { authStore, logout } from "$lib/stores.js";
 
   let menuOpen = $state(false);
 
   function handleLogout() {
     logout();
-    goto('/login');
+    goto("/login");
   }
 
   const links = [
-    { href: '/applications', label: 'Applications' },
-    { href: '/profile', label: 'Profile' }
+    { href: "/applications", label: "Applications" },
+    { href: "/profile", label: "Profile" },
   ];
 </script>
 
@@ -56,21 +56,33 @@
 {#if menuOpen}
   <div class="mobile-menu">
     {#each links as link}
-      <a href={link.href} class="mobile-link" onclick={() => (menuOpen = false)}>
+      <a
+        href={link.href}
+        class="mobile-link"
+        onclick={() => (menuOpen = false)}
+      >
         {link.label}
       </a>
     {/each}
     {#if $authStore.user}
-      <span class="user-email" style="padding:.5rem 0">{$authStore.user.email}</span>
+      <span class="user-email" style="padding:.5rem 0"
+        >{$authStore.user.email}</span
+      >
     {/if}
-    <button onclick={handleLogout} class="logout-btn" style="text-align:left;padding:.5rem 0">Logout</button>
+    <button
+      onclick={handleLogout}
+      class="logout-btn"
+      style="text-align:left;padding:.5rem 0">Logout</button
+    >
   </div>
 {/if}
 
 <style>
   .navbar {
     position: fixed;
-    top: 0; left: 0; right: 0;
+    top: 0;
+    left: 0;
+    right: 0;
     z-index: 40;
     height: 4rem;
     background: var(--color-surface);
@@ -93,13 +105,14 @@
     flex: 1;
   }
   .nav-link {
-    font-size: .9rem;
+    font-size: 0.9rem;
     font-weight: 500;
     color: var(--color-text-muted);
     text-decoration: none;
-    transition: color .2s;
+    transition: color 0.2s;
   }
-  .nav-link:hover, .nav-link.active {
+  .nav-link:hover,
+  .nav-link.active {
     color: var(--color-text-primary);
   }
   .desktop-user {
@@ -109,16 +122,16 @@
     margin-left: auto;
   }
   .user-email {
-    font-size: .85rem;
+    font-size: 0.85rem;
     color: var(--color-text-muted);
   }
   .logout-btn {
     background: none;
     border: none;
-    font-size: .85rem;
+    font-size: 0.85rem;
     color: var(--color-text-muted);
     cursor: pointer;
-    transition: color .2s;
+    transition: color 0.2s;
   }
   .logout-btn:hover {
     color: var(--color-danger);
@@ -134,25 +147,34 @@
   }
   .mobile-menu {
     position: fixed;
-    top: 4rem; left: 0; right: 0;
+    top: 4rem;
+    left: 0;
+    right: 0;
     z-index: 30;
     background: var(--color-surface);
     border-bottom: 1px solid var(--color-border);
     padding: 1rem 1.5rem;
     display: flex;
     flex-direction: column;
-    gap: .25rem;
+    gap: 0.25rem;
   }
   .mobile-link {
     color: var(--color-text-muted);
     text-decoration: none;
-    padding: .5rem 0;
-    transition: color .2s;
+    padding: 0.5rem 0;
+    transition: color 0.2s;
   }
-  .mobile-link:hover { color: var(--color-text-primary); }
+  .mobile-link:hover {
+    color: var(--color-text-primary);
+  }
 
   @media (max-width: 640px) {
-    .desktop-links, .desktop-user { display: none; }
-    .hamburger { display: block; }
+    .desktop-links,
+    .desktop-user {
+      display: none;
+    }
+    .hamburger {
+      display: block;
+    }
   }
 </style>

@@ -7,10 +7,10 @@
   }: { comment: ApplicationComment; ondelete: () => void } = $props();
 
   const TYPE_STYLE: Record<CommentType, string> = {
-    note: "color:#64748B;border-color:#CBD5E1;background:#F8FAFC",
-    update: "color:#4F46E5;border-color:#C7D2FE;background:#EEF2FF",
+    general: "color:#64748B;border-color:#CBD5E1;background:#F8FAFC",
+    company: "color:#4F46E5;border-color:#C7D2FE;background:#EEF2FF",
     interview: "color:#16A34A;border-color:#BBF7D0;background:#F0FDF4",
-    application_qa: "color:#DC2626;border-color:#FECACA;background:#FEF2F2",
+    qa: "color:#DC2626;border-color:#FECACA;background:#FEF2F2",
   };
 </script>
 
@@ -19,7 +19,7 @@
     <span
       style="
       font-size:.75rem;font-weight:600;padding:.2rem .6rem;border-radius:999px;border:1px solid;
-      text-transform:capitalize;{TYPE_STYLE[comment.type] || TYPE_STYLE.general}
+      text-transform:capitalize;{TYPE_STYLE[comment.type]}
     "
     >
       {comment.type}

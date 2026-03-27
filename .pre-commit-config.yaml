@@ -1,0 +1,33 @@
+repos:
+  # Python hooks 
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.4.4
+    hooks:
+      - id: ruff
+        files: ^backend/
+      - id: ruff-format
+        files: ^backend/
+ 
+ # Svelte hooks
+  - repo: local
+    hooks:
+      - id: prettier
+        name: prettier
+        entry: bash -c 'cd "publish" && npx prettier --write .'
+        language: system
+        files: ^publish/.*\.(svelte|ts|js|css|json)$
+        pass_filenames: false
+
+      - id: eslint
+        name: eslint
+        entry: bash -c 'cd "publish" && npm run lint'
+        language: system                          
+        files: ^publish/.*\.(svelte|ts|js)$
+        pass_filenames: false
+
+      - id: svelte-check
+        name: svelte-check
+        entry: bash -c 'cd "publish" && npm run check'
+        language: system                          
+        files: ^publish/.*\.(svelte|ts)$
+        pass_filenames: false

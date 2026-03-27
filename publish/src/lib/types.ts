@@ -1,5 +1,9 @@
-export type ApplicationStatus = 'open' | 'in_progress' | 'accepted' | 'rejected';
-export type CommentType = 'general' | 'company' | 'interview' | 'qa';
+export type ApplicationStatus =
+  | "open"
+  | "in_progress"
+  | "accepted"
+  | "rejected";
+export type CommentType = "general" | "company" | "interview" | "qa";
 
 export interface User {
   id: number;
@@ -38,7 +42,7 @@ export interface Application {
   id: number;
   user_id: number;
   jd_source: string;
-  jd_type: 'text' | 'url';
+  jd_type: "text" | "url";
   jd_text?: string;
   match_score?: number;
   match_breakdown?: MatchBreakdown;
@@ -84,13 +88,13 @@ export interface CurrentAppState {
 
 export interface Toast {
   message: string;
-  type: 'success' | 'error';
+  type: "success" | "error";
 }
 
 // API request payloads
 export interface CreateApplicationPayload {
   jd_source: string;
-  jd_type: 'text' | 'url';
+  jd_type: "text" | "url";
   run_analysis: boolean;
 }
 
