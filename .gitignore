@@ -13,6 +13,7 @@ build/
 .venv/
 venv/
 env/
+.ruff*
 
 # Uploads
 uploads/
