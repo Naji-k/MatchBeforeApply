@@ -1,7 +1,15 @@
 import enum
 from datetime import datetime
 
-from sqlalchemy import Column, Integer, String, DateTime, Text, ForeignKey, Enum as SAEnum
+from sqlalchemy import (
+    Column,
+    Integer,
+    String,
+    DateTime,
+    Text,
+    ForeignKey,
+    Enum as SAEnum,
+)
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import relationship
 
@@ -40,7 +48,9 @@ class UserProfile(Base):
     __tablename__ = "user_profiles"
 
     id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey("users.id"), unique=True, nullable=False, index=True)
+    user_id = Column(
+        Integer, ForeignKey("users.id"), unique=True, nullable=False, index=True
+    )
     cv_text = Column(Text, nullable=True)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
@@ -69,14 +79,18 @@ class Application(Base):
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     user = relationship("User", back_populates="applications")
-    comments = relationship("ApplicationComment", back_populates="application", cascade="all, delete-orphan")
+    comments = relationship(
+        "ApplicationComment", back_populates="application", cascade="all, delete-orphan"
+    )
 
 
 class ApplicationComment(Base):
     __tablename__ = "application_comments"
 
     id = Column(Integer, primary_key=True, index=True)
-    application_id = Column(Integer, ForeignKey("applications.id"), nullable=False, index=True)
+    application_id = Column(
+        Integer, ForeignKey("applications.id"), nullable=False, index=True
+    )
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False, index=True)
     type = Column(
         SAEnum(CommentType, name="commenttype"),

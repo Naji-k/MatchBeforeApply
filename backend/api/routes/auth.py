@@ -6,7 +6,7 @@ from core.middleware import get_current_user
 from core.security import create_access_token
 from db.database import get_db
 from db.models import User
-from schemas.auth import Token, UserCreate, UserLogin, UserResponse
+from schemas.auth import Token, UserCreate, UserResponse
 from services.auth_service import authenticate_user, register_user
 
 router = APIRouter(prefix="/api/auth", tags=["auth"])
@@ -15,6 +15,7 @@ Authentication endpoints:
 - `POST /api/auth/register`: Register a new user with email and password.
 - `POST /api/auth/login`: Authenticate user and return JWT token.
 - `GET /api/auth/me`: Get current user info (requires Bearer token)."""
+
 
 @router.post(
     "/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED

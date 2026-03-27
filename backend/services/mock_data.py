@@ -50,11 +50,29 @@ mock = {
     "jd_data": {
         "job_title": "Senior Software Engineer",
         "company": "Uber",
-        "required_skills": ["Python", "Java", "Go", "GraphQL", "MySQL", "Cassandra", "Spark SQL"],
-        "preferred_skills": ["Distributed Systems", "Scalable Systems", "High-Performance Systems"],
+        "required_skills": [
+            "Python",
+            "Java",
+            "Go",
+            "GraphQL",
+            "MySQL",
+            "Cassandra",
+            "Spark SQL",
+        ],
+        "preferred_skills": [
+            "Distributed Systems",
+            "Scalable Systems",
+            "High-Performance Systems",
+        ],
         "nice_to_have": ["BaseUI", "Styletron", "Jest", "Playwright"],
         "experience_required": "4+ years",
-        "keywords": ["backend", "distributed", "scalable", "high-performance", "full-stack"]
+        "keywords": [
+            "backend",
+            "distributed",
+            "scalable",
+            "high-performance",
+            "full-stack",
+        ],
     },
 }
 
@@ -102,10 +120,25 @@ mock2 = {
     "jd_data": {
         "job_title": "Senior Backend Engineer",
         "company": "TechCorp",
-        "required_skills": ["Python", "FastAPI", "Django", "PostgreSQL", "Docker", "Kubernetes", "AWS"],
+        "required_skills": [
+            "Python",
+            "FastAPI",
+            "Django",
+            "PostgreSQL",
+            "Docker",
+            "Kubernetes",
+            "AWS",
+        ],
         "preferred_skills": ["Kafka", "RabbitMQ", "Go", "GraphQL", "Terraform"],
         "nice_to_have": ["Open-source contributions"],
         "experience_required": "5+ years",
-        "keywords": ["backend", "microservices", "REST API", "CI/CD", "cloud", "senior"]
+        "keywords": [
+            "backend",
+            "microservices",
+            "REST API",
+            "CI/CD",
+            "cloud",
+            "senior",
+        ],
     },
 }

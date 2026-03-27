@@ -38,6 +38,7 @@ CRUD endpoints for managing job applications, plus comments and analysis trigger
 - `DELETE /api/applications/{id}/comments/{comment_id}`: Delete a specific comment.
 - `POST /api/applications/{id}/analyze`: Trigger analysis for an existing"""
 
+
 @router.get("", response_model=List[ApplicationResponse])
 async def list_apps(
     current_user: User = Depends(get_current_user),

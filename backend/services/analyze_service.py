@@ -36,10 +36,8 @@ def parse_json_field(state: dict, key: str):
 
 
 async def run_analysis(cv_text: str, jd_type: str, jd_input: str) -> dict:
-
     # Run the agent pipeline
     if settings.is_production:
-
         session_service = InMemorySessionService()
         session = await session_service.create_session(
             app_name="cv_job_matcher",

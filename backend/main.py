@@ -1,19 +1,18 @@
 import os
+from contextlib import asynccontextmanager
 
 from dotenv import load_dotenv
-
-load_dotenv()
-
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
-from contextlib import asynccontextmanager
 
-from db.database import engine, Base
-from api.routes.auth import router as auth_router
-from api.routes.profile import router as profile_router
-from api.routes.applications import router as applications_router
+load_dotenv()
+
+from api.routes.applications import router as applications_router  # noqa: E402
+from api.routes.auth import router as auth_router  # noqa: E402
+from api.routes.profile import router as profile_router  # noqa: E402
+from db.database import Base, engine  # noqa: E402
 
 
 # Database initialization on startup
