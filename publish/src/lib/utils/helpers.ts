@@ -9,10 +9,14 @@ export function formatDate(dateStr: string | null | undefined): string {
   });
 }
 
+export function scorePercent(score: number): number {
+  return Math.round(score * 10);
+}
+
 export function colorForScore(score: number): string {
-  if (score >= 7) return '#4ade80';
-  if (score >= 4) return '#facc15';
-  return '#f87171';
+  if (score >= 8) return '#16A34A';
+  if (score >= 6) return '#F59E0B';
+  return '#DC2626';
 }
 
 export function statusLabel(status: ApplicationStatus): string {
@@ -27,10 +31,10 @@ export function statusLabel(status: ApplicationStatus): string {
 
 export function statusClasses(status: ApplicationStatus): string {
   const map: Record<ApplicationStatus, string> = {
-    open: 'color: #8892a4; border-color: #2e3250;',
-    in_progress: 'color: #6c63ff; border-color: rgba(108,99,255,.4); background: rgba(108,99,255,.1);',
-    accepted: 'color: #4ade80; border-color: rgba(74,222,128,.4); background: rgba(74,222,128,.1);',
-    rejected: 'color: #f87171; border-color: rgba(248,113,113,.4); background: rgba(248,113,113,.1);'
+    open:        'color:#64748B;border-color:#CBD5E1;background:#F8FAFC',
+    in_progress: 'color:#4F46E5;border-color:#C7D2FE;background:#EEF2FF',
+    accepted:    'color:#16A34A;border-color:#BBF7D0;background:#F0FDF4',
+    rejected:    'color:#DC2626;border-color:#FECACA;background:#FEF2F2'
   };
   return map[status] ?? map.open;
 }

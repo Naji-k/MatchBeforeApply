@@ -18,7 +18,7 @@
 
 <nav class="navbar">
   <a href="/applications" class="brand">
-    <span style="color:var(--color-accent)">CV</span>↔Matcher
+    <span style="color:var(--color-accent)">AI</span>JobBoard
   </a>
 
   <!-- Desktop links -->

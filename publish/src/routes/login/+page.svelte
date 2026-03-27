@@ -37,14 +37,14 @@
   }
 </script>
 
-<svelte:head><title>Login — CV Matcher</title></svelte:head>
+<svelte:head><title>Login — AIJobBoard</title></svelte:head>
 
 <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1rem;background:var(--color-bg)">
   <div style="width:100%;max-width:420px">
     <!-- Hero -->
     <div style="text-align:center;margin-bottom:2rem">
       <h1 style="font-size:2rem;font-weight:800;letter-spacing:-1px">
-        <span style="color:var(--color-accent)">CV</span> ↔ Job Matcher
+        <span style="color:var(--color-accent)">AI</span>JobBoard
       </h1>
       <p style="color:var(--color-text-muted);margin-top:.5rem">Sign in to your account</p>
     </div>
@@ -56,17 +56,17 @@
         </div>
       {/if}
 
-      <div style="display:flex;flex-direction:column;gap:.5rem">
-        <label for="email" style="font-size:.85rem;font-weight:600;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:.05em">Email</label>
+      <div style="display:flex;flex-direction:column;gap:.5rem;margin:.75rem">
+        <label for="email" style="font-size:.85rem;font-weight:600;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:.05em;">Email</label>
         <input id="email" type="email" class="input-field" bind:value={email} placeholder="you@example.com" required />
       </div>
 
-      <div style="display:flex;flex-direction:column;gap:.5rem">
+      <div style="display:flex;flex-direction:column;gap:.5rem;margin:.75rem">
         <label for="password" style="font-size:.85rem;font-weight:600;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:.05em">Password</label>
         <input id="password" type="password" class="input-field" bind:value={password} placeholder="••••••••" required />
       </div>
 
-      <button type="submit" class="btn-primary" style="width:100%;padding:1rem;font-size:1rem;margin-top:.25rem" disabled={loading}>
+      <button type="submit" class="btn-primary" style="width:80%;padding:.75rem;font-size:1rem;margin:auto; margin-bottom: .75rem;" disabled={loading}>
         {#if loading}
           <span style="display:inline-flex;align-items:center;gap:.5rem;justify-content:center">
             <svg style="width:1rem;height:1rem;animation:spin 1s linear infinite" viewBox="0 0 24 24" fill="none">

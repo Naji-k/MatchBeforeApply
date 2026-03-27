@@ -4,6 +4,7 @@
   import type { Profile } from '$lib/types.js';
   import { authStore, logout, showToast } from '$lib/stores.js';
   import { getProfile, uploadCV } from '$lib/api.js';
+  import { formatDate } from '$lib/utils/helpers.js';
 
   let profile = $state<Profile | null>(null);
   let loading = $state(true);
@@ -60,14 +61,14 @@
   }
 </script>
 
-<svelte:head><title>Profile — CV Matcher</title></svelte:head>
+<svelte:head><title>Profile — AIJobBoard</title></svelte:head>
 
 <div style="max-width:600px;margin:0 auto;padding:2rem 1rem;display:flex;flex-direction:column;gap:1.5rem">
   <h1 style="font-size:1.6rem;font-weight:700">Profile</h1>
 
   <!-- Account info -->
   {#if $authStore.user}
-    <div class="card">
+    <div class="card" style="padding:.75rem">
       <p style="font-size:.8rem;font-weight:600;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.75rem">Account</p>
       {#if $authStore.user.full_name}
         <p style="font-weight:600;font-size:1.05rem;margin-bottom:.25rem">{$authStore.user.full_name}</p>
@@ -77,15 +78,18 @@
   {/if}
 
   <!-- CV upload -->
-  <div class="card" style="display:flex;flex-direction:column;gap:1rem">
+  <div class="card" style="display:flex;flex-direction:column;gap:1rem;padding:.75rem">
     <p style="font-size:.8rem;font-weight:600;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:.05em">Your CV</p>
 
     {#if loading}
-      <p style="color:var(--color-text-muted);font-size:.9rem">Loading…</p>
+      <p style="color:var(--color-text-muted);font-size:.9rem;margin:.75rem">Loading…</p>
     {:else if profile?.cv_text}
       <div style="display:flex;align-items:center;gap:.5rem;font-size:.9rem">
         <span style="color:var(--color-success)">✓</span>
         <span>CV uploaded</span>
+        {#if profile.updated_at}
+          <span style="font-size:.8rem;color:var(--color-text-muted);margin-left:.25rem;">· Updated {formatDate(profile.updated_at)}</span>
+        {/if}
       </div>
     {:else}
       <p style="color:var(--color-text-muted);font-size:.9rem">No CV uploaded yet.</p>

@@ -7,10 +7,10 @@
   import * as api from '$lib/api.js';
   import ResultsCard from '$lib/components/ResultsCard.svelte';
   import SkillChips from '$lib/components/SkillChips.svelte';
-  import StatusBadge from '$lib/components/StatusBadge.svelte';
-  import CommentCard from '$lib/components/CommentCard.svelte';
+  import CommentTimeline from '$lib/components/CommentTimeline.svelte';
   import LoadingSteps from '$lib/components/LoadingSteps.svelte';
   import Modal from '$lib/components/Modal.svelte';
+  import ScoreIndicator from '$lib/components/ScoreIndicator.svelte';
   import { formatDate } from '$lib/utils/helpers.js';
 
   const STATUS_OPTIONS: { value: ApplicationStatus; label: string }[] = [
@@ -110,7 +110,7 @@
 </script>
 
 <svelte:head>
-  <title>{$currentAppStore.app?.jd_data?.job_title || 'Application'} — CV Matcher</title>
+  <title>{$currentAppStore.app?.jd_data?.job_title || 'Application'} — AIJobBoard</title>
 </svelte:head>
 
 {#if $currentAppStore.loading}
@@ -148,10 +148,10 @@
 
       <!-- Status -->
       <div class="card" style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;padding:1rem 1.5rem">
-        <label style="font-size:.8rem;font-weight:600;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:.05em">
+        <label for="status-select" style="font-size:.8rem;font-weight:600;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:.05em">
           Status
         </label>
-        <select class="input-field" style="width:auto;padding:.4rem .75rem;font-size:.875rem" bind:value={status}>
+        <select id="status-select" class="input-field" style="width:auto;padding:.4rem .75rem;font-size:.875rem" bind:value={status}>
           {#each STATUS_OPTIONS as opt}
             <option value={opt.value}>{opt.label}</option>
           {/each}
@@ -161,26 +161,21 @@
         </button>
       </div>
 
-      <!-- Analysis -->
       {#if app.match_breakdown}
+        <div class="card" style="display:flex;align-items:center;justify-content:center;gap:2.5rem;flex-wrap:wrap;padding:1rem">
+          <ScoreIndicator score={app.match_breakdown.overall_score} size="lg" />
+          <div>
+            <p style="font-size:.8rem;font-weight:600;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem">Overall Match</p>
+            <p style="font-size:.95rem;color:var(--color-text-muted);line-height:1.8">{app.match_breakdown.summary || '—'}</p>
+          </div>
+        </div>
+
+        <!-- Breakdown bars + Skills -->
         <ResultsCard matchBreakdown={app.match_breakdown} />
         <SkillChips
           matched={app.match_breakdown.matched_skills || []}
           missing={app.match_breakdown.missing_skills || []}
         />
-
-        {#if app.ats_tips?.tips?.length}
-          <div class="card">
-            <h3 style="font-size:.95rem;font-weight:600;margin-bottom:1rem">🔍 ATS Optimisation Tips</h3>
-            <ul style="list-style:none;display:flex;flex-direction:column;gap:.65rem">
-              {#each app.ats_tips.tips as tip}
-                <li style="padding:.75rem 1rem;background:var(--color-surface-2);border-radius:8px;border-left:3px solid var(--color-accent);font-size:.93rem;line-height:1.5">
-                  {tip}
-                </li>
-              {/each}
-            </ul>
-          </div>
-        {/if}
       {:else}
         <div class="card" style="text-align:center;padding:3rem">
           <p style="color:var(--color-text-muted);margin-bottom:1.25rem">No analysis yet.</p>
@@ -189,8 +184,8 @@
       {/if}
 
       <!-- Cover Letter -->
-      <div class="card" style="display:flex;flex-direction:column;gap:1rem">
-        <h3 style="font-size:.95rem;font-weight:600">Cover Letter</h3>
+      <div class="card" style="display:flex;flex-direction:column;gap:1rem;padding:1rem 1.5rem">
+        <h3 style="font-size:.95rem;font-weight:600;">Cover Letter</h3>
         <textarea
           class="input-field"
           rows="6"
@@ -206,13 +201,13 @@
       </div>
 
       <!-- Comments -->
-      <div class="card" style="display:flex;flex-direction:column;gap:1.25rem">
+      <div class="card" style="display:flex;flex-direction:column;gap:1.25rem;padding:1rem 1.5rem">
         <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem">
-          <h3 style="font-size:.95rem;font-weight:600">
-            Comments ({$currentAppStore.comments.length})
+          <h3 style="font-size:.95rem;font-weight:600;">
+            Notes ({$currentAppStore.comments.length})
           </h3>
           <!-- Type filter pills -->
-          <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+          <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
             {#each ['all', ...COMMENT_TYPES] as type}
               <button
                 style="
@@ -230,22 +225,14 @@
           </div>
         </div>
 
-        {#if filteredComments.length}
-          <div style="display:flex;flex-direction:column;gap:.75rem">
-            {#each filteredComments as comment (comment.id)}
-              <CommentCard {comment} ondelete={() => removeComment(comment.id)} />
-            {/each}
-          </div>
-        {:else}
-          <p style="color:var(--color-text-muted);font-size:.9rem">No comments yet.</p>
-        {/if}
+        <CommentTimeline comments={filteredComments} ondelete={removeComment} />
 
-        <!-- Add comment form -->
+        <!-- Add Comment -->
         <div style="border-top:1px solid var(--color-border);padding-top:1.25rem;display:flex;flex-direction:column;gap:1rem">
-          <p style="font-size:.8rem;font-weight:600;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:.05em">
-            Add Comment
+          <p style="font-size:.8rem;font-weight:600;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:.05em;">
+            Add Note
           </p>
-          <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+          <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
             {#each COMMENT_TYPES as type}
               <button
                 type="button"
@@ -265,7 +252,7 @@
           <input
             type="text"
             class="input-field"
-            style="font-size:.9rem"
+            style="font-size:.9rem;"
             placeholder="Question (optional)"
             bind:value={newComment.question}
           />
@@ -273,7 +260,7 @@
             class="input-field"
             rows="3"
             style="resize:vertical;font-size:.9rem"
-            placeholder="Your comment…"
+            placeholder="Your note…"
             bind:value={newComment.comment}
           ></textarea>
           <div style="display:flex;justify-content:flex-end">
@@ -283,7 +270,7 @@
               onclick={addComment}
               disabled={submittingComment || !newComment.comment.trim()}
             >
-              {submittingComment ? 'Adding…' : 'Add Comment'}
+              {submittingComment ? 'Adding…' : 'Add Note'}
             </button>
           </div>
         </div>

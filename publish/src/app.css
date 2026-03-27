@@ -1,36 +1,37 @@
 @import "tailwindcss";
 
 @theme {
-  --color-accent: #6c63ff;
-  --color-accent-dark: #5a52d5;
-  --color-success: #4ade80;
-  --color-danger: #f87171;
-  --color-bg: #0f1117;
-  --color-surface: #1a1d27;
-  --color-surface-2: #22263a;
-  --color-border: #2e3250;
-  --color-text-primary: #e2e8f0;
-  --color-text-muted: #8892a4;
+  --color-bg:           #F8FAFC;
+  --color-surface:      #FFFFFF;
+  --color-surface-2:    #F1F5F9;
+  --color-border:       #E5E7EB;
+  --color-text-primary: #0F172A;
+  --color-text-muted:   #64748B;
+  --color-accent:       #4F46E5;
+  --color-accent-dark:  #4338CA;
+  --color-success:      #16A34A;
+  --color-warning:      #F59E0B;
+  --color-danger:       #DC2626;
+  --color-info:         #0EA5E9;
 }
 
-/* @utility blocks — base styles only (no pseudo-selectors) */
 @utility card {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: 14px;
-  padding: 1.75rem;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
 }
 
 @utility input-field {
-  background: var(--color-surface-2);
+  background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: 10px;
   color: var(--color-text-primary);
   font-size: 0.95rem;
   padding: 0.75rem 1rem;
   width: 100%;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 @utility btn-primary {
@@ -38,24 +39,25 @@
   color: #fff;
   border: none;
   border-radius: 10px;
-  padding: 0.85rem;
-  font-size: 1rem;
+  padding: 0.7rem 1.25rem;
+  font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
-  transition: opacity 0.2s;
+  transition: background 0.2s;
   display: inline-block;
   text-align: center;
 }
 
 @utility btn-secondary {
-  background: transparent;
+  background: var(--color-surface);
   color: var(--color-text-muted);
   border: 1px solid var(--color-border);
-  border-radius: 8px;
-  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  padding: 0.7rem 1.25rem;
   font-size: 0.9rem;
+  font-weight: 500;
   cursor: pointer;
-  transition: color 0.2s, border-color 0.2s;
+  transition: border-color 0.2s, color 0.2s;
 }
 
 @utility btn-danger {
@@ -63,32 +65,38 @@
   color: #fff;
   border: none;
   border-radius: 10px;
-  padding: 0.85rem;
-  font-size: 1rem;
+  padding: 0.7rem 1.25rem;
+  font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
   transition: opacity 0.2s;
 }
 
-/* Pseudo-state styles outside @utility */
-.input-field:focus { outline: none; border-color: var(--color-accent); }
+.input-field:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
 
-.btn-primary:hover { opacity: 0.88; }
-.btn-primary:active { transform: scale(0.98); }
+.btn-primary:hover    { background: var(--color-accent-dark); }
+.btn-primary:active   { transform: scale(0.98); }
 .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
 
-.btn-secondary:hover { color: var(--color-text-primary); border-color: var(--color-text-muted); }
+.btn-secondary:hover    { border-color: var(--color-text-muted); color: var(--color-text-primary); }
 .btn-secondary:disabled { opacity: 0.5; cursor: not-allowed; }
 
-.btn-danger:hover { opacity: 0.88; }
+.btn-danger:hover    { opacity: 0.88; }
 .btn-danger:disabled { opacity: 0.5; cursor: not-allowed; }
 
-/* Global base */
+
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
   background: var(--color-bg);
   color: var(--color-text-primary);
-  font-family: 'Segoe UI', system-ui, sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
   min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
 }
+
+select.input-field { appearance: auto; }
