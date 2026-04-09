@@ -29,7 +29,8 @@ app = FastAPI(title="CV ↔ Job Matcher", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["http://localhost:8000", "https://aijobboard.up.railway.app"],
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )

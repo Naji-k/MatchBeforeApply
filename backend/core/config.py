@@ -1,4 +1,5 @@
 from pydantic_settings import BaseSettings
+from pydantic import field_validator
 
 
 class Settings(BaseSettings):
@@ -13,6 +14,13 @@ class Settings(BaseSettings):
     MODEL: str = "gemini-2.5-flash"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 1440  # 24 hours
     ENV: str = "development"
+
+    @field_validator("DATABASE_URL")
+    @classmethod
+    def fix_db_url(cls, v: str) -> str:
+        if v.startswith("postgresql://"):
+            return v.replace("postgresql://", "postgresql+asyncpg://", 1)
+        return v
 
     class Config:
         env_file = ".env"
