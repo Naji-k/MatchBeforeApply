@@ -1,7 +1,17 @@
 <script lang="ts">
   import { onMount } from "svelte";
 
-  let { running = true }: { running?: boolean } = $props();
+  let {
+    running = true,
+    activeStep = -1,
+    doneSteps = new Set<number>(),
+    controlled = false,
+  }: {
+    running?: boolean;
+    activeStep?: number;
+    doneSteps?: Set<number>;
+    controlled?: boolean;
+  } = $props();
 
   const STEPS: { label: string; ms: number }[] = [
     { label: "📋 Reading job description", ms: 800 },
@@ -10,12 +20,15 @@
     { label: "💡 Generating match insights", ms: 3200 },
   ];
 
-  let activeIndex = $state(-1);
-  let doneSet = $state(new Set<number>());
+  let internalActive = $state(-1);
+  let internalDone = $state(new Set<number>());
   let timers: ReturnType<typeof setTimeout>[] = [];
 
+  let displayActive = $derived(activeStep >= 0 ? activeStep : internalActive);
+  let displayDone = $derived(doneSteps.size > 0 ? doneSteps : internalDone);
+
   onMount(() => {
-    if (running) startSteps();
+    if (running && !controlled) startSteps();
     return () => timers.forEach(clearTimeout);
   });
 
@@ -25,11 +38,11 @@
 
       timers.push(
         setTimeout(() => {
-          activeIndex = i;
+          internalActive = i;
         }, s.ms),
         setTimeout(() => {
-          doneSet = new Set([...doneSet, i]);
-          if (activeIndex === i) activeIndex = -1;
+          internalDone = new Set([...internalDone, i]);
+          if (internalActive === i) internalActive = -1;
         }, nextMs - 100),
       );
     });
@@ -57,15 +70,15 @@
           border:1px solid;
           font-size:.95rem;
           transition:all .4s;
-          {doneSet.has(i)
+          {displayDone.has(i)
             ? 'border-color:#BBF7D0;color:#16A34A;background:#F0FDF4;'
-            : activeIndex === i
+            : displayActive === i
               ? 'border-color:#C7D2FE;color:#4F46E5;background:#EEF2FF;'
               : 'border-color:var(--color-border);color:var(--color-text-muted);'}
         "
         >
           {step.label}
-          {#if doneSet.has(i)}<span style="margin-left:.5rem">✓</span>{/if}
+          {#if displayDone.has(i)}<span style="margin-left:.5rem">✓</span>{/if}
         </li>
       {/each}
     </ul>

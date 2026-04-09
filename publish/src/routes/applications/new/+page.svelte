@@ -1,6 +1,6 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
-  import { createApplication, ApiError } from "$lib/api.js";
+  import { createApplication, streamAnalysis, ApiError } from "$lib/api.js";
   import LoadingSteps from "$lib/components/LoadingSteps.svelte";
 
   let jdMode = $state<"text" | "url">("text");
@@ -9,6 +9,8 @@
   let runAnalysis = $state(true);
   let loading = $state(false);
   let error = $state("");
+  let currentStep = $state(-1);
+  let doneSteps = $state(new Set<number>());
 
   async function handleSubmit(e: SubmitEvent): Promise<void> {
     e.preventDefault();
@@ -24,11 +26,30 @@
       const app = await createApplication({
         jd_source: jdSource,
         jd_type: jdMode,
-        run_analysis: runAnalysis,
+        run_analysis: false,
       });
-      goto(`/applications/${app.id}`);
+
+      if (runAnalysis) {
+        for await (const event of streamAnalysis(app.id)) {
+          if (event.type === "step_start") {
+            currentStep = event.step;
+          } else if (event.type === "step_done") {
+            doneSteps = new Set([...doneSteps, event.step]);
+            currentStep = -1;
+          } else if (event.type === "done") {
+            goto(`/applications/${app.id}`);
+            return;
+          } else if (event.type === "error") {
+            throw new Error(event.message);
+          }
+        }
+      } else {
+        goto(`/applications/${app.id}`);
+      }
     } catch (err) {
       loading = false;
+      currentStep = -1;
+      doneSteps = new Set();
       error =
         err instanceof ApiError && err.status === 422
           ? "Please upload your CV before running analysis."
@@ -39,9 +60,14 @@
 
 <svelte:head><title>New Application — CV Matcher</title></svelte:head>
 
-{#if loading}
-  <LoadingSteps running={true} />
-{:else}
+{#if loading && runAnalysis}
+  <LoadingSteps
+    running={true}
+    activeStep={currentStep}
+    {doneSteps}
+    controlled={true}
+  />
+{:else if !loading}
   <div style="max-width:680px;margin:0 auto;padding:2rem 1rem">
     <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem">
       <a

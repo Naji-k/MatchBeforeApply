@@ -1,6 +1,8 @@
+import json
 from typing import List
 
 from fastapi import APIRouter, Depends, status
+from fastapi.responses import StreamingResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from core.middleware import get_current_user
@@ -22,6 +24,7 @@ from services.application_service import (
     get_application,
     list_applications,
     list_comments,
+    stream_and_persist_analysis,
     update_application,
 )
 
@@ -129,3 +132,25 @@ async def trigger_analysis(
     db: AsyncSession = Depends(get_db),
 ):
     return await analyze_application(db, current_user.id, application_id)
+
+
+@router.get("/{application_id}/analyze/stream")
+async def stream_analysis_route(
+    application_id: int,
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+):
+    async def event_generator():
+        try:
+            async for event_data in stream_and_persist_analysis(
+                db, current_user.id, application_id
+            ):
+                yield f"data: {json.dumps(event_data)}\n\n"
+        except Exception as e:
+            yield f"data: {json.dumps({'type': 'error', 'message': str(e)})}\n\n"
+
+    return StreamingResponse(
+        event_generator(),
+        media_type="text/event-stream",
+        headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
+    )

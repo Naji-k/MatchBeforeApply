@@ -1,13 +1,18 @@
 from datetime import datetime
-from typing import List
+from typing import AsyncGenerator, List
 
 from fastapi import HTTPException, status
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from db.models import Application, ApplicationComment
-from schemas.application import ApplicationCreate, ApplicationUpdate, CommentCreate
-from services.analyze_service import run_analysis
+from schemas.application import (
+    ApplicationCreate,
+    ApplicationResponse,
+    ApplicationUpdate,
+    CommentCreate,
+)
+from services.analyze_service import parse_json_field, stream_analysis
 from services.profile_service import get_or_create_profile
 
 
@@ -132,30 +137,49 @@ async def analyze_application(
     return await _run_and_persist_analysis(db, user_id, app)
 
 
+async def stream_and_persist_analysis(
+    db: AsyncSession, user_id: int, application_id: int
+) -> AsyncGenerator[dict, None]:
+    app = await get_application(db, user_id, application_id)
+    profile = await get_or_create_profile(db, user_id)
+    if not profile.cv_text:
+        yield {"type": "error", "message": "No CV found. Upload your CV first."}
+        return
+
+    jd_type = app.jd_type or ("url" if app.jd_source.startswith("http") else "text")
+
+    async for event in stream_analysis(
+        profile.cv_text, jd_type, app.jd_source, user_id
+    ):
+        if event["type"] == "_state":
+            state = event["state"]
+            match_result = parse_json_field(state, "match_result")
+            app.match_score = match_result.get("overall_score")
+            app.match_breakdown = match_result
+            app.ats_tips = parse_json_field(state, "ats_tips")
+            app.jd_data = parse_json_field(state, "jd_data")
+            app.updated_at = datetime.utcnow()
+            await db.commit()
+            await db.refresh(app)
+            yield {
+                "type": "done",
+                "application": ApplicationResponse.model_validate(app).model_dump(
+                    mode="json"
+                ),
+            }
+        else:
+            yield event
+
+
 async def _run_and_persist_analysis(
     db: AsyncSession, user_id: int, app: Application
 ) -> Application:
-    profile = await get_or_create_profile(db, user_id)
-    if not profile.cv_text:
-        raise HTTPException(
-            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-            detail="No CV text found in profile. Update your profile with CV text before running analysis.",
-        )
-
-    jd_type = app.jd_type or ("url" if app.jd_source.startswith("http") else "text")
-    result = await run_analysis(
-        cv_text=profile.cv_text,
-        jd_type=jd_type,
-        jd_input=app.jd_source,
-        user_id=user_id,
-    )
-    match_result = result.get("match_result", {})
-    app.match_score = match_result.get("overall_score")
-    app.match_breakdown = match_result
-    app.ats_tips = result.get("ats_tips", {})
-    app.jd_data = result.get("jd_data", {})
-    app.updated_at = datetime.utcnow()
-
-    await db.commit()
-    await db.refresh(app)
-    return app
+    async for event in stream_and_persist_analysis(db, user_id, app.id):
+        if event["type"] == "done":
+            break
+        if event["type"] == "error":
+            raise HTTPException(
+                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                detail=event["message"],
+            )
+    return await get_application(db, user_id, app.id)

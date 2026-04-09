@@ -39,5 +39,11 @@ Extract and return ONLY a valid JSON object with no extra text:
   "keywords": ["keyword1", "keyword2"]
 }
 
-Return only the JSON. No markdown, no explanation.""",
+Rules:
+- If any field cannot be determined, return empty string "" for text fields or empty list [] for list fields.
+- Return only raw JSON
+- No markdown code blocks, no ```json wrapper
+- No explanation before or after
+- Start response with { and end with }
+""",
 )

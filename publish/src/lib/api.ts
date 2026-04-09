@@ -145,6 +145,43 @@ export function analyzeApplication(id: number | string): Promise<Application> {
   });
 }
 
+// ── Analysis Stream ───────────────────────────────────
+export type AnalysisEvent =
+  | { type: "step_start"; step: number; agent: string; label: string }
+  | { type: "step_done"; step: number; agent: string }
+  | { type: "done"; application: Application }
+  | { type: "error"; message: string };
+
+export async function* streamAnalysis(
+  appId: number,
+): AsyncGenerator<AnalysisEvent> {
+  const token = getToken();
+  const response = await fetch(
+    `${BASE}/api/applications/${appId}/analyze/stream`,
+    {
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+    },
+  );
+  if (!response.ok) throw new ApiError("Stream failed", response.status);
+
+  const reader = response.body!.getReader();
+  const decoder = new TextDecoder();
+  let buffer = "";
+
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    buffer += decoder.decode(value, { stream: true });
+    const lines = buffer.split("\n");
+    buffer = lines.pop()!;
+    for (const line of lines) {
+      if (line.startsWith("data: ")) {
+        yield JSON.parse(line.slice(6)) as AnalysisEvent;
+      }
+    }
+  }
+}
+
 // ── Comments ──────────────────────────────────────────
 export function getComments(
   appId: number | string,
