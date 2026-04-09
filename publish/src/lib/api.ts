@@ -9,7 +9,7 @@ import type {
   ProfileUpdatePayload,
 } from "./types.js";
 
-const BASE = "http://localhost:8000";
+const BASE = process.env.BACKEND_API_URL || "http://localhost:8000";
 
 export class ApiError extends Error {
   status: number;
