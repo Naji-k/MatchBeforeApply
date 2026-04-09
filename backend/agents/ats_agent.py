@@ -24,7 +24,7 @@ Analyze the CV against the job description and return ONLY a valid JSON object w
     "Actionable tip 3",
     "Actionable tip 4",
     "Actionable tip 5"
-  ],
+  ]
 }}
 
 Provide 5-8 actionable tips. Focus on concrete changes the candidate can make.

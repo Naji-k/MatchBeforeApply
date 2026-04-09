@@ -26,7 +26,7 @@
   >
     <div
       class="card"
-      style="max-width:420px;width:100%;margin:0 1rem"
+      style="max-width:420px;width:100%;margin:0 1rem; padding:1.5rem;"
       onclick={(e) => e.stopPropagation()}
       onkeydown={(e) => e.stopPropagation()}
       role="presentation"

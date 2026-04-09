@@ -35,13 +35,13 @@ def parse_json_field(state: dict, key: str):
     return {}
 
 
-async def run_analysis(cv_text: str, jd_type: str, jd_input: str) -> dict:
+async def run_analysis(cv_text: str, jd_type: str, jd_input: str, user_id: int) -> dict:
     # Run the agent pipeline
     if settings.is_production:
         session_service = InMemorySessionService()
         session = await session_service.create_session(
             app_name="cv_job_matcher",
-            user_id="user",
+            user_id=str(user_id),
             state={
                 "cv_text": cv_text,
                 "jd_type": jd_type,
@@ -57,9 +57,11 @@ async def run_analysis(cv_text: str, jd_type: str, jd_input: str) -> dict:
 
         try:
             async for event in runner.run_async(
-                user_id="user",
+                user_id=str(user_id),
                 session_id=session.id,
-                new_message=Content(parts=[Part(text="Begin analysis.")]),
+                new_message=Content(
+                    parts=[Part(text=f"jd_type: {jd_type}\n\n{jd_input}")]
+                ),
             ):
                 pass
         except Exception as e:
@@ -67,7 +69,7 @@ async def run_analysis(cv_text: str, jd_type: str, jd_input: str) -> dict:
 
         final_session = await session_service.get_session(
             app_name="cv_job_matcher",
-            user_id="user",
+            user_id=str(user_id),
             session_id=session.id,
         )
         state = final_session.state

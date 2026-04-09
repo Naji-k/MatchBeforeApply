@@ -22,16 +22,14 @@ jd_agent = LlmAgent(
     tools=[scrape_url],
     instruction="""You are a Job Description parser.
 
-You will receive:
-- jd_type: "{jd_type}" — either "url" or "text"
-- jd_input: "{jd_input}" — a URL or plain text job description
+The user message contains the job description to parse. It starts with "jd_type: url" or "jd_type: text" followed by the content.
 
-If jd_type is "url", call the scrape_url tool with jd_input to fetch the page content first.
-If jd_type is "text", use jd_input directly as the job description.
+- If jd_type is "url": call the scrape_url tool with the URL, then parse the fetched content.
+- If jd_type is "text": parse the content directly.
 
-Extract the following information and return ONLY a valid JSON object with no extra text:
+Extract and return ONLY a valid JSON object with no extra text:
 
-{{
+{
   "job_title": "string",
   "company": "string",
   "required_skills": ["skill1", "skill2"],
@@ -39,7 +37,7 @@ Extract the following information and return ONLY a valid JSON object with no ex
   "nice_to_have": ["skill1", "skill2"],
   "experience_required": "string",
   "keywords": ["keyword1", "keyword2"]
-}}
+}
 
-Return only the JSON. No markdown, no explanation, """,
+Return only the JSON. No markdown, no explanation.""",
 )

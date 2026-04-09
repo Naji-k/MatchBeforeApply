@@ -54,7 +54,7 @@
 
     <form
       class="card"
-      style="display:flex;flex-direction:column;gap:1.4rem"
+      style="display:flex;flex-direction:column;gap:1.4rem;padding:1.5rem;"
       onsubmit={handleSubmit}
     >
       {#if error}
@@ -100,6 +100,9 @@
           bind:value={jdText}
         ></textarea>
       {:else}
+        <span style="font-size:.85rem;color:red;font-style:italic">
+          URL may not work on all job sites.
+        </span>
         <input
           type="url"
           class="input-field"

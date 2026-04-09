@@ -144,9 +144,11 @@ async def _run_and_persist_analysis(
 
     jd_type = app.jd_type or ("url" if app.jd_source.startswith("http") else "text")
     result = await run_analysis(
-        cv_text=profile.cv_text, jd_type=jd_type, jd_input=app.jd_source
+        cv_text=profile.cv_text,
+        jd_type=jd_type,
+        jd_input=app.jd_source,
+        user_id=user_id,
     )
-
     match_result = result.get("match_result", {})
     app.match_score = match_result.get("overall_score")
     app.match_breakdown = match_result
