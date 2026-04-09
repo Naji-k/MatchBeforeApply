@@ -12,13 +12,8 @@
   import Modal from "$lib/components/Modal.svelte";
   import ScoreIndicator from "$lib/components/ScoreIndicator.svelte";
   import { formatDate } from "$lib/utils/helpers.js";
+  import { STATUS_OPTIONS } from "$lib/types.js";
 
-  const STATUS_OPTIONS: { value: ApplicationStatus; label: string }[] = [
-    { value: "open", label: "Open" },
-    { value: "in_progress", label: "In Progress" },
-    { value: "accepted", label: "Accepted" },
-    { value: "rejected", label: "Rejected" },
-  ];
   const COMMENT_TYPES: CommentType[] = [
     "general",
     "company",
@@ -233,7 +228,7 @@
           bind:value={status}
         >
           {#each STATUS_OPTIONS as opt}
-            <option value={opt.value}>{opt.label}</option>
+            <option value={opt.status}>{opt.label}</option>
           {/each}
         </select>
         <button

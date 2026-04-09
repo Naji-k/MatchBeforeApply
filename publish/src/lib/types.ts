@@ -112,3 +112,10 @@ export interface AddCommentPayload {
 export interface ProfileUpdatePayload {
   cv_text?: string;
 }
+
+export const STATUS_OPTIONS: { status: ApplicationStatus; label: string }[] = [
+  { status: "open", label: "Open/Prepare to Apply" },
+  { status: "in_progress", label: "Applied" },
+  { status: "accepted", label: "In Progress" },
+  { status: "rejected", label: "Rejected/Closed" },
+];

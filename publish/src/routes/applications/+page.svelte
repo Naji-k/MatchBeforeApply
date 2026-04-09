@@ -1,6 +1,10 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import type { Application, ApplicationStatus } from "$lib/types.js";
+  import {
+    STATUS_OPTIONS,
+    type Application,
+    type ApplicationStatus,
+  } from "$lib/types.js";
   import { applicationsStore, showToast } from "$lib/stores.js";
   import { listApplications, updateApplication } from "$lib/api.js";
   import KanbanColumn from "$lib/components/KanbanColumn.svelte";
@@ -10,12 +14,7 @@
   let draggedId = $state<number | null>(null);
   let dragOverStatus = $state<ApplicationStatus | null>(null);
 
-  const COLUMNS: { status: ApplicationStatus; label: string }[] = [
-    { status: "open", label: "Open" },
-    { status: "in_progress", label: "In Progress" },
-    { status: "accepted", label: "Accepted" },
-    { status: "rejected", label: "Rejected" },
-  ];
+  const COLUMNS = STATUS_OPTIONS;
 
   onMount(async () => {
     applicationsStore.update((s) => ({ ...s, loading: true, error: null }));
@@ -49,20 +48,20 @@
   const totalCount = $derived($applicationsStore.items.length);
   const activeCount = $derived(
     $applicationsStore.items.filter(
-      (a) => a.status === "open" || a.status === "in_progress",
+      (a) => a.status === "in_progress" || a.status === "accepted",
     ).length,
   );
-  const avgScore = $derived.by(() => {
-    const scored = $applicationsStore.items.filter(
-      (a) => a.match_breakdown?.overall_score !== undefined,
-    );
-    if (!scored.length) return null;
-    const sum = scored.reduce(
-      (acc, a) => acc + a.match_breakdown!.overall_score * 10,
-      0,
-    );
-    return Math.round(sum / scored.length);
-  });
+  // const avgScore = $derived.by(() => {
+  //   const scored = $applicationsStore.items.filter(
+  //     (a) => a.match_breakdown?.overall_score !== undefined,
+  //   );
+  //   if (!scored.length) return null;
+  //   const sum = scored.reduce(
+  //     (acc, a) => acc + a.match_breakdown!.overall_score * 10,
+  //     0,
+  //   );
+  //   return Math.round(sum / scored.length);
+  // });
 
   // Drag & Drop
   function onDragStart(id: number) {
@@ -140,7 +139,7 @@
         {totalCount}
       </p>
     </div>
-    <div class="card" style="flex:1;min-width:130px;padding:1rem 1.25rem">
+    <!-- <div class="card" style="flex:1;min-width:130px;padding:1rem 1.25rem">
       <p
         style="font-size:.75rem;font-weight:600;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.35rem"
       >
@@ -151,7 +150,7 @@
       >
         {avgScore !== null ? avgScore + "%" : "—"}
       </p>
-    </div>
+    </div> -->
     <div class="card" style="flex:1;min-width:130px;padding:1rem 1.25rem">
       <p
         style="font-size:.75rem;font-weight:600;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.35rem"
