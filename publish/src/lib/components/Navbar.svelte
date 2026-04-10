@@ -38,7 +38,9 @@
   <!-- User info + logout (desktop) -->
   <div class="desktop-user">
     {#if $authStore.user}
-      <span class="user-email">{$authStore.user.full_name}</span>
+      <span class="user-email"
+        >{$authStore.user.full_name || $authStore.user.email}</span
+      >
     {/if}
     <button onclick={handleLogout} class="logout-btn">Logout</button>
   </div>
