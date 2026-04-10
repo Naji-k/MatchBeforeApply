@@ -62,13 +62,15 @@
   {#if $toastStore}
     <div
       style="
-        position:fixed;bottom:1.5rem;right:1.5rem;z-index:60;
-        padding:.75rem 1.25rem;border-radius:12px;font-size:.875rem;font-weight:500;
-        box-shadow:0 4px 20px rgba(0,0,0,.12);
-        {$toastStore.type === 'success'
+      position:fixed;bottom:1.5rem;right:1.5rem;z-index:60;
+      padding:.75rem 1.25rem;border-radius:12px;font-size:.875rem;font-weight:500;
+      box-shadow:0 4px 20px rgba(0,0,0,.12);
+      {$toastStore.type === 'success'
         ? 'background:#F0FDF4;color:#16A34A;border:1px solid #BBF7D0'
-        : 'background:#FEF2F2;color:#DC2626;border:1px solid #FECACA'}
-      "
+        : $toastStore.type === 'info'
+          ? 'background:#EFF6FF;color:#1D4ED8;border:1px solid #BFDBFE'
+          : 'background:#FEF2F2;color:#DC2626;border:1px solid #FECACA'}
+    "
     >
       {$toastStore.message}
     </div>
