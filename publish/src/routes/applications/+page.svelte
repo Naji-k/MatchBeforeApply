@@ -197,7 +197,7 @@
         class="btn-primary"
         style="text-decoration:none;padding:.75rem 1.5rem"
       >
-        Analyse your first JD
+        Analyze your first JD
       </a>
     </div>
   {:else}

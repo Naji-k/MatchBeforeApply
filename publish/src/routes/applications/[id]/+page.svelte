@@ -13,6 +13,7 @@
   import ScoreIndicator from "$lib/components/ScoreIndicator.svelte";
   import { formatDate } from "$lib/utils/helpers.js";
   import { STATUS_OPTIONS } from "$lib/types.js";
+  import { authStore } from "$lib/stores.js";
 
   const COMMENT_TYPES: CommentType[] = [
     "general",
@@ -86,6 +87,12 @@
   }
 
   async function reanalyze(): Promise<void> {
+    if ($authStore.user?.id == import.meta.env.VITE_DEMO_USER) {
+      showToast(
+        "You're using the demo account 👀 Results are mock data — log in to see real analysis.",
+        "info",
+      );
+    }
     reanalyzing = true;
     try {
       const updated = await api.analyzeApplication(page.params.id!);

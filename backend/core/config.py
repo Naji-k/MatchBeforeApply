@@ -19,6 +19,7 @@ class Settings(BaseSettings):
     MODEL: str = "gemini-2.5-flash"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 1440  # 24 hours
     ENV: str = "development"
+    DEMO_USER: int | None = None
 
     @field_validator("DATABASE_URL")
     @classmethod

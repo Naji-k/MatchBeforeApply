@@ -12,7 +12,7 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
   import { get } from "svelte/store";
-  import { authStore, setToken, setUser } from "$lib/stores.js";
+  import { authStore, setToken, setUser, showToast } from "$lib/stores.js";
   import { login, register, googleAuth, getMe } from "$lib/api.js";
   import { validateEmail } from "$lib/utils/validation.js";
   import { onMount } from "svelte";
@@ -40,7 +40,7 @@
         theme: "outline",
         size: "large",
         shape: "rectangular",
-        width: 320,
+        width: 340,
         text: "continue_with",
       });
     }
@@ -104,7 +104,7 @@
 </script>
 
 <svelte:head
-  ><title>{mode === "signup" ? "Sign Up" : "Login"} — AIJobBoard</title
+  ><title>{mode === "signup" ? "Sign Up" : "Login"} — MatchBeforeApply</title
   ></svelte:head
 >
 
@@ -115,7 +115,8 @@
     <!-- Hero -->
     <div style="text-align:center;margin-bottom:2rem">
       <h1 style="font-size:2rem;font-weight:800;letter-spacing:-1px">
-        <span style="color:var(--color-accent)">AI</span>JobBoard
+        Match Before
+        <span style="color:var(--color-accent)">Apply</span>
       </h1>
       <p style="color:var(--color-text-muted);margin-top:.5rem">
         {mode === "signup" ? "Create your account" : "Welcome back"}
@@ -236,7 +237,7 @@
       >
         <div id="google-btn"></div>
       </div>
-
+      <!-- {#if import.meta.env.VITE_ENABLE_SIGNUP === "true"} -->
       <p
         style="text-align:center;font-size:.875rem;color:var(--color-text-muted);margin-bottom:.75rem"
       >
@@ -256,6 +257,34 @@
           >
         {/if}
       </p>
+      <!-- {:else} -->
+      <button
+        type="button"
+        style="width:100%;padding:.75rem;font-size:.875rem;font-weight:600;background:rgba(0,0,0,.05);border:1px solid var(--color-border);border-radius:8px;color:var(--color-text);cursor:pointer;margin-top:.75rem;transition:background 200ms"
+        onclick={async () => {
+          loading = true;
+          error = "";
+          try {
+            const data = await login("user@user.com", "string");
+            setToken(data.access_token);
+            const user = await getMe();
+            setUser(user);
+            showToast(
+              "You're in demo mode 👀 You can explore with mock data, but analyzing resumes and saving applications are disabled. Log in to try it for real.",
+              "info",
+            );
+            goto("/applications");
+          } catch (err) {
+            error = (err as Error).message;
+          } finally {
+            loading = false;
+          }
+        }}
+        disabled={loading}
+      >
+        {loading ? "Logging in…" : "Try Demo Account"}
+      </button>
+      <!-- {/if} -->
     </form>
   </div>
 </div>
