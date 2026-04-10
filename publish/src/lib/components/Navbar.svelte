@@ -18,7 +18,8 @@
 
 <nav class="navbar">
   <a href="/applications" class="brand">
-    <span style="color:var(--color-accent)">AI</span>JobBoard
+    Match Before
+    <span style="color:var(--color-accent)">Apply</span>
   </a>
 
   <!-- Desktop links -->
@@ -37,7 +38,9 @@
   <!-- User info + logout (desktop) -->
   <div class="desktop-user">
     {#if $authStore.user}
-      <span class="user-email">{$authStore.user.email}</span>
+      <span class="user-email"
+        >{$authStore.user.full_name || $authStore.user.email}</span
+      >
     {/if}
     <button onclick={handleLogout} class="logout-btn">Logout</button>
   </div>

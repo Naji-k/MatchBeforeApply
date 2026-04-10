@@ -2,6 +2,7 @@
   import { goto } from "$app/navigation";
   import { createApplication, streamAnalysis, ApiError } from "$lib/api.js";
   import LoadingSteps from "$lib/components/LoadingSteps.svelte";
+  import { authStore, showToast } from "$lib/stores";
 
   let jdMode = $state<"text" | "url">("text");
   let jdText = $state("");
@@ -20,7 +21,12 @@
       error = "Please provide a job description.";
       return;
     }
-
+    if ($authStore.user?.id == import.meta.env.VITE_DEMO_USER) {
+      showToast(
+        "You're using the demo account 👀 Results are mock data — log in to see real analysis.",
+        "info",
+      );
+    }
     loading = true;
     try {
       const app = await createApplication({
@@ -171,7 +177,7 @@
 
       <div style="display:flex;gap:.75rem;padding-top:.25rem">
         <button type="submit" class="btn-primary" style="flex:1;padding:.9rem">
-          {runAnalysis ? "Analyse" : "Save Application"}
+          {runAnalysis ? "Analyze" : "Save Application"}
         </button>
         <a
           href="/applications"

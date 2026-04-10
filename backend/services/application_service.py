@@ -143,7 +143,10 @@ async def stream_and_persist_analysis(
     app = await get_application(db, user_id, application_id)
     profile = await get_or_create_profile(db, user_id)
     if not profile.cv_text:
-        yield {"type": "error", "message": "No CV found. Upload your CV first."}
+        yield {
+            "type": "error",
+            "message": "No CV found. Upload your CV first. in profile section.",
+        }
         return
 
     jd_type = app.jd_type or ("url" if app.jd_source.startswith("http") else "text")

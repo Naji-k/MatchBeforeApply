@@ -45,7 +45,7 @@ def parse_json_field(state: dict, key: str):
 async def stream_analysis(
     cv_text: str, jd_type: str, jd_input: str, user_id: int
 ) -> AsyncGenerator[dict, None]:
-    if not settings.is_production:
+    if not settings.is_production or user_id == settings.DEMO_USER:
         for agent, (step, label) in AGENT_STEPS.items():
             yield {"type": "step_start", "step": step, "agent": agent, "label": label}
             await asyncio.sleep(0.5)

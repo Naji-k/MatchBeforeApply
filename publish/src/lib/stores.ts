@@ -49,8 +49,12 @@ export const toastStore = writable<Toast | null>(null);
 
 export function showToast(
   message: string,
-  type: "success" | "error" = "error",
+  type: "success" | "info" | "error" = "error",
 ): void {
   toastStore.set({ message, type });
-  setTimeout(() => toastStore.set(null), 4000);
+  if (type === "info") {
+    setTimeout(() => toastStore.set(null), 6000);
+  } else {
+    setTimeout(() => toastStore.set(null), 4000);
+  }
 }

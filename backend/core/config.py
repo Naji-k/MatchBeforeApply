@@ -1,5 +1,9 @@
+from pathlib import Path
+
 from pydantic_settings import BaseSettings
 from pydantic import field_validator
+
+_ENV_FILE = str(Path(__file__).resolve().parent.parent / ".env")
 
 
 class Settings(BaseSettings):
@@ -11,9 +15,11 @@ class Settings(BaseSettings):
     )
     SECRET_KEY: str = "change-me-in-production"
     GOOGLE_API_KEY: str = ""
+    GOOGLE_CLIENT_ID: str = ""
     MODEL: str = "gemini-2.5-flash"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 1440  # 24 hours
     ENV: str = "development"
+    DEMO_USER: int | None = None
 
     @field_validator("DATABASE_URL")
     @classmethod
@@ -23,7 +29,7 @@ class Settings(BaseSettings):
         return v
 
     class Config:
-        env_file = ".env"
+        env_file = _ENV_FILE
 
     @property
     def is_production(self) -> bool:

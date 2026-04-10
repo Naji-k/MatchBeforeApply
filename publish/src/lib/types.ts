@@ -88,7 +88,7 @@ export interface CurrentAppState {
 
 export interface Toast {
   message: string;
-  type: "success" | "error";
+  type: "success" | "error" | "info";
 }
 
 // API request payloads
