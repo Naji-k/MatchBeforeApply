@@ -85,6 +85,37 @@ export async function login(
   return res.json() as Promise<{ access_token: string }>;
 }
 
+export async function register(
+  email: string,
+  password: string,
+  fullName: string,
+): Promise<void> {
+  const res = await fetch(`${BASE}/api/auth/register`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password, full_name: fullName }),
+  });
+  if (!res.ok) {
+    const err = (await res.json().catch(() => ({}))) as { detail?: string };
+    throw new ApiError(err.detail ?? "Registration failed", res.status);
+  }
+}
+
+export async function googleAuth(
+  credential: string,
+): Promise<{ access_token: string }> {
+  const res = await fetch(`${BASE}/api/auth/google`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ credential }),
+  });
+  if (!res.ok) {
+    const err = (await res.json().catch(() => ({}))) as { detail?: string };
+    throw new ApiError(err.detail ?? "Google sign-in failed", res.status);
+  }
+  return res.json() as Promise<{ access_token: string }>;
+}
+
 export function getMe(): Promise<User> {
   return request<User>("/api/auth/me");
 }
