@@ -237,54 +237,54 @@
       >
         <div id="google-btn"></div>
       </div>
-      <!-- {#if import.meta.env.VITE_ENABLE_SIGNUP === "true"} -->
-      <p
-        style="text-align:center;font-size:.875rem;color:var(--color-text-muted);margin-bottom:.75rem"
-      >
-        {#if mode === "login"}
-          Don't have an account?
-          <button
-            type="button"
-            style="background:none;border:none;color:var(--color-accent);cursor:pointer;font-size:.875rem;font-weight:600;padding:0"
-            onclick={() => switchMode("signup")}>Sign up</button
-          >
-        {:else}
-          Already have an account?
-          <button
-            type="button"
-            style="background:none;border:none;color:var(--color-accent);cursor:pointer;font-size:.875rem;font-weight:600;padding:0"
-            onclick={() => switchMode("login")}>Log in</button
-          >
-        {/if}
-      </p>
-      <!-- {:else} -->
-      <button
-        type="button"
-        style="width:100%;padding:.75rem;font-size:.875rem;font-weight:600;background:rgba(0,0,0,.05);border:1px solid var(--color-border);border-radius:8px;color:var(--color-text);cursor:pointer;margin-top:.75rem;transition:background 200ms"
-        onclick={async () => {
-          loading = true;
-          error = "";
-          try {
-            const data = await login("user@user.com", "string");
-            setToken(data.access_token);
-            const user = await getMe();
-            setUser(user);
-            showToast(
-              "You're in demo mode 👀 You can explore with mock data, but analyzing resumes and saving applications are disabled. Log in to try it for real.",
-              "info",
-            );
-            goto("/applications");
-          } catch (err) {
-            error = (err as Error).message;
-          } finally {
-            loading = false;
-          }
-        }}
-        disabled={loading}
-      >
-        {loading ? "Logging in…" : "Try Demo Account"}
-      </button>
-      <!-- {/if} -->
+      {#if import.meta.env.VITE_ENABLE_SIGNUP === "true"}
+        <p
+          style="text-align:center;font-size:.875rem;color:var(--color-text-muted);margin-bottom:.75rem"
+        >
+          {#if mode === "login"}
+            Don't have an account?
+            <button
+              type="button"
+              style="background:none;border:none;color:var(--color-accent);cursor:pointer;font-size:.875rem;font-weight:600;padding:0"
+              onclick={() => switchMode("signup")}>Sign up</button
+            >
+          {:else}
+            Already have an account?
+            <button
+              type="button"
+              style="background:none;border:none;color:var(--color-accent);cursor:pointer;font-size:.875rem;font-weight:600;padding:0"
+              onclick={() => switchMode("login")}>Log in</button
+            >
+          {/if}
+        </p>
+      {:else}
+        <button
+          type="button"
+          style="width:100%;padding:.75rem;font-size:.875rem;font-weight:600;background:rgba(0,0,0,.05);border:1px solid var(--color-border);border-radius:8px;color:var(--color-text);cursor:pointer;margin-top:.75rem;transition:background 200ms"
+          onclick={async () => {
+            loading = true;
+            error = "";
+            try {
+              const data = await login("user@user.com", "string");
+              setToken(data.access_token);
+              const user = await getMe();
+              setUser(user);
+              showToast(
+                "You're in demo mode 👀 You can explore with mock data, but analyzing resumes and saving applications are disabled. Log in to try it for real.",
+                "info",
+              );
+              goto("/applications");
+            } catch (err) {
+              error = (err as Error).message;
+            } finally {
+              loading = false;
+            }
+          }}
+          disabled={loading}
+        >
+          {loading ? "Logging in…" : "Try Demo Account"}
+        </button>
+      {/if}
     </form>
   </div>
 </div>
