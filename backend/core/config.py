@@ -24,7 +24,10 @@ class Settings(BaseSettings):
     @computed_field
     @property
     def ASYNC_DATABASE_URL(self) -> str:
-        return self.DATABASE_URL.replace("postgresql://", "postgresql+asyncpg://", 1)
+        url = self.DATABASE_URL
+        if url.startswith("postgresql://"):
+            return url.replace("postgresql://", "postgresql+asyncpg://", 1)
+        return url
 
     class Config:
         env_file = _ENV_FILE
