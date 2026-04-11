@@ -9,15 +9,12 @@ load_dotenv()
 from api.routes.applications import router as applications_router  # noqa: E402
 from api.routes.auth import router as auth_router  # noqa: E402
 from api.routes.profile import router as profile_router  # noqa: E402
-from db.database import Base, engine  # noqa: E402
 
 
 # Database initialization on startup
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup code
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
     yield
 
 
