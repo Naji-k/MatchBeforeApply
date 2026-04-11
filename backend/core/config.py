@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from pydantic_settings import BaseSettings
-from pydantic import field_validator
+from pydantic import computed_field
 
 _ENV_FILE = str(Path(__file__).resolve().parent.parent / ".env")
 
@@ -21,12 +21,10 @@ class Settings(BaseSettings):
     ENV: str = "development"
     DEMO_USER: int | None = None
 
-    @field_validator("DATABASE_URL")
-    @classmethod
-    def fix_db_url(cls, v: str) -> str:
-        if v.startswith("postgresql://"):
-            return v.replace("postgresql://", "postgresql+asyncpg://", 1)
-        return v
+    @computed_field
+    @property
+    def ASYNC_DATABASE_URL(self) -> str:
+        return self.DATABASE_URL.replace("postgresql://", "postgresql+asyncpg://", 1)
 
     class Config:
         env_file = _ENV_FILE
