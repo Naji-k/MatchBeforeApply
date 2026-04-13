@@ -8,7 +8,8 @@ from google.genai.types import Content, Part
 from agents.orchestrator import root_agent
 
 from core.config import settings
-from services.mock_data import mock
+from services.mock_data import mock, mock2, mock3
+import random
 
 AGENT_STEPS: dict[str, tuple[int, str]] = {
     "jd_agent": (0, "Reading job description"),
@@ -16,6 +17,7 @@ AGENT_STEPS: dict[str, tuple[int, str]] = {
     "match_agent": (2, "Scoring the match"),
     "ats_agent": (3, "Generating match insights"),
 }
+randomMock = random.choice([mock, mock2, mock3])
 
 
 def parse_json_field(state: dict, key: str):
@@ -50,7 +52,7 @@ async def stream_analysis(
             yield {"type": "step_start", "step": step, "agent": agent, "label": label}
             await asyncio.sleep(0.5)
             yield {"type": "step_done", "step": step, "agent": agent}
-        yield {"type": "_state", "state": mock}
+        yield {"type": "_state", "state": randomMock}
         return
 
     session_service = InMemorySessionService()
