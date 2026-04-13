@@ -3,6 +3,7 @@ from datetime import datetime
 
 from sqlalchemy import (
     Column,
+    Date,
     Integer,
     String,
     DateTime,
@@ -54,6 +55,8 @@ class UserProfile(Base):
         Integer, ForeignKey("users.id"), unique=True, nullable=False, index=True
     )
     cv_text = Column(Text, nullable=True)
+    daily_analyses_used = Column(Integer, nullable=False, default=0, server_default="0")
+    daily_analyses_reset_date = Column(Date, nullable=True)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     user = relationship("User", back_populates="profile")

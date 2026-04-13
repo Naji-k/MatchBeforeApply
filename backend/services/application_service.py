@@ -13,6 +13,7 @@ from schemas.application import (
     CommentCreate,
 )
 from services.analyze_service import parse_json_field, stream_analysis
+from services.limit_service import check_and_increment_daily_limit
 from services.profile_service import get_or_create_profile
 
 
@@ -148,6 +149,8 @@ async def stream_and_persist_analysis(
             "message": "No CV found. Upload your CV first. in profile section.",
         }
         return
+
+    await check_and_increment_daily_limit(user_id, db)
 
     jd_type = app.jd_type or ("url" if app.jd_source.startswith("http") else "text")
 

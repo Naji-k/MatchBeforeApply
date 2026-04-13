@@ -2,7 +2,7 @@
   import { goto } from "$app/navigation";
   import { createApplication, streamAnalysis, ApiError } from "$lib/api.js";
   import LoadingSteps from "$lib/components/LoadingSteps.svelte";
-  import { authStore, showToast } from "$lib/stores";
+  import { authStore, showToast, incrementUsage } from "$lib/stores";
 
   let jdMode = $state<"text" | "url">("text");
   let jdText = $state("");
@@ -43,6 +43,7 @@
             doneSteps = new Set([...doneSteps, event.step]);
             currentStep = -1;
           } else if (event.type === "done") {
+            incrementUsage();
             goto(`/applications/${app.id}`);
             return;
           } else if (event.type === "error") {

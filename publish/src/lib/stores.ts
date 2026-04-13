@@ -47,6 +47,22 @@ export const currentAppStore = writable<CurrentAppState>({
 
 export const toastStore = writable<Toast | null>(null);
 
+const DAILY_LIMIT = 3;
+
+export const usageStore = writable<{ used: number; limit: number } | null>(
+  null,
+);
+
+export function setUsage(used: number): void {
+  usageStore.set({ used, limit: DAILY_LIMIT });
+}
+
+export function incrementUsage(): void {
+  usageStore.update((s) =>
+    s ? { ...s, used: Math.min(s.used + 1, DAILY_LIMIT) } : s,
+  );
+}
+
 export function showToast(
   message: string,
   type: "success" | "info" | "error" = "error",

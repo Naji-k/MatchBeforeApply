@@ -1,3 +1,5 @@
+from datetime import date
+
 from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -22,7 +24,19 @@ async def get_profile(
     current_user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db),
 ):
-    return await get_or_create_profile(db, current_user.id)
+    profile = await get_or_create_profile(db, current_user.id)
+    effective_used = (
+        profile.daily_analyses_used
+        if profile.daily_analyses_reset_date == date.today()
+        else 0
+    )
+    return ProfileResponse(
+        id=profile.id,
+        user_id=profile.user_id,
+        cv_text=profile.cv_text,
+        updated_at=profile.updated_at,
+        daily_analyses_used=effective_used,
+    )
 
 
 @router.put("", response_model=ProfileResponse)

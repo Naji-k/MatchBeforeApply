@@ -16,6 +16,7 @@ export interface Profile {
   user_id: number;
   cv_text?: string;
   updated_at: string;
+  daily_analyses_used: number;
 }
 
 export interface MatchBreakdown {

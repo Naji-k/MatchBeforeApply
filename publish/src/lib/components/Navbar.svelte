@@ -1,7 +1,7 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
   import { page } from "$app/state";
-  import { authStore, logout } from "$lib/stores.js";
+  import { authStore, logout, usageStore } from "$lib/stores.js";
 
   let menuOpen = $state(false);
 
@@ -42,6 +42,14 @@
         >{$authStore.user.full_name || $authStore.user.email}</span
       >
     {/if}
+    {#if $usageStore !== null}
+      <span
+        class="usage-pill"
+        class:at-limit={$usageStore.used >= $usageStore.limit}
+      >
+        {$usageStore.used}/{$usageStore.limit} analyses
+      </span>
+    {/if}
     <button onclick={handleLogout} class="logout-btn">Logout</button>
   </div>
 
@@ -71,6 +79,15 @@
       <span class="user-email" style="padding:.5rem 0"
         >{$authStore.user.email}</span
       >
+    {/if}
+    {#if $usageStore !== null}
+      <span
+        class="usage-pill"
+        class:at-limit={$usageStore.used >= $usageStore.limit}
+        style="padding:.25rem 0"
+      >
+        {$usageStore.used}/{$usageStore.limit} analyses today
+      </span>
     {/if}
     <button
       onclick={handleLogout}
@@ -127,6 +144,18 @@
   .user-email {
     font-size: 0.85rem;
     color: var(--color-text-muted);
+  }
+  .usage-pill {
+    font-size: 0.78rem;
+    color: var(--color-text-muted);
+    background: var(--color-border);
+    border-radius: 999px;
+    padding: 0.15rem 0.6rem;
+    white-space: nowrap;
+  }
+  .usage-pill.at-limit {
+    color: var(--color-danger);
+    background: color-mix(in srgb, var(--color-danger) 10%, transparent);
   }
   .logout-btn {
     background: none;

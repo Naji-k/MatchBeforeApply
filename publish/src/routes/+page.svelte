@@ -68,14 +68,12 @@
   <div style="display:flex;align-items:center;gap:.75rem">
     <a
       href="#how-it-works"
-      // class="btn-secondary nav-login-link"
       style="text-decoration:none;padding:.45rem 1rem;font-size:.875rem;"
     >
       How it Works
     </a>
     <a
       href="#features"
-      // class="btn-secondary nav-login-link"
       style="text-decoration:none;padding:.45rem 1rem;font-size:.875rem"
     >
       Features

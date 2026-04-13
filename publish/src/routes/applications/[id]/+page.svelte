@@ -3,7 +3,7 @@
   import { page } from "$app/state";
   import { onMount } from "svelte";
   import type { ApplicationStatus, CommentType } from "$lib/types.js";
-  import { currentAppStore, showToast } from "$lib/stores.js";
+  import { currentAppStore, incrementUsage, showToast } from "$lib/stores.js";
   import * as api from "$lib/api.js";
   import ResultsCard from "$lib/components/ResultsCard.svelte";
   import SkillChips from "$lib/components/SkillChips.svelte";
@@ -102,6 +102,7 @@
       showToast((err as Error).message);
     } finally {
       reanalyzing = false;
+      incrementUsage();
     }
   }
 

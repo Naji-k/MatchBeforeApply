@@ -3,7 +3,13 @@
   import type { Snippet } from "svelte";
   import { goto } from "$app/navigation";
   import { page } from "$app/state";
-  import { authStore, setToken, setUser, toastStore } from "$lib/stores.js";
+  import {
+    authStore,
+    setToken,
+    setUser,
+    toastStore,
+    setUsage,
+  } from "$lib/stores.js";
   import * as api from "$lib/api.js";
   import { onMount } from "svelte";
   import Navbar from "$lib/components/Navbar.svelte";
@@ -25,6 +31,12 @@
         try {
           const user = await api.getMe();
           setUser(user);
+          try {
+            const profile = await api.getProfile();
+            setUsage(profile.daily_analyses_used);
+          } catch {
+            // non-fatal — usage pill simply won't appear
+          }
         } catch {
           setToken(null);
         }
