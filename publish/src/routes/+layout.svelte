@@ -11,7 +11,9 @@
   let { children }: { children: Snippet } = $props();
   let initialized = $state(false);
 
-  const isLoginPage = $derived(page.url.pathname === "/login");
+  const isPublicPage = $derived(
+    page.url.pathname === "/login" || page.url.pathname === "/",
+  );
 
   onMount(() => {
     let unsubscribe: (() => void) | undefined;
@@ -30,7 +32,7 @@
       initialized = true;
 
       unsubscribe = authStore.subscribe((auth) => {
-        if (!auth.isAuthenticated && !page.url.pathname.includes("/login")) {
+        if (!auth.isAuthenticated && !isPublicPage) {
           goto("/login");
         }
       });
@@ -40,7 +42,7 @@
   });
 </script>
 
-{#if !initialized && !isLoginPage}
+{#if !initialized && !isPublicPage}
   <div
     style="min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--color-bg)"
   >
