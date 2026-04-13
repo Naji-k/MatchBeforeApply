@@ -8,7 +8,8 @@ from google.genai.types import Content, Part
 from agents.orchestrator import root_agent
 
 from core.config import settings
-from services.mock_data import mock
+from services.mock_data import mock, mock2, mock3
+import random
 
 AGENT_STEPS: dict[str, tuple[int, str]] = {
     "jd_agent": (0, "Reading job description"),
@@ -46,11 +47,12 @@ async def stream_analysis(
     cv_text: str, jd_type: str, jd_input: str, user_id: int
 ) -> AsyncGenerator[dict, None]:
     if not settings.is_production or user_id == settings.DEMO_USER:
+        random_mock = random.choice([mock, mock2, mock3])
         for agent, (step, label) in AGENT_STEPS.items():
             yield {"type": "step_start", "step": step, "agent": agent, "label": label}
             await asyncio.sleep(0.5)
             yield {"type": "step_done", "step": step, "agent": agent}
-        yield {"type": "_state", "state": mock}
+        yield {"type": "_state", "state": random_mock}
         return
 
     session_service = InMemorySessionService()
