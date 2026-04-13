@@ -354,6 +354,7 @@
       <a
         href="https://linkedin.com/in/najikanounji"
         target="_blank"
+        rel="noopener noreferrer"
         style="color: var(--color-accent); text-decoration: none;"
         >Naji Kanounji</a
       >
@@ -361,6 +362,7 @@
     <a
       href="https://nkanounji.com"
       target="_blank"
+      rel="noopener noreferrer"
       style="color: var(--color-accent); text-decoration: none;"
     >
       <Globe size={18} />

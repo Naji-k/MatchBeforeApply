@@ -17,7 +17,6 @@ AGENT_STEPS: dict[str, tuple[int, str]] = {
     "match_agent": (2, "Scoring the match"),
     "ats_agent": (3, "Generating match insights"),
 }
-randomMock = random.choice([mock, mock2, mock3])
 
 
 def parse_json_field(state: dict, key: str):
@@ -48,11 +47,12 @@ async def stream_analysis(
     cv_text: str, jd_type: str, jd_input: str, user_id: int
 ) -> AsyncGenerator[dict, None]:
     if not settings.is_production or user_id == settings.DEMO_USER:
+        random_mock = random.choice([mock, mock2, mock3])
         for agent, (step, label) in AGENT_STEPS.items():
             yield {"type": "step_start", "step": step, "agent": agent, "label": label}
             await asyncio.sleep(0.5)
             yield {"type": "step_done", "step": step, "agent": agent}
-        yield {"type": "_state", "state": randomMock}
+        yield {"type": "_state", "state": random_mock}
         return
 
     session_service = InMemorySessionService()
