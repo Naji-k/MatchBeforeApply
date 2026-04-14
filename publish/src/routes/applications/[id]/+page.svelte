@@ -14,6 +14,7 @@
   import { formatDate } from "$lib/utils/helpers.js";
   import { STATUS_OPTIONS } from "$lib/types.js";
   import { authStore } from "$lib/stores.js";
+  import { trackEvent } from "$lib/utils/analytics.js";
 
   const COMMENT_TYPES: CommentType[] = [
     "general",
@@ -92,7 +93,11 @@
         "You're using the demo account 👀 Results are mock data — log in to see real analysis.",
         "info",
       );
+    } else {
+      incrementUsage();
+      trackEvent("reanalyze_click");
     }
+
     reanalyzing = true;
     try {
       const updated = await api.analyzeApplication(page.params.id!);
@@ -102,7 +107,6 @@
       showToast((err as Error).message);
     } finally {
       reanalyzing = false;
-      incrementUsage();
     }
   }
 
@@ -129,6 +133,7 @@
         comments: [...s.comments, comment],
       }));
       newComment = { type: "general", question: "", comment: "" };
+      trackEvent("comment_add", { type: newComment.type });
     } catch (err) {
       showToast((err as Error).message);
     } finally {

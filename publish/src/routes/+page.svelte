@@ -15,6 +15,7 @@
     FileCheck,
     Globe,
   } from "@lucide/svelte";
+  import { trackEvent } from "$lib/utils/analytics";
 
   let demoLoading = $state(false);
   let demoError = $state("");
@@ -44,6 +45,7 @@
       const user = await api.getMe();
       setUser(user);
       goto("/applications");
+      trackEvent("login_demo");
     } catch (err) {
       demoError = (err as Error).message;
     } finally {
@@ -69,12 +71,14 @@
     <a
       href="#how-it-works"
       style="text-decoration:none;padding:.45rem 1rem;font-size:.875rem;"
+      onclick={() => trackEvent("How_It_Works_Click")}
     >
       How it Works
     </a>
     <a
       href="#features"
       style="text-decoration:none;padding:.45rem 1rem;font-size:.875rem"
+      onclick={() => trackEvent("features_click")}
     >
       Features
     </a>
