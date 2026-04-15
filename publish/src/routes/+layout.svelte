@@ -9,6 +9,7 @@
     setUser,
     toastStore,
     setUsage,
+    setIsDemoUser,
   } from "$lib/stores.js";
   import * as api from "$lib/api.js";
   import { onMount } from "svelte";
@@ -33,7 +34,13 @@
           setUser(user);
           try {
             const profile = await api.getProfile();
-            setUsage(profile.daily_analyses_used);
+            if (profile.user_id === import.meta.env.VITE_DEMO_USER) {
+              console.log("Demo user detected, enabling demo mode");
+              setIsDemoUser(true);
+              setUsage(0);
+            } else {
+              setUsage(profile.daily_analyses_used);
+            }
           } catch {
             // non-fatal — usage pill simply won't appear
           }

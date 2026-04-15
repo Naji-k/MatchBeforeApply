@@ -15,6 +15,11 @@ export const authStore = writable<AuthState>({
   error: null,
 });
 
+export const isDemoUser = writable(false);
+export function setIsDemoUser(value: boolean): void {
+  isDemoUser.set(value);
+}
+
 export function setToken(token: string | null): void {
   authStore.update((s) => ({ ...s, token, isAuthenticated: !!token }));
   if (typeof localStorage !== "undefined") {
@@ -29,6 +34,8 @@ export function setUser(user: User): void {
 
 export function logout(): void {
   setToken(null);
+  usageStore.set(null);
+  isDemoUser.set(false);
   authStore.update((s) => ({ ...s, user: null, isAuthenticated: false }));
 }
 

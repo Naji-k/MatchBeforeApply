@@ -2,6 +2,7 @@ from datetime import date
 
 from fastapi import HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
+from core.config import settings
 
 from services.profile_service import get_or_create_profile
 
@@ -17,6 +18,8 @@ async def check_and_increment_daily_limit(user_id: int, db: AsyncSession) -> Non
     """
     profile = await get_or_create_profile(db, user_id)
     today = date.today()
+    if settings.DEMO_USER and user_id == settings.DEMO_USER:
+        return  # No limits for demo user
 
     if profile.daily_analyses_reset_date != today:
         profile.daily_analyses_used = 0

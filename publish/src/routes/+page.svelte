@@ -38,9 +38,12 @@
 
   async function handleDemoLogin() {
     demoLoading = true;
+    const demo_username = import.meta.env.VITE_DEMO_USER_EMAIL;
+    const demo_password = import.meta.env.VITE_DEMO_USER_PASSWORD;
+
     demoError = "";
     try {
-      const data = await api.login("user@user.com", "string");
+      const data = await api.login(demo_username, demo_password);
       setToken(data.access_token);
       const user = await api.getMe();
       setUser(user);

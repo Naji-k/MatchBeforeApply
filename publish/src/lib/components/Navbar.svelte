@@ -1,13 +1,13 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
   import { page } from "$app/state";
-  import { authStore, logout, usageStore } from "$lib/stores.js";
+  import { authStore, logout, usageStore, isDemoUser } from "$lib/stores.js";
 
   let menuOpen = $state(false);
 
   function handleLogout() {
     logout();
-    goto("/login");
+    goto("/");
   }
 
   const links = [
@@ -43,12 +43,14 @@
       >
     {/if}
     {#if $usageStore !== null}
-      <span
-        class="usage-pill"
-        class:at-limit={$usageStore.used >= $usageStore.limit}
-      >
-        {$usageStore.used}/{$usageStore.limit} analyses
-      </span>
+      {#if $isDemoUser}
+        <span
+          class="usage-pill"
+          class:at-limit={$usageStore.used >= $usageStore.limit}
+        >
+          {$usageStore.used}/{$usageStore.limit} analyses
+        </span>
+      {/if}
     {/if}
     <button onclick={handleLogout} class="logout-btn">Logout</button>
   </div>
@@ -80,7 +82,7 @@
         >{$authStore.user.email}</span
       >
     {/if}
-    {#if $usageStore !== null}
+    {#if $usageStore !== null && $isDemoUser === false}
       <span
         class="usage-pill"
         class:at-limit={$usageStore.used >= $usageStore.limit}
