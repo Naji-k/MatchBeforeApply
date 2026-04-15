@@ -9,6 +9,7 @@ class ProfileResponse(BaseModel):
     user_id: int
     cv_text: Optional[str] = None
     updated_at: Optional[datetime] = None
+    daily_analyses_used: int = 0
 
     class Config:
         from_attributes = True

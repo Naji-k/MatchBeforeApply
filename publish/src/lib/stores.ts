@@ -15,6 +15,11 @@ export const authStore = writable<AuthState>({
   error: null,
 });
 
+export const isDemoUser = writable(false);
+export function setIsDemoUser(value: boolean): void {
+  isDemoUser.set(value);
+}
+
 export function setToken(token: string | null): void {
   authStore.update((s) => ({ ...s, token, isAuthenticated: !!token }));
   if (typeof localStorage !== "undefined") {
@@ -29,6 +34,8 @@ export function setUser(user: User): void {
 
 export function logout(): void {
   setToken(null);
+  usageStore.set(null);
+  isDemoUser.set(false);
   authStore.update((s) => ({ ...s, user: null, isAuthenticated: false }));
 }
 
@@ -46,6 +53,22 @@ export const currentAppStore = writable<CurrentAppState>({
 });
 
 export const toastStore = writable<Toast | null>(null);
+
+const DAILY_LIMIT = 3;
+
+export const usageStore = writable<{ used: number; limit: number } | null>(
+  null,
+);
+
+export function setUsage(used: number): void {
+  usageStore.set({ used, limit: DAILY_LIMIT });
+}
+
+export function incrementUsage(): void {
+  usageStore.update((s) =>
+    s ? { ...s, used: Math.min(s.used + 1, DAILY_LIMIT) } : s,
+  );
+}
 
 export function showToast(
   message: string,

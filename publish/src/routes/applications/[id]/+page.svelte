@@ -3,7 +3,7 @@
   import { page } from "$app/state";
   import { onMount } from "svelte";
   import type { ApplicationStatus, CommentType } from "$lib/types.js";
-  import { currentAppStore, showToast } from "$lib/stores.js";
+  import { currentAppStore, incrementUsage, showToast } from "$lib/stores.js";
   import * as api from "$lib/api.js";
   import ResultsCard from "$lib/components/ResultsCard.svelte";
   import SkillChips from "$lib/components/SkillChips.svelte";
@@ -13,7 +13,8 @@
   import ScoreIndicator from "$lib/components/ScoreIndicator.svelte";
   import { formatDate } from "$lib/utils/helpers.js";
   import { STATUS_OPTIONS } from "$lib/types.js";
-  import { authStore } from "$lib/stores.js";
+  import { isDemoUser } from "$lib/stores.js";
+  import { trackEvent } from "$lib/utils/analytics.js";
 
   const COMMENT_TYPES: CommentType[] = [
     "general",
@@ -87,16 +88,20 @@
   }
 
   async function reanalyze(): Promise<void> {
-    if ($authStore.user?.id == import.meta.env.VITE_DEMO_USER) {
+    if ($isDemoUser) {
       showToast(
         "You're using the demo account 👀 Results are mock data — log in to see real analysis.",
         "info",
       );
+    } else {
+      incrementUsage();
     }
+
     reanalyzing = true;
     try {
       const updated = await api.analyzeApplication(page.params.id!);
       currentAppStore.update((s) => ({ ...s, app: updated }));
+      trackEvent("reanalyze_click");
       showToast("Analysis complete!", "success");
     } catch (err) {
       showToast((err as Error).message);
@@ -127,6 +132,7 @@
         ...s,
         comments: [...s.comments, comment],
       }));
+      trackEvent("comment_add", { type: newComment.type });
       newComment = { type: "general", question: "", comment: "" };
     } catch (err) {
       showToast((err as Error).message);

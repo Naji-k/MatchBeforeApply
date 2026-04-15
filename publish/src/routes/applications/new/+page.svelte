@@ -2,7 +2,8 @@
   import { goto } from "$app/navigation";
   import { createApplication, streamAnalysis, ApiError } from "$lib/api.js";
   import LoadingSteps from "$lib/components/LoadingSteps.svelte";
-  import { authStore, showToast } from "$lib/stores";
+  import { authStore, showToast, incrementUsage } from "$lib/stores";
+  import { trackEvent } from "$lib/utils/analytics";
 
   let jdMode = $state<"text" | "url">("text");
   let jdText = $state("");
@@ -23,9 +24,13 @@
     }
     if ($authStore.user?.id == import.meta.env.VITE_DEMO_USER) {
       showToast(
-        "You're using the demo account 👀 Results are mock data — log in to see real analysis.",
+        "You're using the demo account 👀 Results are mock data.",
         "info",
       );
+      trackEvent("demo_new_application_click");
+    } else {
+      incrementUsage();
+      trackEvent("new_application_click");
     }
     loading = true;
     try {

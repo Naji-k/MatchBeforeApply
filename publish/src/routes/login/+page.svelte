@@ -16,6 +16,7 @@
   import { login, register, googleAuth, getMe } from "$lib/api.js";
   import { validateEmail } from "$lib/utils/validation.js";
   import { onMount } from "svelte";
+  import { trackEvent } from "$lib/utils/analytics";
 
   let mode = $state<"login" | "signup">("login");
   let email = $state("");
@@ -46,11 +47,35 @@
     }
   });
 
+  async function handleDemoLogin() {
+    loading = true;
+    error = "";
+    const demo_username = import.meta.env.VITE_DEMO_USER_EMAIL;
+    const demo_password = import.meta.env.VITE_DEMO_USER_PASSWORD;
+    try {
+      const data = await login(demo_username, demo_password);
+      setToken(data.access_token);
+      const user = await getMe();
+      setUser(user);
+      showToast(
+        "👀 Demo mode — explore freely with mock data. Sign up free for 3 real analyses.",
+        "info",
+      );
+      trackEvent("login_demo");
+      goto("/applications");
+    } catch (err) {
+      error = (err as Error).message;
+    } finally {
+      loading = false;
+    }
+  }
+
   async function handleGoogleResponse(response: { credential: string }) {
     loading = true;
     error = "";
     try {
       const data = await googleAuth(response.credential);
+      trackEvent("sign-in", { method: "google" });
       setToken(data.access_token);
       const user = await getMe();
       setUser(user);
@@ -88,11 +113,13 @@
     try {
       if (mode === "signup") {
         await register(email, password, fullName.trim());
+        trackEvent("sign-up");
       }
       const data = await login(email, password);
       const token = data.access_token;
       setToken(token);
       const user = await getMe();
+      trackEvent("sign-in", { method: "email" });
       setUser(user);
       goto("/applications");
     } catch (err) {
@@ -261,25 +288,7 @@
         <button
           type="button"
           style="width:100%;padding:.75rem;font-size:.875rem;font-weight:600;background:rgba(0,0,0,.05);border:1px solid var(--color-border);border-radius:8px;color:var(--color-text);cursor:pointer;margin-top:.75rem;transition:background 200ms"
-          onclick={async () => {
-            loading = true;
-            error = "";
-            try {
-              const data = await login("user@user.com", "string");
-              setToken(data.access_token);
-              const user = await getMe();
-              setUser(user);
-              showToast(
-                "You're in demo mode 👀 You can explore with mock data, but analyzing resumes and saving applications are disabled. Log in to try it for real.",
-                "info",
-              );
-              goto("/applications");
-            } catch (err) {
-              error = (err as Error).message;
-            } finally {
-              loading = false;
-            }
-          }}
+          onclick={handleDemoLogin}
           disabled={loading}
         >
           {loading ? "Logging in…" : "Try Demo Account"}

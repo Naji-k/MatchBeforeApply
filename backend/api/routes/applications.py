@@ -1,7 +1,7 @@
 import json
 from typing import List
 
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.responses import StreamingResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -146,6 +146,8 @@ async def stream_analysis_route(
                 db, current_user.id, application_id
             ):
                 yield f"data: {json.dumps(event_data)}\n\n"
+        except HTTPException as exc:
+            yield f"data: {json.dumps({'type': 'error', 'message': exc.detail, 'status_code': exc.status_code})}\n\n"
         except Exception as e:
             yield f"data: {json.dumps({'type': 'error', 'message': str(e)})}\n\n"
 

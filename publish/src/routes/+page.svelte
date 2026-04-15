@@ -15,6 +15,7 @@
     FileCheck,
     Globe,
   } from "@lucide/svelte";
+  import { trackEvent } from "$lib/utils/analytics";
 
   let demoLoading = $state(false);
   let demoError = $state("");
@@ -37,13 +38,17 @@
 
   async function handleDemoLogin() {
     demoLoading = true;
+    const demo_username = import.meta.env.VITE_DEMO_USER_EMAIL;
+    const demo_password = import.meta.env.VITE_DEMO_USER_PASSWORD;
+
     demoError = "";
     try {
-      const data = await api.login("user@user.com", "string");
+      const data = await api.login(demo_username, demo_password);
       setToken(data.access_token);
       const user = await api.getMe();
       setUser(user);
       goto("/applications");
+      trackEvent("login_demo");
     } catch (err) {
       demoError = (err as Error).message;
     } finally {
@@ -68,15 +73,15 @@
   <div style="display:flex;align-items:center;gap:.75rem">
     <a
       href="#how-it-works"
-      // class="btn-secondary nav-login-link"
       style="text-decoration:none;padding:.45rem 1rem;font-size:.875rem;"
+      onclick={() => trackEvent("How_It_Works_Click")}
     >
       How it Works
     </a>
     <a
       href="#features"
-      // class="btn-secondary nav-login-link"
       style="text-decoration:none;padding:.45rem 1rem;font-size:.875rem"
+      onclick={() => trackEvent("features_click")}
     >
       Features
     </a>
