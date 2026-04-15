@@ -120,6 +120,17 @@ export function getMe(): Promise<User> {
   return request<User>("/api/auth/me");
 }
 
+export function sendVerification(): Promise<void> {
+  return request<void>("/api/auth/send-verification", { method: "POST" });
+}
+
+export function verifyEmail(code: string): Promise<User> {
+  return request<User>("/api/auth/verify-email", {
+    method: "POST",
+    json: { code },
+  });
+}
+
 // ── Profile ───────────────────────────────────────────
 export function getProfile(): Promise<Profile> {
   return request<Profile>("/api/profile");
@@ -181,7 +192,7 @@ export type AnalysisEvent =
   | { type: "step_start"; step: number; agent: string; label: string }
   | { type: "step_done"; step: number; agent: string }
   | { type: "done"; application: Application }
-  | { type: "error"; message: string };
+  | { type: "error"; message: string; status_code?: number };
 
 export async function* streamAnalysis(
   appId: number,

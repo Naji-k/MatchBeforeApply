@@ -32,6 +32,12 @@ export function setUser(user: User): void {
   authStore.update((s) => ({ ...s, user }));
 }
 
+export function setEmailVerified(): void {
+  authStore.update((s) =>
+    s.user ? { ...s, user: { ...s.user, is_email_verified: true } } : s,
+  );
+}
+
 export function logout(): void {
   setToken(null);
   usageStore.set(null);

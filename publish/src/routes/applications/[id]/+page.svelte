@@ -3,7 +3,12 @@
   import { page } from "$app/state";
   import { onMount } from "svelte";
   import type { ApplicationStatus, CommentType } from "$lib/types.js";
-  import { currentAppStore, incrementUsage, showToast } from "$lib/stores.js";
+  import {
+    authStore,
+    currentAppStore,
+    incrementUsage,
+    showToast,
+  } from "$lib/stores.js";
   import * as api from "$lib/api.js";
   import ResultsCard from "$lib/components/ResultsCard.svelte";
   import SkillChips from "$lib/components/SkillChips.svelte";
@@ -88,6 +93,14 @@
   }
 
   async function reanalyze(): Promise<void> {
+    if (!$authStore.user?.is_email_verified) {
+      showToast(
+        "Please verify your email before running analyses. Go to Profile to verify.",
+        "error",
+      );
+      return;
+    }
+
     if ($isDemoUser) {
       showToast(
         "You're using the demo account 👀 Results are mock data — log in to see real analysis.",
