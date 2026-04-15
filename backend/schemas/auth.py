@@ -15,9 +15,14 @@ class UserResponse(BaseModel):
     email: str
     full_name: Optional[str]
     created_at: datetime
+    is_email_verified: bool = True
 
     class Config:
         from_attributes = True
+
+
+class VerifyEmailRequest(BaseModel):
+    code: str
 
 
 class UserLogin(BaseModel):

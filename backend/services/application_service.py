@@ -5,7 +5,7 @@ from fastapi import HTTPException, status
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from db.models import Application, ApplicationComment
+from db.models import Application, ApplicationComment, User
 from schemas.application import (
     ApplicationCreate,
     ApplicationResponse,
@@ -141,6 +141,16 @@ async def analyze_application(
 async def stream_and_persist_analysis(
     db: AsyncSession, user_id: int, application_id: int
 ) -> AsyncGenerator[dict, None]:
+    user_result = await db.execute(select(User).where(User.id == user_id))
+    user = user_result.scalar_one_or_none()
+    if not user or not user.is_email_verified:
+        yield {
+            "type": "error",
+            "message": "Please verify your email before running analyses.",
+            "status_code": 403,
+        }
+        return
+
     app = await get_application(db, user_id, application_id)
     profile = await get_or_create_profile(db, user_id)
     if not profile.cv_text:

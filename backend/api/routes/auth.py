@@ -9,8 +9,21 @@ from core.middleware import get_current_user
 from core.security import create_access_token
 from db.database import get_db
 from db.models import User
-from schemas.auth import GoogleAuthRequest, Token, UserCreate, UserResponse
-from services.auth_service import authenticate_user, google_auth_user, register_user
+from schemas.auth import (
+    GoogleAuthRequest,
+    Token,
+    UserCreate,
+    UserResponse,
+    VerifyEmailRequest,
+)
+from services.auth_service import (
+    authenticate_user,
+    generate_and_save_otp,
+    google_auth_user,
+    register_user,
+    verify_otp_code,
+)
+from services.email_service import send_otp_email
 
 router = APIRouter(prefix="/api/auth", tags=["auth"])
 """
@@ -80,4 +93,33 @@ async def google_login(body: GoogleAuthRequest, db: AsyncSession = Depends(get_d
 
 @router.get("/me", response_model=UserResponse)
 async def me(current_user: User = Depends(get_current_user)):
+    return current_user
+
+
+@router.post("/send-verification", status_code=204)
+async def send_verification(
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+):
+    if current_user.is_email_verified:
+        return
+    otp = await generate_and_save_otp(db, current_user)
+    send_otp_email(current_user.email, otp)
+
+
+@router.post("/verify-email", response_model=UserResponse)
+async def verify_email(
+    body: VerifyEmailRequest,
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+):
+    if current_user.is_email_verified:
+        return current_user
+    ok = await verify_otp_code(db, current_user, body.code)
+    if not ok:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Invalid or expired code. Please request a new one.",
+        )
+    await db.refresh(current_user)
     return current_user
