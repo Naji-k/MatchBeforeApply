@@ -1,9 +1,9 @@
 from fastapi import APIRouter, BackgroundTasks, Depends
+from pydantic import BaseModel
 
 from core.middleware import get_current_user
 from db.models import User
 from services.email_service import send_feedback_email
-from pydantic import BaseModel
 
 
 class FeedbackRequest(BaseModel):
