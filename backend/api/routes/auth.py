@@ -2,7 +2,6 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from google.oauth2 import id_token
 from google.auth.transport import requests as google_requests
-from pydantic import BaseModel
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from core.config import settings
@@ -24,11 +23,7 @@ from services.auth_service import (
     register_user,
     verify_otp_code,
 )
-from services.email_service import send_feedback_email, send_otp_email
-
-
-class FeedbackRequest(BaseModel):
-    message: str
+from services.email_service import send_otp_email
 
 
 router = APIRouter(prefix="/api/auth", tags=["auth"])
@@ -129,15 +124,3 @@ async def verify_email(
         )
     await db.refresh(current_user)
     return current_user
-
-
-@router.post("/feedback", status_code=204)
-async def submit_feedback(
-    body: FeedbackRequest,
-    current_user: User = Depends(get_current_user),
-):
-    send_feedback_email(
-        user_name=current_user.full_name or current_user.email,
-        user_email=current_user.email,
-        message=body.message,
-    )

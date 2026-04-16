@@ -9,6 +9,7 @@ load_dotenv()
 from api.routes.applications import router as applications_router  # noqa: E402
 from api.routes.auth import router as auth_router  # noqa: E402
 from api.routes.profile import router as profile_router  # noqa: E402
+from api.routes.feedback import router as feedback_router  # noqa: E402
 
 
 # Database initialization on startup
@@ -36,3 +37,4 @@ app.add_middleware(
 app.include_router(auth_router)
 app.include_router(profile_router)
 app.include_router(applications_router)
+app.include_router(feedback_router)
