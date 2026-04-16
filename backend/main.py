@@ -24,8 +24,8 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:5173",
-        "https://matchbeforeapply.app",
-        "https://www.matchbeforeapply.app",
+        "https://matchbeforeapply.com",
+        "https://www.matchbeforeapply.com",
         "https://matchbeforeapply.up.railway.app",
     ],
     allow_credentials=True,
