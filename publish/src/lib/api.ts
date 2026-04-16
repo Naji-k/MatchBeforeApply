@@ -131,6 +131,13 @@ export function verifyEmail(code: string): Promise<User> {
   });
 }
 
+export function submitFeedback(message: string): Promise<void> {
+  return request<void>("/api/auth/feedback", {
+    method: "POST",
+    json: { message },
+  });
+}
+
 // ── Profile ───────────────────────────────────────────
 export function getProfile(): Promise<Profile> {
   return request<Profile>("/api/profile");
