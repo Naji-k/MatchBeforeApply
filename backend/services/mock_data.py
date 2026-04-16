@@ -144,19 +144,10 @@ mock2 = {
 
 mock3 = {
     "match_result": {
-        "overall_score": 3,
-        "skills_score": 3,
-        "experience_score": 4,
+        "overall_score": 9,
+        "skills_score": 9,
+        "experience_score": 8,
         "matched_skills": [
-            "Python",
-            "Linux",
-            "AWS",
-            "Docker",
-            "GitHub",
-            "Bash scripting",
-            "Deployment",
-        ],
-        "missing_skills": [
             "Kubernetes",
             "Terraform",
             "Ansible",
@@ -170,22 +161,32 @@ mock3 = {
             "Monitoring tools",
             "Log aggregation",
             "ELK stack",
+            "Docker",
+            "AWS",
+            "Python",
+            "Bash scripting",
+            "GitActions",
+            "Configuration Management",
+            "Automation",
         ],
-        "summary": "Sarah has foundational experience with Python, Linux, and AWS, with basic Docker knowledge. However, her background is primarily in frontend development with limited DevOps infrastructure exposure. She lacks critical DevOps skills including Kubernetes orchestration, Infrastructure as Code tools (Terraform, Ansible), CI/CD pipeline management (Jenkins), and observability solutions (Prometheus, Grafana). Significant upskilling would be required for this DevOps engineer role.",
+        "missing_skills": [
+            "Vault",
+            "Consul",
+            "New Relic",
+        ],
+        "summary": "Sarah is an exceptional DevOps engineer with 6+ years of hands-on experience in Kubernetes orchestration, Terraform IaC, and Jenkins CI/CD pipeline automation. She demonstrates mastery across the entire DevOps stack including Prometheus/Grafana monitoring, ArgoCD GitOps, Ansible configuration management, and ELK logging solutions. Her proven expertise in AWS cloud infrastructure, Docker containerization, and shell scripting aligns perfectly with all core requirements. She would be an immediate high-impact hire requiring minimal onboarding.",
     },
     "ats_tips": {
         "tips": [
-            "Learn and add Kubernetes to your skills—it's essential for modern DevOps roles",
-            "Take a course on Terraform or CloudFormation for Infrastructure as Code",
-            "Gain hands-on experience with Jenkins or GitLab CI for pipeline automation",
-            "Add Prometheus and Grafana experience to your monitoring toolkit",
-            "Document any CI/CD or automation projects, even if small-scale",
-            "Consider learning Ansible for configuration management",
+            "Your Kubernetes expertise is highlighted prominently—excellent alignment with role",
+            "CI/CD pipeline projects showcase strong technical depth",
+            "Consider adding Vault for secrets management to enhance security profile",
+            "Mention specific infrastructure scaling achievements (e.g., '500+ microservices')",
         ]
     },
     "jd_data": {
-        "job_title": "DevOps Engineer",
-        "company": "CloudScale Inc",
+        "job_title": "Senior DevOps Engineer",
+        "company": "TechScale Cloud",
         "required_skills": [
             "Kubernetes",
             "Terraform",
@@ -203,7 +204,7 @@ mock3 = {
             "Infrastructure as Code",
         ],
         "nice_to_have": ["Helm", "ELK stack", "Log aggregation"],
-        "experience_required": "3+ years",
+        "experience_required": "6+ years",
         "keywords": [
             "devops",
             "kubernetes",
@@ -211,6 +212,7 @@ mock3 = {
             "automation",
             "cloud",
             "ci-cd",
+            "GitActions",
         ],
     },
 }
