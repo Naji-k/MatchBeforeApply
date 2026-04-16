@@ -51,6 +51,14 @@
             goto(`/applications/${app.id}`);
             return;
           } else if (event.type === "error") {
+            if (event.status_code === 403) {
+              loading = false;
+              currentStep = -1;
+              doneSteps = new Set();
+              error =
+                "Please verify your email before running analyses. Go to Profile to verify.";
+              return;
+            }
             throw new Error(event.message);
           }
         }

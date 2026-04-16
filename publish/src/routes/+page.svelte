@@ -16,8 +16,10 @@
     Globe,
   } from "@lucide/svelte";
   import { trackEvent } from "$lib/utils/analytics";
+  import BrandTitle from "$lib/components/BrandTitle.svelte";
 
   let demoLoading = $state(false);
+  let menuOpen = $state(false);
   let demoError = $state("");
 
   const previewScore = 7.8;
@@ -67,33 +69,65 @@
 
 <!-- ── Landing Nav ── -->
 <header class="landing-nav">
-  <a href="/" class="brand">
-    Match Before <span style="color:var(--color-accent)">Apply</span>
+  <a href="/" class="brand-link">
+    <BrandTitle />
   </a>
-  <div style="display:flex;align-items:center;gap:.75rem">
+
+  <!-- Desktop links (hidden on mobile) -->
+  <div class="landing-desktop-links">
     <a
       href="#how-it-works"
-      style="text-decoration:none;padding:.45rem 1rem;font-size:.875rem;"
+      class="nav-link"
       onclick={() => trackEvent("How_It_Works_Click")}
     >
       How it Works
     </a>
     <a
       href="#features"
-      style="text-decoration:none;padding:.45rem 1rem;font-size:.875rem"
+      class="nav-link"
       onclick={() => trackEvent("features_click")}
     >
       Features
     </a>
+    <a href="/login" class="btn-primary nav-cta">Get started free</a>
+  </div>
+
+  <!-- Hamburger (mobile only) -->
+  <button
+    class="landing-hamburger"
+    onclick={() => (menuOpen = !menuOpen)}
+    aria-label="Toggle menu"
+  >
+    {menuOpen ? "✕" : "☰"}
+  </button>
+</header>
+
+<!-- Mobile dropdown -->
+{#if menuOpen}
+  <nav class="landing-mobile-menu">
     <a
-      href="/login"
-      class="btn-primary"
-      style="text-decoration:none;padding:.45rem 1rem;font-size:.875rem"
+      href="#how-it-works"
+      onclick={() => {
+        menuOpen = false;
+        trackEvent("How_It_Works_Click");
+      }}
     >
+      How it Works
+    </a>
+    <a
+      href="#features"
+      onclick={() => {
+        menuOpen = false;
+        trackEvent("features_click");
+      }}
+    >
+      Features
+    </a>
+    <a href="/login" class="btn-primary" onclick={() => (menuOpen = false)}>
       Get started free
     </a>
-  </div>
-</header>
+  </nav>
+{/if}
 
 <!-- ── Hero ── -->
 <section class="hero-section">
@@ -346,10 +380,8 @@
 
 <!-- ── Footer ── -->
 <footer class="site-footer">
-  <p
-    style="font-size:.875rem;font-weight:700;color:var(--color-text-primary);margin:0 0 .35rem"
-  >
-    Match Before <span style="color:var(--color-accent)">Apply</span>
+  <p style="margin:0 0 .35rem">
+    <BrandTitle />
   </p>
   <div
     style="display:flex;align-items:center;justify-content:center;gap:.5rem;flex-wrap:wrap"
@@ -391,11 +423,65 @@
     justify-content: space-between;
   }
 
-  .brand {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--color-text-primary);
+  .brand-link {
     text-decoration: none;
+  }
+
+  .landing-desktop-links {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .nav-link {
+    text-decoration: none;
+    padding: 0.45rem 1rem;
+    font-size: 0.875rem;
+    color: var(--color-text-primary);
+  }
+
+  .nav-cta {
+    text-decoration: none;
+    padding: 0.45rem 1rem;
+    font-size: 0.875rem;
+  }
+
+  .landing-hamburger {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.25rem;
+    cursor: pointer;
+    color: var(--color-text-primary);
+    padding: 0.25rem;
+  }
+
+  .landing-mobile-menu {
+    position: sticky;
+    top: 3.75rem;
+    z-index: 40;
+    background: rgba(248, 250, 252, 0.97);
+    border-bottom: 1px solid var(--color-border);
+    display: flex;
+    flex-direction: column;
+    padding: 0.75rem 1.5rem 1rem;
+    gap: 0.25rem;
+  }
+
+  .landing-mobile-menu a {
+    text-decoration: none;
+    padding: 0.6rem 0.5rem;
+    font-size: 0.9rem;
+    color: var(--color-text-primary);
+  }
+
+  @media (max-width: 640px) {
+    .landing-desktop-links {
+      display: none;
+    }
+    .landing-hamburger {
+      display: block;
+    }
   }
 
   /* ── Hero ── */

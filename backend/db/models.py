@@ -2,6 +2,7 @@ import enum
 from datetime import datetime
 
 from sqlalchemy import (
+    Boolean,
     Column,
     Date,
     Integer,
@@ -40,6 +41,11 @@ class User(Base):
     full_name = Column(String(255), nullable=True)
     google_id = Column(String(255), unique=True, nullable=True, index=True)
     auth_provider = Column(String(50), nullable=False, server_default="local")
+    is_email_verified = Column(
+        Boolean, nullable=False, default=False, server_default="true"
+    )
+    otp_code = Column(String(6), nullable=True)
+    otp_expires_at = Column(DateTime, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
 
     profile = relationship("UserProfile", back_populates="user", uselist=False)

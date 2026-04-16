@@ -14,6 +14,7 @@
   import { get } from "svelte/store";
   import { authStore, setToken, setUser, showToast } from "$lib/stores.js";
   import { login, register, googleAuth, getMe } from "$lib/api.js";
+  import EmailVerification from "$lib/components/EmailVerification.svelte";
   import { validateEmail } from "$lib/utils/validation.js";
   import { onMount } from "svelte";
   import { trackEvent } from "$lib/utils/analytics";
@@ -24,6 +25,8 @@
   let fullName = $state("");
   let loading = $state(false);
   let error = $state("");
+  let showVerification = $state(false);
+  let registeredEmail = $state("");
 
   onMount(() => {
     if (get(authStore).isAuthenticated) {
@@ -121,6 +124,12 @@
       const user = await getMe();
       trackEvent("sign-in", { method: "email" });
       setUser(user);
+      if (mode === "signup" && !user.is_email_verified) {
+        registeredEmail = email;
+        showVerification = true;
+        loading = false;
+        return;
+      }
       goto("/applications");
     } catch (err) {
       error = (err as Error).message;
@@ -138,164 +147,191 @@
 <div
   style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1rem;background:var(--color-bg)"
 >
-  <div style="width:100%;max-width:420px">
-    <!-- Hero -->
-    <div style="text-align:center;margin-bottom:2rem">
-      <h1 style="font-size:2rem;font-weight:800;letter-spacing:-1px">
-        Match Before
-        <span style="color:var(--color-accent)">Apply</span>
-      </h1>
-      <p style="color:var(--color-text-muted);margin-top:.5rem">
-        {mode === "signup" ? "Create your account" : "Welcome back"}
+  {#if showVerification}
+    <div style="width:100%;max-width:420px">
+      <div style="text-align:center;margin-bottom:1.5rem">
+        <h1 style="font-size:2rem;font-weight:800;letter-spacing:-1px">
+          Match Before
+          <span style="color:var(--color-accent)">Apply</span>
+        </h1>
+        <p style="color:var(--color-text-muted);margin-top:.5rem">
+          Check your inbox
+        </p>
+      </div>
+      <EmailVerification
+        email={registeredEmail}
+        onVerified={() => goto("/applications")}
+      />
+      <p
+        style="text-align:center;font-size:.875rem;color:var(--color-text-muted);margin-top:1rem"
+      >
+        <a href="/applications" style="color:var(--color-accent)"
+          >Skip for now →</a
+        >
       </p>
     </div>
+  {:else}
+    <div style="width:100%;max-width:420px">
+      <!-- Hero -->
+      <div style="text-align:center;margin-bottom:2rem">
+        <h1 style="font-size:2rem;font-weight:800;letter-spacing:-1px">
+          Match Before
+          <span style="color:var(--color-accent)">Apply</span>
+        </h1>
+        <p style="color:var(--color-text-muted);margin-top:.5rem">
+          {mode === "signup" ? "Create your account" : "Welcome back"}
+        </p>
+      </div>
 
-    <form
-      class="card"
-      style="display:flex;flex-direction:column;gap:0.7rem"
-      onsubmit={handleSubmit}
-    >
-      {#if error}
-        <div
-          style="background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.3);color:#f87171;font-size:.875rem;padding:.75rem 1rem;border-radius:10px"
-        >
-          {error}
-        </div>
-      {/if}
+      <form
+        class="card"
+        style="display:flex;flex-direction:column;gap:0.7rem"
+        onsubmit={handleSubmit}
+      >
+        {#if error}
+          <div
+            style="background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.3);color:#f87171;font-size:.875rem;padding:.75rem 1rem;border-radius:10px"
+          >
+            {error}
+          </div>
+        {/if}
 
-      {#if mode === "signup"}
+        {#if mode === "signup"}
+          <div
+            style="display:flex;flex-direction:column;gap:.5rem;margin:.75rem"
+          >
+            <label
+              for="fullName"
+              style="font-size:.85rem;font-weight:600;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:.05em;"
+              >Full Name</label
+            >
+            <input
+              id="fullName"
+              type="text"
+              class="input-field"
+              bind:value={fullName}
+              placeholder="Jane Smith"
+              required
+            />
+          </div>
+        {/if}
+
         <div style="display:flex;flex-direction:column;gap:.5rem;margin:.75rem">
           <label
-            for="fullName"
+            for="email"
             style="font-size:.85rem;font-weight:600;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:.05em;"
-            >Full Name</label
+            >Email</label
           >
           <input
-            id="fullName"
-            type="text"
+            id="email"
+            type="email"
             class="input-field"
-            bind:value={fullName}
-            placeholder="Jane Smith"
+            bind:value={email}
+            placeholder="you@example.com"
             required
           />
         </div>
-      {/if}
 
-      <div style="display:flex;flex-direction:column;gap:.5rem;margin:.75rem">
-        <label
-          for="email"
-          style="font-size:.85rem;font-weight:600;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:.05em;"
-          >Email</label
-        >
-        <input
-          id="email"
-          type="email"
-          class="input-field"
-          bind:value={email}
-          placeholder="you@example.com"
-          required
-        />
-      </div>
-
-      <div style="display:flex;flex-direction:column;gap:.5rem;margin:.75rem">
-        <label
-          for="password"
-          style="font-size:.85rem;font-weight:600;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:.05em"
-          >Password</label
-        >
-        <input
-          id="password"
-          type="password"
-          class="input-field"
-          bind:value={password}
-          placeholder="••••••••"
-          required
-        />
-      </div>
-
-      <button
-        type="submit"
-        class="btn-primary"
-        style="width:80%;padding:.75rem;font-size:1rem;margin:auto;"
-        disabled={loading}
-      >
-        {#if loading}
-          <span
-            style="display:inline-flex;align-items:center;gap:.5rem;justify-content:center"
+        <div style="display:flex;flex-direction:column;gap:.5rem;margin:.75rem">
+          <label
+            for="password"
+            style="font-size:.85rem;font-weight:600;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:.05em"
+            >Password</label
           >
-            <svg
-              style="width:1rem;height:1rem;animation:spin 1s linear infinite"
-              viewBox="0 0 24 24"
-              fill="none"
-            >
-              <circle
-                opacity=".25"
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                stroke-width="4"
-              />
-              <path
-                opacity=".75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-              />
-            </svg>
-            {mode === "signup" ? "Creating account…" : "Signing in…"}
-          </span>
-        {:else}
-          {mode === "signup" ? "Create account" : "Log in"}
-        {/if}
-      </button>
+          <input
+            id="password"
+            type="password"
+            class="input-field"
+            bind:value={password}
+            placeholder="••••••••"
+            required
+          />
+        </div>
 
-      <!-- Divider -->
-      <div
-        style="display:flex;align-items:center;gap:.75rem;margin:.25rem .75rem 0"
-      >
-        <div style="flex:1;height:1px;background:var(--color-border)"></div>
-        <span style="font-size:.8rem;color:var(--color-text-muted)">or</span>
-        <div style="flex:1;height:1px;background:var(--color-border)"></div>
-      </div>
-
-      <!-- Google Sign-In button -->
-      <div
-        style="display:flex;justify-content:center;margin:.25rem .75rem .5rem"
-      >
-        <div id="google-btn"></div>
-      </div>
-      {#if import.meta.env.VITE_ENABLE_SIGNUP === "true"}
-        <p
-          style="text-align:center;font-size:.875rem;color:var(--color-text-muted);margin-bottom:.75rem"
-        >
-          {#if mode === "login"}
-            Don't have an account?
-            <button
-              type="button"
-              style="background:none;border:none;color:var(--color-accent);cursor:pointer;font-size:.875rem;font-weight:600;padding:0"
-              onclick={() => switchMode("signup")}>Sign up</button
-            >
-          {:else}
-            Already have an account?
-            <button
-              type="button"
-              style="background:none;border:none;color:var(--color-accent);cursor:pointer;font-size:.875rem;font-weight:600;padding:0"
-              onclick={() => switchMode("login")}>Log in</button
-            >
-          {/if}
-        </p>
-      {:else}
         <button
-          type="button"
-          style="width:100%;padding:.75rem;font-size:.875rem;font-weight:600;background:rgba(0,0,0,.05);border:1px solid var(--color-border);border-radius:8px;color:var(--color-text);cursor:pointer;margin-top:.75rem;transition:background 200ms"
-          onclick={handleDemoLogin}
+          type="submit"
+          class="btn-primary"
+          style="width:80%;padding:.75rem;font-size:1rem;margin:auto;"
           disabled={loading}
         >
-          {loading ? "Logging in…" : "Try Demo Account"}
+          {#if loading}
+            <span
+              style="display:inline-flex;align-items:center;gap:.5rem;justify-content:center"
+            >
+              <svg
+                style="width:1rem;height:1rem;animation:spin 1s linear infinite"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <circle
+                  opacity=".25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  stroke-width="4"
+                />
+                <path
+                  opacity=".75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                />
+              </svg>
+              {mode === "signup" ? "Creating account…" : "Signing in…"}
+            </span>
+          {:else}
+            {mode === "signup" ? "Create account" : "Log in"}
+          {/if}
         </button>
-      {/if}
-    </form>
-  </div>
+
+        <!-- Divider -->
+        <div
+          style="display:flex;align-items:center;gap:.75rem;margin:.25rem .75rem 0"
+        >
+          <div style="flex:1;height:1px;background:var(--color-border)"></div>
+          <span style="font-size:.8rem;color:var(--color-text-muted)">or</span>
+          <div style="flex:1;height:1px;background:var(--color-border)"></div>
+        </div>
+
+        <!-- Google Sign-In button -->
+        <div
+          style="display:flex;justify-content:center;margin:.25rem .75rem .5rem"
+        >
+          <div id="google-btn"></div>
+        </div>
+        {#if import.meta.env.VITE_ENABLE_SIGNUP === "true"}
+          <p
+            style="text-align:center;font-size:.875rem;color:var(--color-text-muted);margin-bottom:.75rem"
+          >
+            {#if mode === "login"}
+              Don't have an account?
+              <button
+                type="button"
+                style="background:none;border:none;color:var(--color-accent);cursor:pointer;font-size:.875rem;font-weight:600;padding:0"
+                onclick={() => switchMode("signup")}>Sign up</button
+              >
+            {:else}
+              Already have an account?
+              <button
+                type="button"
+                style="background:none;border:none;color:var(--color-accent);cursor:pointer;font-size:.875rem;font-weight:600;padding:0"
+                onclick={() => switchMode("login")}>Log in</button
+              >
+            {/if}
+          </p>
+        {:else}
+          <button
+            type="button"
+            style="width:100%;padding:.75rem;font-size:.875rem;font-weight:600;background:rgba(0,0,0,.05);border:1px solid var(--color-border);border-radius:8px;color:var(--color-text);cursor:pointer;margin-top:.75rem;transition:background 200ms"
+            onclick={handleDemoLogin}
+            disabled={loading}
+          >
+            {loading ? "Logging in…" : "Try Demo Account"}
+          </button>
+        {/if}
+      </form>
+    </div>
+  {/if}
 </div>
 
 <style>

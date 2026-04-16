@@ -20,6 +20,8 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 1440  # 24 hours
     ENV: str = "development"
     DEMO_USER: int | None = None
+    RESEND_TOKEN: str = ""
+    RESEND_FROM_EMAIL: str = "noreply@matchbeforely.app"
 
     @computed_field
     @property

@@ -5,6 +5,7 @@
   import { authStore, logout, showToast } from "$lib/stores.js";
   import { getProfile, uploadCV } from "$lib/api.js";
   import { formatDate } from "$lib/utils/helpers.js";
+  import EmailVerification from "$lib/components/EmailVerification.svelte";
 
   let profile = $state<Profile | null>(null);
   let loading = $state(true);
@@ -85,6 +86,11 @@
         {$authStore.user.email}
       </p>
     </div>
+  {/if}
+
+  <!-- Email verification -->
+  {#if $authStore.user && !$authStore.user.is_email_verified}
+    <EmailVerification email={$authStore.user.email} onVerified={() => {}} />
   {/if}
 
   <!-- CV upload -->

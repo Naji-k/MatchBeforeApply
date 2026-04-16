@@ -27,6 +27,6 @@ Analyze the CV against the job description and return ONLY a valid JSON object w
   ]
 }}
 
-Provide 5-8 actionable tips. Focus on concrete changes the candidate can make.
+Provide 3-5 actionable tips. Focus on concrete changes the candidate can make.
 Return only the JSON. No markdown, no explanation.""",
 )
