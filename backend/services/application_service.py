@@ -194,8 +194,9 @@ async def _run_and_persist_analysis(
         if event["type"] == "done":
             break
         if event["type"] == "error":
+            status_code = event.get("status_code", status.HTTP_422_UNPROCESSABLE_ENTITY)
             raise HTTPException(
-                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                status_code=status_code,
                 detail=event["message"],
             )
     return await get_application(db, user_id, app.id)

@@ -319,16 +319,16 @@
               >
             {/if}
           </p>
+        {:else}
+          <button
+            type="button"
+            style="width:100%;padding:.75rem;font-size:.875rem;font-weight:600;background:rgba(0,0,0,.05);border:1px solid var(--color-border);border-radius:8px;color:var(--color-text);cursor:pointer;margin-top:.75rem;transition:background 200ms"
+            onclick={handleDemoLogin}
+            disabled={loading}
+          >
+            {loading ? "Logging in…" : "Try Demo Account"}
+          </button>
         {/if}
-        <button
-          type="button"
-          style="width:100%;padding:.75rem;font-size:.875rem;font-weight:600;background:rgba(0,0,0,.05);border:1px solid var(--color-border);border-radius:8px;color:var(--color-text);cursor:pointer;margin-top:.75rem;transition:background 200ms"
-          onclick={handleDemoLogin}
-          disabled={loading}
-        >
-          {loading ? "Logging in…" : "Try Demo Account"}
-        </button>
-        <!-- {/if} -->
       </form>
     </div>
   {/if}
