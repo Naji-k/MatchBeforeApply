@@ -5,24 +5,24 @@ from core.config import settings
 
 def send_feedback_email(user_name: str, user_email: str, message: str) -> None:
     resend.api_key = settings.RESEND_TOKEN
-    userEmail = html.escape(user_email)
-    userName = html.escape(user_name)
-    userMessage = html.escape(message)
+    user_email_escaped = html.escape(user_email)
+    user_name_escaped = html.escape(user_name)
+    user_message_escaped = html.escape(message)
 
     resend.Emails.send(
         {
             "from": settings.RESEND_FROM_EMAIL,
             "to": ["support@matchbeforeapply.com"],
-            "subject": f"Feedback from {user_name}",
+            "subject": f"Feedback from {user_name_escaped}",
             "html": f"""
                 <div style="font-family: sans-serif; max-width: 480px; margin: 0 auto; padding: 2rem;">
                   <h1 style="font-size: 1.5rem; font-weight: 800; letter-spacing: -1px">
                     Match Before <span style="color: #2563eb">Apply</span>
                   </h1>
                   <h2 style="margin-bottom: 0.5rem">New Feedback</h2>
-                  <p style="color: #555;"><strong>From:</strong> {userName} ({userEmail})</p>
+                  <p style="color: #555;"><strong>From:</strong> {user_name_escaped} ({user_email_escaped})</p>
                   <div style="background: #f4f4f5; border-radius: 10px; padding: 1rem 1.5rem; margin-top: 1rem;">
-                    <p style="white-space: pre-wrap; margin: 0;">{userMessage}</p>
+                    <p style="white-space: pre-wrap; margin: 0;">{user_message_escaped}</p>
                   </div>
                 </div>
             """,
