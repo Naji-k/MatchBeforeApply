@@ -21,7 +21,7 @@ class Settings(BaseSettings):
     ENV: str = "development"
     DEMO_USER: int | None = None
     RESEND_TOKEN: str = ""
-    RESEND_FROM_EMAIL: str = "noreply@matchbeforely.app"
+    RESEND_FROM_EMAIL: str = "noreply@matchbeforeapply.com"
 
     @computed_field
     @property

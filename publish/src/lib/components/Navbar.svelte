@@ -2,8 +2,10 @@
   import { goto } from "$app/navigation";
   import { page } from "$app/state";
   import { authStore, logout, usageStore, isDemoUser } from "$lib/stores.js";
+  import FeedbackModal from "$lib/components/FeedbackModal.svelte";
 
   let menuOpen = $state(false);
+  let feedbackOpen = $state(false);
 
   function handleLogout() {
     logout();
@@ -52,6 +54,9 @@
         </span>
       {/if}
     {/if}
+    <button class="feedback-btn" onclick={() => (feedbackOpen = true)}
+      >Feedback</button
+    >
     <button onclick={handleLogout} class="logout-btn">Logout</button>
   </div>
 
@@ -92,11 +97,23 @@
       </span>
     {/if}
     <button
+      class="feedback-btn"
+      style="text-align:left;padding:.5rem 0"
+      onclick={() => {
+        menuOpen = false;
+        feedbackOpen = true;
+      }}>Feedback</button
+    >
+    <button
       onclick={handleLogout}
       class="logout-btn"
       style="text-align:left;padding:.5rem 0">Logout</button
     >
   </div>
+{/if}
+
+{#if feedbackOpen}
+  <FeedbackModal onclose={() => (feedbackOpen = false)} />
 {/if}
 
 <style>
@@ -169,6 +186,18 @@
   }
   .logout-btn:hover {
     color: var(--color-danger);
+  }
+  .feedback-btn {
+    background: none;
+    border: none;
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: color 0.2s;
+    padding: 0;
+  }
+  .feedback-btn:hover {
+    color: var(--color-accent);
   }
   .hamburger {
     display: none;

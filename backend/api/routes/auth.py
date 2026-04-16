@@ -25,6 +25,7 @@ from services.auth_service import (
 )
 from services.email_service import send_otp_email
 
+
 router = APIRouter(prefix="/api/auth", tags=["auth"])
 """
 Authentication endpoints:
