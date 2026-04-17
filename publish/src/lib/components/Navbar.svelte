@@ -45,7 +45,7 @@
       >
     {/if}
     {#if $usageStore !== null}
-      {#if $isDemoUser}
+      {#if !$isDemoUser}
         <span
           class="usage-pill"
           class:at-limit={$usageStore.used >= $usageStore.limit}
