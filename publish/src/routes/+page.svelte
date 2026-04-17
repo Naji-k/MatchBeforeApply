@@ -89,7 +89,7 @@
     >
       Features
     </a>
-    <a href="/login" class="btn-primary nav-cta">Get started free</a>
+    <a href="/login" class="btn-primary nav-cta">Get started</a>
   </div>
 
   <!-- Hamburger (mobile only) -->
@@ -124,7 +124,7 @@
       Features
     </a>
     <a href="/login" class="btn-primary" onclick={() => (menuOpen = false)}>
-      Get started free
+      Get started
     </a>
   </nav>
 {/if}
@@ -158,7 +158,7 @@
         class="btn-secondary hero-cta"
         style="text-decoration:none"
       >
-        Get started free
+        Get started for free
       </a>
     </div>
 
@@ -370,7 +370,7 @@
     <p class="final-cta-sub">
       Know your match. Track your applications. Stay in control.
     </p>
-    <a href="/login" class="final-cta-btn">Get started free</a>
+    <a href="/login" class="final-cta-btn">Get started for free</a>
     <p class="final-cta-disclaimer">
       No credit card required &middot; 3 free analyses per day
     </p>
