@@ -63,7 +63,7 @@
   <title>Match Before Apply — Know your match before you apply</title>
   <meta
     name="description"
-    content="Upload your CV, paste a job description, and get a clear match score, key gaps, and ATS insights — then track every application in one place."
+    content="Upload your CV, paste a job description or job post URL, and get a clear match score, key gaps, and ATS insights — then track every application in one place."
   />
 </svelte:head>
 
@@ -181,7 +181,7 @@
       <h2 class="section-title">A smarter way to apply</h2>
     </div>
     <div class="steps-grid">
-      {#each [{ n: "01", title: "Upload your CV", desc: "Start with your experience and skills.", icon: FileUp }, { n: "02", title: "Paste the job description", desc: "Compare your profile with the role — paste the job description or drop in a URL.", icon: ClipboardPaste }, { n: "03", title: "Get your match", desc: "See your match score and gaps instantly.", icon: BadgePercent }, { n: "04", title: "Track your application", desc: "Save it, add notes, and follow its status.", icon: Kanban }] as step}
+      {#each [{ n: "01", title: "Upload your CV", desc: "Start with your experience and skills.", icon: FileUp }, { n: "02", title: "Paste the job description or URL", desc: "Compare your profile with the role — paste the job description or drop in a URL.", icon: ClipboardPaste }, { n: "03", title: "Get your match", desc: "See your match score and gaps instantly.", icon: BadgePercent }, { n: "04", title: "Track your application", desc: "Save it, add notes, and follow its status.", icon: Kanban }] as step}
         <div
           class="card"
           style="display:flex;flex-direction:column;gap:.75rem;padding:1.5rem"

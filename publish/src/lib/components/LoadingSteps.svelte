@@ -57,7 +57,7 @@
     style="text-align:center;padding:3rem 2rem;max-width:400px;width:100%"
   >
     <h2 style="font-size:1.4rem;font-weight:700;margin-bottom:2rem">
-      Analyzing your CV…
+      Analyzing your CV estimated time: ~50 seconds
     </h2>
     <ul
       style="list-style:none;display:flex;flex-direction:column;gap:.85rem;text-align:left;max-width:300px;margin:0 auto"
