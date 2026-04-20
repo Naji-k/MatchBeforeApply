@@ -175,7 +175,7 @@
 
 <svelte:head>
   <title
-    >{$currentAppStore.app?.jd_data?.job_title || "Application"} — AIJobBoard</title
+    >{$currentAppStore.app?.jd_data?.job_title || "Application"} — MatchBeforeApply</title
   >
 </svelte:head>
 

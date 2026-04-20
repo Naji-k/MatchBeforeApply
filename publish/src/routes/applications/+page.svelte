@@ -108,7 +108,7 @@
   }
 </script>
 
-<svelte:head><title>Applications — AIJobBoard</title></svelte:head>
+<svelte:head><title>Applications — MatchBeforeApply</title></svelte:head>
 
 <div style="max-width:1200px;margin:0 auto;padding:1.5rem 1rem">
   <!-- Header -->

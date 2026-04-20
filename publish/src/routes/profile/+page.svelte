@@ -62,7 +62,7 @@
   }
 </script>
 
-<svelte:head><title>Profile — AIJobBoard</title></svelte:head>
+<svelte:head><title>Profile — MatchBeforeApply</title></svelte:head>
 
 <div
   style="max-width:600px;margin:0 auto;padding:2rem 1rem;display:flex;flex-direction:column;gap:1.5rem"

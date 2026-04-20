@@ -49,8 +49,8 @@
       setToken(data.access_token);
       const user = await api.getMe();
       setUser(user);
-      goto("/applications");
       trackEvent("login_demo");
+      goto("/applications");
     } catch (err) {
       demoError = (err as Error).message;
     } finally {
