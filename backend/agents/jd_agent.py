@@ -1,6 +1,6 @@
 import os
 from google.adk.agents import LlmAgent
-from google.adk.tools import url_context
+from tools.web_scraper import scrape_url
 from pydantic import BaseModel
 from typing import List
 
@@ -19,12 +19,12 @@ jd_agent = LlmAgent(
     name="jd_agent",
     model=os.getenv("MODEL", "gemini-2.5-flash-lite"),
     output_key="jd_data",
-    tools=[url_context],
+    tools=[scrape_url],
     instruction="""You are an expert Job Description analyst with years of recruiting experience.
 
 The user message contains the job description to parse. It starts with "jd_type: url" or "jd_type: text" followed by the content.
 
-- If jd_type is "url": call the url_context tool with the URL, then parse the fetched content.
+- If jd_type is "url": call the scrape_url tool with the URL, then parse the fetched content.
 - If jd_type is "text": parse the content directly.
 
 PARSING RULES:

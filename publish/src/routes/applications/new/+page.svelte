@@ -146,7 +146,8 @@
         ></textarea>
       {:else}
         <span style="font-size:.85rem;color:red;font-style:italic">
-          URL may not work on all job sites.
+          ⚠️ URLs may not work on sites that require login. For best
+          results,paste the job description text directly.
         </span>
         <input
           type="url"
