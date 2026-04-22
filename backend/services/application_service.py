@@ -51,6 +51,7 @@ async def create_application(
         jd_source=data.jd_source,
         jd_type=data.jd_type,
         jd_text=data.jd_text,
+        jd_url=data.jd_url,
     )
     db.add(app)
     await db.commit()
@@ -68,6 +69,10 @@ async def update_application(
     app = await get_application(db, user_id, application_id)
     if data.status is not None:
         app.status = data.status
+    if data.cover_letter is not None:
+        app.cover_letter = data.cover_letter
+    if data.jd_url is not None:
+        app.jd_url = data.jd_url
     app.updated_at = datetime.utcnow()
     await db.commit()
     await db.refresh(app)

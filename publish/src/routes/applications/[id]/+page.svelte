@@ -29,9 +29,11 @@
   ];
 
   let coverLetter = $state("");
+  let jobUrl = $state("");
   let status = $state<ApplicationStatus>("open");
   let savingCover = $state(false);
   let savingStatus = $state(false);
+  let savingJobUrl = $state(false);
   let reanalyzing = $state(false);
   let showDeleteModal = $state(false);
   let commentFilter = $state<"all" | CommentType>("all");
@@ -52,6 +54,7 @@
       ]);
       currentAppStore.set({ app, comments, loading: false, error: null });
       coverLetter = app.cover_letter ?? "";
+      jobUrl = app.jd_url ?? "";
       status = app.status ?? "open";
     } catch (err) {
       currentAppStore.update((s) => ({
@@ -73,6 +76,22 @@
       showToast((err as Error).message);
     } finally {
       savingCover = false;
+    }
+  }
+
+  async function saveJobUrl(): Promise<void> {
+    savingJobUrl = true;
+    try {
+      await api.updateApplication(page.params.id!, { jd_url: jobUrl });
+      currentAppStore.update((s) => ({
+        ...s,
+        app: s.app ? { ...s.app, jd_url: jobUrl || undefined } : null,
+      }));
+      showToast("Job URL saved", "success");
+    } catch (err) {
+      showToast((err as Error).message);
+    } finally {
+      savingJobUrl = false;
     }
   }
 
@@ -329,6 +348,41 @@
             {savingCover ? "Saving…" : "Save Cover Letter"}
           </button>
         </div>
+      </div>
+
+      <!-- Job Posting URL -->
+      <div
+        class="card"
+        style="display:flex;flex-direction:column;gap:1rem;padding:1rem 1.5rem"
+      >
+        <h3 style="font-size:.95rem;font-weight:600;">Job Posting URL</h3>
+        {#if app.jd_url}
+          <a
+            href={app.jd_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            style="font-size:.875rem;color:var(--color-accent);word-break:break-all"
+            >{app.jd_url}</a
+          >
+        {:else}
+          <div style="display:flex;gap:.75rem;align-items:center">
+            <input
+              type="url"
+              class="input-field"
+              style="flex:1"
+              placeholder="https://…"
+              bind:value={jobUrl}
+            />
+            <button
+              class="btn-secondary"
+              style="font-size:.875rem;padding:.5rem 1.25rem;white-space:nowrap"
+              onclick={saveJobUrl}
+              disabled={savingJobUrl}
+            >
+              {savingJobUrl ? "Saving…" : "Save URL"}
+            </button>
+          </div>
+        {/if}
       </div>
 
       <!-- Comments -->

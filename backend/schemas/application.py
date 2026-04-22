@@ -10,12 +10,14 @@ class ApplicationCreate(BaseModel):
     jd_source: str
     jd_type: Literal["url", "text"]
     jd_text: Optional[str] = None
+    jd_url: Optional[str] = None
     run_analysis: bool = True
 
 
 class ApplicationUpdate(BaseModel):
     status: Optional[ApplicationStatus] = None
     cover_letter: Optional[str] = None
+    jd_url: Optional[str] = None
 
 
 class ApplicationResponse(BaseModel):
@@ -24,6 +26,7 @@ class ApplicationResponse(BaseModel):
     jd_source: str
     jd_type: Optional[str] = None
     jd_text: Optional[str] = None
+    jd_url: Optional[str] = None
     match_score: Optional[int] = None
     match_breakdown: Optional[Dict[str, Any]] = None
     ats_tips: Optional[Dict[str, Any]] = None

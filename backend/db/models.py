@@ -76,6 +76,7 @@ class Application(Base):
     jd_source = Column(Text, nullable=False)
     jd_type = Column(String(10), nullable=True)
     jd_text = Column(Text, nullable=True)
+    jd_url = Column(String(2048), nullable=True)
     match_score = Column(Integer, nullable=True)
     match_breakdown = Column(JSONB, nullable=True)
     ats_tips = Column(JSONB, nullable=True)

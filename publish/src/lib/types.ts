@@ -46,6 +46,7 @@ export interface Application {
   jd_source: string;
   jd_type: "text" | "url";
   jd_text?: string;
+  jd_url?: string;
   match_score?: number;
   match_breakdown?: MatchBreakdown;
   ats_tips?: AtsTips;
@@ -97,12 +98,14 @@ export interface Toast {
 export interface CreateApplicationPayload {
   jd_source: string;
   jd_type: "text" | "url";
+  jd_url?: string;
   run_analysis: boolean;
 }
 
 export interface UpdateApplicationPayload {
   status?: ApplicationStatus;
   cover_letter?: string;
+  jd_url?: string;
 }
 
 export interface AddCommentPayload {

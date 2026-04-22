@@ -8,6 +8,7 @@
   let jdMode = $state<"text" | "url">("text");
   let jdText = $state("");
   let jdUrl = $state("");
+  let jobPostingUrl = $state("");
   let runAnalysis = $state(true);
   let loading = $state(false);
   let error = $state("");
@@ -18,6 +19,8 @@
     e.preventDefault();
     error = "";
     const jdSource = jdMode === "text" ? jdText.trim() : jdUrl.trim();
+    const jobUrl =
+      jdMode === "url" ? jdUrl.trim() : jobPostingUrl.trim() || undefined;
     if (!jdSource) {
       error = "Please provide a job description.";
       return;
@@ -37,6 +40,7 @@
       const app = await createApplication({
         jd_source: jdSource,
         jd_type: jdMode,
+        jd_url: jobUrl,
         run_analysis: false,
       });
 
@@ -144,6 +148,24 @@
           style="resize:vertical"
           bind:value={jdText}
         ></textarea>
+        <!-- Job Posting URL -->
+        <div style="display:flex;flex-direction:column;gap:.5rem">
+          <label
+            for="job-posting-url"
+            style="font-size:.85rem;font-weight:600;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:.05em"
+          >
+            Job Posting URL <span style="font-weight:400;opacity:.6"
+              >(optional)</span
+            >
+          </label>
+          <input
+            id="job-posting-url"
+            type="url"
+            class="input-field"
+            placeholder="https://…"
+            bind:value={jobPostingUrl}
+          />
+        </div>
       {:else}
         <span style="font-size:.85rem;color:red;font-style:italic">
           ⚠️ URLs may not work on sites that require login. For best
