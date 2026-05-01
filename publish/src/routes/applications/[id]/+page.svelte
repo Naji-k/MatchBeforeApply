@@ -294,7 +294,7 @@
           <ScoreIndicator score={app.match_breakdown.overall_score} size="lg" />
           <div>
             <p
-              style="font-size:.8rem;font-weight:600;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem"
+              style="font-size:.95rem;font-weight:600;color:var(--color-text-primary);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem"
             >
               Overall Match
             </p>
@@ -324,7 +324,25 @@
           >
         </div>
       {/if}
-
+      <!-- ATS -->
+      {#if app.ats_tips}
+        <div
+          style="margin-top:1.5rem;background:var(--color-surface-2);border-radius:12px;padding:1rem 1.25rem"
+        >
+          <p
+            style="font-size:.95rem;font-weight:600;color:var(--color-text-primary);text-transform:uppercase;letter-spacing:.05em;margin:0 0 .5rem"
+          >
+            ATS Tips
+          </p>
+          <ul
+            style="font-size:.9rem;color:var(--color-text-muted);line-height:1.6;margin:0;padding-left:1.25rem"
+          >
+            {#each app.ats_tips.tips as tip}
+              <li style="margin-bottom:.5rem">- {tip}</li>
+            {/each}
+          </ul>
+        </div>
+      {/if}
       <!-- Cover Letter -->
       <div
         class="card"

@@ -41,7 +41,6 @@ mock = {
     "ats_tips": {
         "tips": [
             "Add Go and GraphQL to your skills section if you have any exposure",
-            "Quantify achievements in your experience entries (e.g., '20% latency reduction')",
             "Include monitoring/observability tools (Prometheus, Grafana) if applicable",
             "Mention MySQL or Cassandra experience if relevant to past work",
             "Add keywords: distributed systems, scalable architecture, high performance",
@@ -49,7 +48,7 @@ mock = {
     },
     "jd_data": {
         "job_title": "Senior Software Engineer",
-        "company": "Uber",
+        "company": "AnyCompany",
         "required_skills": [
             "Python",
             "Java",
@@ -109,10 +108,8 @@ mock2 = {
     },
     "ats_tips": {
         "tips": [
-            "Add Kafka or RabbitMQ to your skills if you have any exposure to message queues",
             "Include Terraform or IaC tools if you have used them in past projects",
             "Mention open-source contributions or personal projects on GitHub",
-            "Highlight specific metrics from CI/CD pipelines you have built",
             "Add GraphQL experience if applicable, even if minimal",
         ]
     },
@@ -180,13 +177,11 @@ mock3 = {
         "tips": [
             "Your Kubernetes expertise is highlighted prominently—excellent alignment with role",
             "CI/CD pipeline projects showcase strong technical depth",
-            "Consider adding Vault for secrets management to enhance security profile",
-            "Mention specific infrastructure scaling achievements (e.g., '500+ microservices')",
         ]
     },
     "jd_data": {
         "job_title": "Senior DevOps Engineer",
-        "company": "TechScale Cloud",
+        "company": "AnyTech",
         "required_skills": [
             "Kubernetes",
             "Terraform",
