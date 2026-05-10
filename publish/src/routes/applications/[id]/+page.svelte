@@ -272,7 +272,7 @@
           style="width:auto;padding:.4rem .75rem;font-size:.875rem"
           bind:value={status}
         >
-          {#each STATUS_OPTIONS as opt}
+          {#each STATUS_OPTIONS as opt (opt.status)}
             <option value={opt.status}>{opt.label}</option>
           {/each}
         </select>
@@ -337,7 +337,7 @@
           <ul
             style="font-size:.9rem;color:var(--color-text-muted);line-height:1.6;margin:0;padding-left:1.25rem"
           >
-            {#each app.ats_tips.tips as tip}
+            {#each app.ats_tips.tips as tip (tip)}
               <li style="margin-bottom:.5rem">- {tip}</li>
             {/each}
           </ul>
@@ -416,7 +416,7 @@
           </h3>
           <!-- Type filter pills -->
           <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
-            {#each ["all", ...COMMENT_TYPES] as type}
+            {#each ["all", ...COMMENT_TYPES] as type (type)}
               <button
                 style="
                   padding:.25rem .75rem;border-radius:999px;font-size:.75rem;font-weight:500;
@@ -445,7 +445,7 @@
             Add Note
           </p>
           <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
-            {#each COMMENT_TYPES as type}
+            {#each COMMENT_TYPES as type (type)}
               <button
                 type="button"
                 style="

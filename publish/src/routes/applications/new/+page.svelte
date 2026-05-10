@@ -122,7 +122,7 @@
           Job Description
         </span>
         <div style="display:flex;gap:.5rem">
-          {#each [{ value: "text" as const, label: "Paste Text" }, { value: "url" as const, label: "URL" }] as mode}
+          {#each [{ value: "text" as const, label: "Paste Text" }, { value: "url" as const, label: "URL" }] as mode (mode.value)}
             <button
               type="button"
               style="

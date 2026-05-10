@@ -1,0 +1,43 @@
+# Git
+.git
+.gitignore
+.github
+ 
+# Node
+node_modules
+npm-debug.log
+yarn-error.log
+package-lock.json
+ 
+# Python
+__pycache__
+*.pyc
+*.pyo
+.Python
+env/
+venv/
+.venv
+*.egg-info/
+dist/
+.ruffle_cache/
+build/
+ 
+# IDE
+.vscode
+.idea
+.DS_Store
+ 
+# Environment files
+.env
+.env.local
+.env.*.local
+ 
+# Misc
+.dockerignore
+.gitattributes
+README.md
+.editorconfig
+ 
+# SvelteKit
+publish/.svelte-kit
+publish/build

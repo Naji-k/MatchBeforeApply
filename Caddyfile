@@ -1,0 +1,26 @@
+:{$PORT:8080} {
+    header {
+        X-Content-Type-Options nosniff
+        X-Frame-Options DENY
+        Referrer-Policy strict-origin-when-cross-origin
+    }
+
+    handle /api/* {
+        reverse_proxy localhost:8000 {
+            header_up X-Forwarded-Proto {http.request.proto}
+            header_up X-Forwarded-Host {http.request.host}
+            header_up X-Forwarded-For {http.request.remote}
+            flush_interval -1
+        }
+    }
+
+    handle {
+        root * /app/publish/build
+        try_files {path} /index.html
+        file_server
+    }
+
+    log {
+        format json
+    }
+}

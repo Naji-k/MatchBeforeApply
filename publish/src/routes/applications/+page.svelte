@@ -203,7 +203,7 @@
   {:else}
     <!-- Kanban board (desktop) -->
     <div class="kanban-board">
-      {#each COLUMNS as col}
+      {#each COLUMNS as col (col.status)}
         <KanbanColumn
           status={col.status}
           label={col.label}
@@ -219,7 +219,7 @@
 
     <!-- Mobile list -->
     <div class="mobile-list">
-      {#each COLUMNS as col}
+      {#each COLUMNS as col (col.status)}
         {@const items = colItems(col.status)}
         {#if items.length > 0}
           <div>

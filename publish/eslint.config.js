@@ -24,6 +24,11 @@ export default [
     },
   },
   {
+    rules: {
+      "svelte/no-navigation-without-resolve": "off",
+    },
+  },
+  {
     ignores: ["build/", ".svelte-kit/", "dist/, node_modules/"],
   },
 ];

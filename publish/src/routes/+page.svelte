@@ -181,7 +181,7 @@
       <h2 class="section-title">A smarter way to apply</h2>
     </div>
     <div class="steps-grid">
-      {#each [{ n: "01", title: "Upload your CV", desc: "Start with your experience and skills.", icon: FileUp }, { n: "02", title: "Paste the job description or URL", desc: "Compare your profile with the role — paste the job description or drop in a URL.", icon: ClipboardPaste }, { n: "03", title: "Get your match", desc: "See your match score and gaps instantly.", icon: BadgePercent }, { n: "04", title: "Track your application", desc: "Save it, add notes, and follow its status.", icon: Kanban }] as step}
+      {#each [{ n: "01", title: "Upload your CV", desc: "Start with your experience and skills.", icon: FileUp }, { n: "02", title: "Paste the job description or URL", desc: "Compare your profile with the role — paste the job description or drop in a URL.", icon: ClipboardPaste }, { n: "03", title: "Get your match", desc: "See your match score and gaps instantly.", icon: BadgePercent }, { n: "04", title: "Track your application", desc: "Save it, add notes, and follow its status.", icon: Kanban }] as step (step.n)}
         <div
           class="card"
           style="display:flex;flex-direction:column;gap:.75rem;padding:1.5rem"
@@ -213,7 +213,7 @@
     </div>
 
     <div class="features-grid">
-      {#each [{ icon: BadgePercent, title: "Match Score", desc: "See how well your CV aligns with a role before applying." }, { icon: FileSearch, title: "Gap Analysis", desc: "Understand what’s missing or unclear in your profile." }, { icon: FileCheck, title: "ATS Insights", desc: "Improve how your CV is interpreted by screening systems." }, { icon: Kanban, title: "Application Tracking", desc: "Keep all your applications in one place — with status, notes, and comments." }] as feature}
+      {#each [{ icon: BadgePercent, title: "Match Score", desc: "See how well your CV aligns with a role before applying." }, { icon: FileSearch, title: "Gap Analysis", desc: "Understand what’s missing or unclear in your profile." }, { icon: FileCheck, title: "ATS Insights", desc: "Improve how your CV is interpreted by screening systems." }, { icon: Kanban, title: "Application Tracking", desc: "Keep all your applications in one place — with status, notes, and comments." }] as feature (feature.title)}
         <div
           class="card feature-card"
           style="padding:1.5rem;display:flex;flex-direction:column;gap:.75rem"

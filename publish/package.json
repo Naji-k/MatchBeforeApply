@@ -10,6 +10,7 @@
     "lint": "eslint ."
   },
   "devDependencies": {
+    "@sveltejs/adapter-static": "^3.0.10",
     "@sveltejs/kit": "^2.59.0",
     "@tailwindcss/vite": "^4.0.0",
     "@types/eslint": "^9.6.0",

@@ -26,7 +26,7 @@
 
   <!-- Desktop links -->
   <div class="desktop-links">
-    {#each links as link}
+    {#each links as link (link.href)}
       <a
         href={link.href}
         class="nav-link"
@@ -73,7 +73,7 @@
 <!-- Mobile menu -->
 {#if menuOpen}
   <div class="mobile-menu">
-    {#each links as link}
+    {#each links as link (link.href)}
       <a
         href={link.href}
         class="mobile-link"

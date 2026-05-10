@@ -62,7 +62,7 @@
     <ul
       style="list-style:none;display:flex;flex-direction:column;gap:.85rem;text-align:left;max-width:300px;margin:0 auto"
     >
-      {#each STEPS as step, i}
+      {#each STEPS as step, i (i)}
         <li
           style="
           padding:.7rem 1rem;

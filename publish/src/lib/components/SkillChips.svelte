@@ -12,7 +12,7 @@
     </h3>
     <div style="display:flex;flex-wrap:wrap;gap:.45rem;padding:.75rem">
       {#if matched.length}
-        {#each matched as skill}
+        {#each matched as skill (skill)}
           <span
             style="padding:.3rem .75rem;border-radius:999px;font-size:.8rem;font-weight:500;background:#F0FDF4;color:#16A34A;border:1px solid #BBF7D0"
           >
@@ -31,7 +31,7 @@
     </h3>
     <div style="display:flex;flex-wrap:wrap;gap:.45rem;padding:.75rem">
       {#if missing.length}
-        {#each missing as skill}
+        {#each missing as skill (skill)}
           <span
             style="padding:.3rem .75rem;border-radius:999px;font-size:.8rem;font-weight:500;background:#FEF2F2;color:#DC2626;border:1px solid #FECACA"
           >
