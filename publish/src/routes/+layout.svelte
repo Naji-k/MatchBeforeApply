@@ -10,6 +10,7 @@
     toastStore,
     setUsage,
     setIsDemoUser,
+    appConfigStore,
   } from "$lib/stores.js";
   import * as api from "$lib/api.js";
   import { onMount } from "svelte";
@@ -26,6 +27,8 @@
     let unsubscribe: (() => void) | undefined;
 
     (async () => {
+      await api.loadConfig();
+
       const token = localStorage.getItem("token");
       if (token) {
         setToken(token);
@@ -34,7 +37,8 @@
           setUser(user);
           try {
             const profile = await api.getProfile();
-            if (profile.user_id === import.meta.env.VITE_DEMO_USER) {
+            // use config instead of VITE_DEMO_USER
+            if (profile.user_id === $appConfigStore.VITE_DEMO_USER) {
               console.log("Demo user detected, enabling demo mode");
               setIsDemoUser(true);
               setUsage(0);
@@ -42,7 +46,7 @@
               setUsage(profile.daily_analyses_used);
             }
           } catch {
-            // non-fatal — usage pill simply won't appear
+            // non-fatal
           }
         } catch {
           setToken(null);

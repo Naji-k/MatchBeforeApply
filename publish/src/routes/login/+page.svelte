@@ -12,7 +12,13 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
   import { get } from "svelte/store";
-  import { authStore, setToken, setUser, showToast } from "$lib/stores.js";
+  import {
+    appConfigStore,
+    authStore,
+    setToken,
+    setUser,
+    showToast,
+  } from "$lib/stores.js";
   import { login, register, googleAuth, getMe } from "$lib/api.js";
   import EmailVerification from "$lib/components/EmailVerification.svelte";
   import { validateEmail } from "$lib/utils/validation.js";
@@ -34,7 +40,7 @@
       return;
     }
 
-    const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+    const clientId = $appConfigStore.VITE_GOOGLE_CLIENT_ID;
     if (clientId && typeof google !== "undefined") {
       google.accounts.id.initialize({
         client_id: clientId,
@@ -53,8 +59,8 @@
   async function handleDemoLogin() {
     loading = true;
     error = "";
-    const demo_username = import.meta.env.VITE_DEMO_USER_EMAIL;
-    const demo_password = import.meta.env.VITE_DEMO_USER_PASSWORD;
+    const demo_username = $appConfigStore.VITE_DEMO_USER_EMAIL || "";
+    const demo_password = $appConfigStore.VITE_DEMO_USER_PASSWORD || "";
     try {
       const data = await login(demo_username, demo_password);
       setToken(data.access_token);
@@ -299,7 +305,7 @@
         >
           <div id="google-btn"></div>
         </div>
-        {#if import.meta.env.VITE_ENABLE_SIGNUP === "true"}
+        {#if $appConfigStore.VITE_ENABLE_SIGNUP === true}
           <p
             style="text-align:center;font-size:.875rem;color:var(--color-text-muted);margin-bottom:.75rem"
           >

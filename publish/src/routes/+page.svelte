@@ -17,6 +17,7 @@
   } from "@lucide/svelte";
   import { trackEvent } from "$lib/utils/analytics";
   import BrandTitle from "$lib/components/BrandTitle.svelte";
+  import { appConfigStore } from "$lib/stores.js";
 
   let demoLoading = $state(false);
   let menuOpen = $state(false);
@@ -40,8 +41,8 @@
 
   async function handleDemoLogin() {
     demoLoading = true;
-    const demo_username = import.meta.env.VITE_DEMO_USER_EMAIL;
-    const demo_password = import.meta.env.VITE_DEMO_USER_PASSWORD;
+    const demo_username = $appConfigStore.VITE_DEMO_USER_EMAIL || "";
+    const demo_password = $appConfigStore.VITE_DEMO_USER_PASSWORD || "";
 
     demoError = "";
     try {

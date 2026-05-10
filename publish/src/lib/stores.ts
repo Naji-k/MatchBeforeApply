@@ -87,3 +87,12 @@ export function showToast(
     setTimeout(() => toastStore.set(null), 4000);
   }
 }
+
+export const appConfigStore = writable({
+  VITE_GOOGLE_CLIENT_ID: null as string | null,
+  VITE_ENABLE_SIGNUP: false as boolean,
+  VITE_DEMO_USER: null as number | null,
+  VITE_DEMO_USER_EMAIL: null as string | null,
+  VITE_DEMO_USER_PASSWORD: null as string | null,
+  PUBLIC_GA_MEASUREMENT_ID: null as string | null,
+});

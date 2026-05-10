@@ -4,6 +4,7 @@
   import LoadingSteps from "$lib/components/LoadingSteps.svelte";
   import { authStore, showToast, incrementUsage } from "$lib/stores";
   import { trackEvent } from "$lib/utils/analytics";
+  import { appConfigStore } from "$lib/stores";
 
   let jdMode = $state<"text" | "url">("text");
   let jdText = $state("");
@@ -25,7 +26,7 @@
       error = "Please provide a job description.";
       return;
     }
-    if ($authStore.user?.id == import.meta.env.VITE_DEMO_USER) {
+    if ($authStore.user?.id == $appConfigStore.VITE_DEMO_USER) {
       showToast(
         "You're using the demo account 👀 Results are mock data.",
         "info",

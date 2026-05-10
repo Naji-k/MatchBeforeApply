@@ -4,6 +4,7 @@ from pydantic import BaseModel
 from core.middleware import get_current_user
 from db.models import User
 from services.email_service import send_feedback_email
+from core.config import settings
 
 
 class FeedbackRequest(BaseModel):
@@ -28,3 +29,12 @@ async def submit_feedback(
         user_email=current_user.email,
         message=body.message,
     )
+
+
+@router.get("/config")
+async def get_config():
+    return {
+        "google_client_id": settings.GOOGLE_CLIENT_ID,
+        "enable_signup": settings.ENABLE_SIGNUP,
+        "demo_user_id": settings.DEMO_USER_ID,
+    }

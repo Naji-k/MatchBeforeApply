@@ -8,8 +8,9 @@ import type {
   AddCommentPayload,
   ProfileUpdatePayload,
 } from "./types.js";
+import { appConfigStore } from "./stores.js";
 
-const BASE = import.meta.env.VITE_BACKEND_API_URL || "http://localhost:8000";
+const BASE = import.meta.env.VITE_BACKEND_API_URL || "";
 
 export class ApiError extends Error {
   status: number;
@@ -255,4 +256,9 @@ export function deleteComment(
   return request<void>(`/api/applications/${appId}/comments/${commentId}`, {
     method: "DELETE",
   });
+}
+
+export async function loadConfig() {
+  const config = await fetch(`${BASE}/api/config`).then((r) => r.json());
+  appConfigStore.set(config);
 }

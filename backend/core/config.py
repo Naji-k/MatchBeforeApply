@@ -23,6 +23,13 @@ class Settings(BaseSettings):
     RESEND_TOKEN: str = ""
     RESEND_FROM_EMAIL: str = "noreply@matchbeforeapply.com"
 
+    VITE_GOOGLE_CLIENT_ID: str = ""
+    VITE_ENABLE_SIGNUP: bool = False
+    VITE_DEMO_USER: int | None = None
+    VITE_DEMO_USER_EMAIL: str = ""
+    VITE_DEMO_USER_PASSWORD: str = ""
+    PUBLIC_GA_MEASUREMENT_ID: str = ""
+
     @computed_field
     @property
     def ASYNC_DATABASE_URL(self) -> str:
