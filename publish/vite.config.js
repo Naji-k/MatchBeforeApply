@@ -4,4 +4,11 @@ import { defineConfig } from "vite";
 
 export default defineConfig({
   plugins: [sveltekit(), tailwindcss()],
+  server: {
+    allowedHosts: [
+      "matchbeforeapply.up.railway.app",
+      "matchbeforeapply.com",
+      "www.matchbeforeapply.com",
+    ],
+  },
 });
