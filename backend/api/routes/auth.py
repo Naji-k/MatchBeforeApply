@@ -25,7 +25,6 @@ from services.auth_service import (
 )
 from services.email_service import send_otp_email
 
-
 router = APIRouter(prefix="/api/auth", tags=["auth"])
 """
 Authentication endpoints:
@@ -124,3 +123,14 @@ async def verify_email(
         )
     await db.refresh(current_user)
     return current_user
+
+
+@router.post("/demo-login")
+async def demo_login(
+    db: AsyncSession = Depends(get_db),
+):
+    user = await authenticate_user(
+        db, settings.VITE_DEMO_USER_EMAIL, settings.VITE_DEMO_USER_PASSWORD
+    )
+    access_token = create_access_token(data={"sub": str(user.id)})
+    return Token(access_token=access_token)

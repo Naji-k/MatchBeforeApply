@@ -19,7 +19,7 @@
     setUser,
     showToast,
   } from "$lib/stores.js";
-  import { login, register, googleAuth, getMe } from "$lib/api.js";
+  import { login, register, googleAuth, getMe, demoLogin } from "$lib/api.js";
   import EmailVerification from "$lib/components/EmailVerification.svelte";
   import { validateEmail } from "$lib/utils/validation.js";
   import { onMount } from "svelte";
@@ -59,10 +59,8 @@
   async function handleDemoLogin() {
     loading = true;
     error = "";
-    const demo_username = $appConfigStore.VITE_DEMO_USER_EMAIL || "";
-    const demo_password = $appConfigStore.VITE_DEMO_USER_PASSWORD || "";
     try {
-      const data = await login(demo_username, demo_password);
+      const data = await demoLogin();
       setToken(data.access_token);
       const user = await getMe();
       setUser(user);

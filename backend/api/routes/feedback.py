@@ -31,10 +31,11 @@ async def submit_feedback(
     )
 
 
-@router.get("/config")
+@router.get("/config", status_code=200)
 async def get_config():
     return {
-        "google_client_id": settings.GOOGLE_CLIENT_ID,
-        "enable_signup": settings.ENABLE_SIGNUP,
-        "demo_user_id": settings.DEMO_USER_ID,
+        "VITE_GOOGLE_CLIENT_ID": settings.GOOGLE_CLIENT_ID,
+        "VITE_ENABLE_SIGNUP": settings.VITE_ENABLE_SIGNUP,
+        "VITE_DEMO_USER": settings.VITE_DEMO_USER,
+        "PUBLIC_GA_MEASUREMENT_ID": settings.PUBLIC_GA_MEASUREMENT_ID,
     }

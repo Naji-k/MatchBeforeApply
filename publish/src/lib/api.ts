@@ -132,6 +132,18 @@ export function verifyEmail(code: string): Promise<User> {
   });
 }
 
+export async function demoLogin(): Promise<{ access_token: string }> {
+  const res = await fetch(`${BASE}/api/auth/demo-login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+  });
+  if (!res.ok) {
+    const err = (await res.json().catch(() => ({}))) as { detail?: string };
+    throw new ApiError(err.detail ?? "Login failed", res.status);
+  }
+  return res.json() as Promise<{ access_token: string }>;
+}
+
 export function submitFeedback(message: string): Promise<void> {
   return request<void>("/api/feedback", {
     method: "POST",
