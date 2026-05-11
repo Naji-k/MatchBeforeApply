@@ -26,6 +26,9 @@ app.add_middleware(
     allow_origins=[
         "http://localhost:5173",
         "http://localhost:8080",
+        "https://matchbeforeapply.com",
+        "https://www.matchbeforeapply.com",
+        "https://matchbeforeapply.up.railway.app",
     ],
     allow_credentials=True,
     allow_methods=["*"],
