@@ -4,12 +4,6 @@
         X-Frame-Options DENY
         Referrer-Policy strict-origin-when-cross-origin
     }
-    
-    # Rate limit: 30 requests per IP per minute
-    rate_limit {remote.addr} 30r/m {
-        zone scanners 10m
-        exceed_status 429
-    }
 
     @scanners {
         path /wp-admin* /xmlrpc.php /wp-* /*.php /.env* /.git* /secrets.json /config.json /service-account.json /admin* /shell* /shell.php /exec.php
