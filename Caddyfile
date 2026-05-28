@@ -5,6 +5,14 @@
         Referrer-Policy strict-origin-when-cross-origin
     }
 
+    @scanners {
+        path /wp-admin* /xmlrpc.php /wp-* /*.php /.env* /.git* /secrets.json /config.json /service-account.json /admin* /shell* /shell.php /exec.php
+    }
+
+    handle @scanners {
+        respond 403
+    }
+
     handle /api/* {
         reverse_proxy localhost:8000 {
             header_up X-Forwarded-Proto {http.request.proto}
