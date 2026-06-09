@@ -12,14 +12,12 @@
     ></script>
 
     <script>
-      const GA_MEASUREMENT_ID = "%sveltekit.env.PUBLIC_GA_MEASUREMENT_ID%";
+      const GA_MEASUREMENT_ID = "G-B2DKSDL9SG";
       if (GA_MEASUREMENT_ID) {
         const script = document.createElement("script");
         script.src =
           "https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}";
         script.async = true;
-        script.src =
-          "https://www.googletagmanager.com/gtag/js?id=%sveltekit.env.PUBLIC_GA_MEASUREMENT_ID%";
         document.head.appendChild(script);
       }
       window.dataLayer = window.dataLayer || [];
