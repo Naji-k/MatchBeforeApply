@@ -9,8 +9,14 @@ from core.config import settings
 def get_engine():
     socket_path = settings.CLOUD_SQL_SOCKET
     if socket_path:
+        socket_file = f"{socket_path}/.s.PGSQL.5432"
         return create_async_engine(
-            settings.ASYNC_DATABASE_URL, connect_args={"host": socket_path}, echo=False
+            settings.ASYNC_DATABASE_URL,
+            connect_args={
+                "host": socket_file,
+                "ssl": None,
+            },
+            echo=False,
         )
 
     return create_async_engine(settings.ASYNC_DATABASE_URL, echo=False)
