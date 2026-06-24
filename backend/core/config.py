@@ -13,6 +13,7 @@ class Settings(BaseSettings):
     DATABASE_URL: str = (
         "postgresql+asyncpg://postgres:postgres@localhost:5432/job_board"
     )
+    CLOUD_SQL_SOCKET: str | None = None
     SECRET_KEY: str = "change-me-in-production"
     GOOGLE_API_KEY: str = ""
     GOOGLE_CLIENT_ID: str = ""
