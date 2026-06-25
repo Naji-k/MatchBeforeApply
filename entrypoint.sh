@@ -7,7 +7,7 @@ cd /app/backend && python -m alembic upgrade head
 cd /app/backend && uvicorn main:app --host 0.0.0.0 --port 8000 &
 
 # Wait until FastAPI is ready
-until curl -sf http://localhost:8000/api/config; do
+until curl -sf http://127.0.0.1:8000/api/config; do
     echo "Waiting for FastAPI..."
     sleep 2
 done
