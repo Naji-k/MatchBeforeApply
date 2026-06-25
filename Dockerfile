@@ -21,6 +21,8 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
+RUN apt-get update && apt-get install -y curl && apt-get clean
+
 # Copy built SvelteKit from builder stage
 COPY --from=builder /app/publish/build ./publish/build
 COPY --from=builder /usr/local/bin/caddy /usr/local/bin/caddy
@@ -33,12 +35,8 @@ COPY backend/ ./backend
 
 # Copy Caddyfile
 COPY Caddyfile /app/
-
-# Create startup script
-RUN echo '#!/bin/bash\n\
-caddy run --config /app/Caddyfile &\n\
-cd /app/backend && uvicorn main:app --host 0.0.0.0 --port 8000' > /entrypoint.sh \
-    && chmod +x /entrypoint.sh
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
 ENV PORT=8080
 
