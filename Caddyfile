@@ -6,18 +6,16 @@
     }
 
     @scanners {
-        path /wp-admin* /xmlrpc.php /wp-* /*.php /.env* /.git* /secrets.json /config.json /service-account.json /admin* /shell* /shell.php /exec.php
+        path /wp-admin* /wp-content* /wp-includes* /wp-* /cgi-bin* /admin* /ALFA_DATA* *.php
+        path /.env* /.git* /secrets.json /config.json /service-account.json
     }
 
-    handle @scanners {
-        respond 403
-    }
+    # SILENT SLAM: Drops the bot connection completely without answering
+    abort @scanners
 
+    # Clean reverse proxy leveraging Caddy 2.8.4's implicit defaults
     handle /api/* {
         reverse_proxy 127.0.0.1:8000 {
-            header_up X-Forwarded-Proto {http.request.proto}
-            header_up X-Forwarded-Host {http.request.host}
-            header_up X-Forwarded-For {http.request.remote}
             flush_interval -1
         }
     }
@@ -32,3 +30,4 @@
         format json
     }
 }
+
