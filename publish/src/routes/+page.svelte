@@ -2,8 +2,7 @@
   import { goto } from "$app/navigation";
   import { onMount } from "svelte";
   import { get } from "svelte/store";
-  import { authStore, setToken, setUser } from "$lib/stores.js";
-  import * as api from "$lib/api.js";
+  import { authStore } from "$lib/stores.js";
   import ScoreIndicator from "$lib/components/ScoreIndicator.svelte";
   import SkillChips from "$lib/components/SkillChips.svelte";
   import {
@@ -18,7 +17,6 @@
   import { trackEvent } from "$lib/utils/analytics";
   import BrandTitle from "$lib/components/BrandTitle.svelte";
 
-  let demoLoading = $state(false);
   let menuOpen = $state(false);
   let demoError = $state("");
 
@@ -37,24 +35,6 @@
       goto("/applications");
     }
   });
-
-  async function handleDemoLogin() {
-    demoLoading = true;
-
-    demoError = "";
-    try {
-      const data = await api.demoLogin();
-      setToken(data.access_token);
-      const user = await api.getMe();
-      setUser(user);
-      trackEvent("login_demo");
-      goto("/applications");
-    } catch (err) {
-      demoError = (err as Error).message;
-    } finally {
-      demoLoading = false;
-    }
-  }
 </script>
 
 <svelte:head>
@@ -144,19 +124,19 @@
     <div
       style="display:flex;flex-wrap:wrap;gap:.75rem;justify-content:center;align-items:center"
     >
-      <button
+      <!-- <button
         class="btn-primary hero-cta"
         onclick={handleDemoLogin}
         disabled={demoLoading}
       >
         {demoLoading ? "Loading demo…" : "Try the demo"}
-      </button>
+      </button> -->
       <a
         href="/login"
-        class="btn-secondary hero-cta"
+        class="btn-primary hero-cta"
         style="text-decoration:none"
       >
-        Get started for free
+        Check My Match — Free
       </a>
     </div>
 
@@ -167,7 +147,7 @@
     {/if}
 
     <p style="margin-top:1rem;font-size:.8rem;color:var(--color-text-muted)">
-      No guessing. No blind applications.
+      Free. No credit card. Your CV is never shared.
     </p>
   </div>
 </section>
@@ -179,7 +159,7 @@
       <h2 class="section-title">A smarter way to apply</h2>
     </div>
     <div class="steps-grid">
-      {#each [{ n: "01", title: "Upload your CV", desc: "Start with your experience and skills.", icon: FileUp }, { n: "02", title: "Paste the job description or URL", desc: "Compare your profile with the role — paste the job description or drop in a URL.", icon: ClipboardPaste }, { n: "03", title: "Get your match", desc: "See your match score and gaps instantly.", icon: BadgePercent }, { n: "04", title: "Track your application", desc: "Save it, add notes, and follow its status.", icon: Kanban }] as step (step.n)}
+      {#each [{ n: "01", title: "Upload your CV", desc: "Start with your experience and skills.", icon: FileUp }, { n: "02", title: "Paste the job description or URL", desc: "Compare your profile with the role — paste the job description or drop in a URL.", icon: ClipboardPaste }, { n: "03", title: "Get your match", desc: "See your match score and gaps instantly.", icon: BadgePercent }, { n: "04", title: "Track your application", desc: `Save it, add notes, and follow its status: \n open, in progress, accepted, rejected`, icon: Kanban }] as step (step.n)}
         <div
           class="card"
           style="display:flex;flex-direction:column;gap:.75rem;padding:1.5rem"
@@ -320,7 +300,8 @@
       <p
         style="margin-top:1.25rem;font-size:.8rem;color:var(--color-text-muted);text-align:center;margin-bottom:0"
       >
-        Demo mode uses simulated analysis results.
+        This is an example report. Create a free account to see your real match
+        score.
       </p>
     </div>
   </div>
@@ -368,7 +349,7 @@
     <p class="final-cta-sub">
       Know your match. Track your applications. Stay in control.
     </p>
-    <a href="/login" class="final-cta-btn">Get started for free</a>
+    <a href="/login" class="final-cta-btn">Check My Match — Free</a>
     <p class="final-cta-disclaimer">
       No credit card required &middot; 3 free analyses per day
     </p>
