@@ -354,8 +354,7 @@
           rows="6"
           style="resize:vertical"
           placeholder="Write your cover letter here…"
-          bind:value={coverLetter}
-        ></textarea>
+          bind:value={coverLetter}></textarea>
         <div style="display:flex;justify-content:flex-end">
           <button
             class="btn-secondary"
@@ -473,8 +472,7 @@
             rows="3"
             style="resize:vertical;font-size:.9rem"
             placeholder="Your note…"
-            bind:value={newComment.comment}
-          ></textarea>
+            bind:value={newComment.comment}></textarea>
           <div style="display:flex;justify-content:flex-end">
             <button
               class="btn-primary"

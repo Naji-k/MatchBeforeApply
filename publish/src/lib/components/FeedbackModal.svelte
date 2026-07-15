@@ -56,8 +56,7 @@
       style="resize:vertical; padding:1rem"
       placeholder="What's on your mind?"
       bind:value={message}
-      disabled={status === "loading"}
-    ></textarea>
+      disabled={status === "loading"}></textarea>
 
     {#if status === "error"}
       <p style="color:var(--color-danger);font-size:.85rem;margin-bottom:.5rem">

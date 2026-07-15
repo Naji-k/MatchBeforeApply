@@ -1,8 +1,5 @@
 export type ApplicationStatus =
-  | "open"
-  | "in_progress"
-  | "accepted"
-  | "rejected";
+  "open" | "in_progress" | "accepted" | "rejected";
 export type CommentType = "general" | "company" | "interview" | "qa";
 
 export interface User {

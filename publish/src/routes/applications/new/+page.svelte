@@ -147,8 +147,7 @@
           rows="8"
           placeholder="Paste the job description here…"
           style="resize:vertical"
-          bind:value={jdText}
-        ></textarea>
+          bind:value={jdText}></textarea>
         <!-- Job Posting URL -->
         <div style="display:flex;flex-direction:column;gap:.5rem">
           <label

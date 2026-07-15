@@ -1,3 +1,4 @@
+#this docker-compose.yml file is used to set up a PostgreSQL database for the job board application. for local development
 services:
   postgres:
     image: postgres:16-alpine
