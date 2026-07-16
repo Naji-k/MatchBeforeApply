@@ -1,4 +1,7 @@
-#this docker-compose.yml file is used to set up a PostgreSQL database for the job board application. for local development
+# Self-hosting / local deployment for the job board application.
+#   - `docker compose up -d postgres`  → database only (local development, backend runs on host)
+#   - `docker compose up -d`           → full stack: PostgreSQL + app (built from Dockerfile)
+#   - `./install.sh` will also run the full stack
 services:
   postgres:
     image: postgres:16-alpine
@@ -12,6 +15,29 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d job_board"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: job_board_app
+    restart: unless-stopped
+    env_file:
+      - backend/.env
+    environment:
+      # Inside the compose network the DB is reachable via the service name,
+      # overriding the localhost URL used for host-based development.
+      DATABASE_URL: postgresql+asyncpg://postgres:postgres@postgres:5432/job_board
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
 
 volumes:
   pgdata:

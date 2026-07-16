@@ -35,7 +35,7 @@ COPY backend/ ./backend
 
 # Copy Caddyfile
 COPY Caddyfile /app/
-COPY entrypoint.sh /entrypoint.sh
+COPY /scripts/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 ENV PORT=8080
