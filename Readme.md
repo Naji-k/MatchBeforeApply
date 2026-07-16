@@ -155,10 +155,12 @@ job_board/
 │   └── src/
 │       ├── routes/             # login, profile, applications board/detail
 │       └── lib/                # api client, stores, components, types
-├── docker-compose.yml          # local PostgreSQL
+├── docker-compose.yml          # self-hosted stack: PostgreSQL + app
 ├── Dockerfile                  # multi-stage app image (frontend + backend + Caddy)
 ├── Caddyfile                   # reverse proxy + static serving + scanner blocking
-└── entrypoint.sh               # migrations → uvicorn → caddy
+├── scripts/                    # SvelteKit frontend (Svelte 5 + Tailwind v4)
+│   └── entrypoint.sh               # migrations → uvicorn → caddy
+└── install.sh                  # self-hosting helper (up/down/start/stop/rebuild/logs/status)
 ```
 
 ---
