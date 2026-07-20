@@ -29,7 +29,7 @@
   },
   "type": "module",
   "dependencies": {
-    "@lucide/svelte": "^1.22.0",
+    "@lucide/svelte": "^1.25.0",
     "@sveltejs/adapter-node": "^5.5.4"
   }
 }
