@@ -159,7 +159,7 @@ job_board/
 ├── Dockerfile                  # multi-stage app image (frontend + backend + Caddy)
 ├── Caddyfile                   # reverse proxy + static serving + scanner blocking
 ├── scripts/                    # SvelteKit frontend (Svelte 5 + Tailwind v4)
-│   └── entrypoint.sh               # migrations → uvicorn → caddy
+│   └── entrypoint.sh           # migrations → uvicorn → caddy
 └── install.sh                  # self-hosting helper (up/down/start/stop/rebuild/logs/status)
 ```
 
