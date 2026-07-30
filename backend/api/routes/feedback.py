@@ -38,4 +38,5 @@ async def get_config():
         "VITE_ENABLE_SIGNUP": settings.VITE_ENABLE_SIGNUP,
         "VITE_DEMO_USER": settings.VITE_DEMO_USER,
         "PUBLIC_GA_MEASUREMENT_ID": settings.PUBLIC_GA_MEASUREMENT_ID,
+        "ENABLE_FAQ_CHAT": settings.ENABLE_FAQ_CHAT,
     }
