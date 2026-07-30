@@ -15,6 +15,7 @@
   import * as api from "$lib/api.js";
   import { onMount } from "svelte";
   import Navbar from "$lib/components/Navbar.svelte";
+  import FaqChat from "$lib/components/FaqChat.svelte";
 
   let { children }: { children: Snippet } = $props();
   let initialized = $state(false);
@@ -87,7 +88,8 @@
   {#if $toastStore}
     <div
       style="
-      position:fixed;bottom:1.5rem;right:1.5rem;z-index:60;
+      position:fixed;bottom:1.5rem;z-index:60;
+      right:{$appConfigStore.ENABLE_FAQ_CHAT ? '5.5rem' : '1.5rem'};
       padding:.75rem 1.25rem;border-radius:12px;font-size:.875rem;font-weight:500;
       box-shadow:0 4px 20px rgba(0,0,0,.12);
       {$toastStore.type === 'success'
@@ -100,4 +102,6 @@
       {$toastStore.message}
     </div>
   {/if}
+
+  <FaqChat />
 {/if}

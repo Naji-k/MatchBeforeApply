@@ -93,4 +93,5 @@ export const appConfigStore = writable({
   VITE_ENABLE_SIGNUP: false as boolean,
   VITE_DEMO_USER: null as number | null,
   PUBLIC_GA_MEASUREMENT_ID: null as string | null,
+  ENABLE_FAQ_CHAT: false as boolean,
 });

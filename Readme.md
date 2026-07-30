@@ -25,7 +25,7 @@ The core of the app is a **multi-agent pipeline** built with the [Google Agent D
 ```
 SequentialAgent (root_agent — "cv_job_matcher")
   │
-  ├── [1] JD Agent     — scrapes the job posting (scrape_url tool) or parses pasted
+  ├── [1] JD Agent     — scrapes the job posting (scrape_url tool) or  parses pasted
   │                      text into structured data (title, company, required skills…)
   │                      → writes state["jd_data"]
   │

@@ -115,6 +115,18 @@ export interface ProfileUpdatePayload {
   cv_text?: string;
 }
 
+export interface FaqAnswer {
+  answer: string;
+  grounded: boolean;
+  sources: string[];
+}
+
+export interface FaqMessage {
+  role: "user" | "assistant";
+  content: string;
+  failed?: boolean;
+}
+
 export const STATUS_OPTIONS: { status: ApplicationStatus; label: string }[] = [
   { status: "open", label: "Open/Prepare to Apply" },
   { status: "in_progress", label: "Applied" },

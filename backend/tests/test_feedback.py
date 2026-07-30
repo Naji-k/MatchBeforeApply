@@ -30,3 +30,10 @@ async def test_get_config_returns_public_settings(client):
     body = response.json()
     assert "VITE_GOOGLE_CLIENT_ID" in body
     assert "VITE_ENABLE_SIGNUP" in body
+
+
+@pytest.mark.asyncio
+async def test_config_exposes_faq_chat_flag(client):
+    response = await client.get("/api/config")
+    assert response.status_code == 200
+    assert response.json()["ENABLE_FAQ_CHAT"] is False
