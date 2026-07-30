@@ -99,8 +99,6 @@
           placeholder="Ask a question…"
           aria-label="Your question"
         />
-        <!-- Glyph button: aria-label carries the accessible name, since there is
-             no visible text to supply one. -->
         <button
           class="faq-send"
           onclick={send}
