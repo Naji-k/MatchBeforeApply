@@ -13,10 +13,10 @@ logger = logging.getLogger(__name__)
 """Service for answering user questions using the FAQ corpus. Uses pgvector to retrieve relevant entries, 
 then generates a response using the reference entries as context."""
 
-DISTANCE_THRESHOLD = 0.6
+DISTANCE_THRESHOLD = 0.38
 TOP_K = 4
 
-REFUSAL_TEXT = "I can only answer questions about this app."
+REFUSAL_TEXT = "I don't know the answer to that question. Please try rephrasing it or use the feedback button to ask for help."
 
 _PROMPT = """You answer questions about the MatchBeforeApply web app.
 
