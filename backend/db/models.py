@@ -10,10 +10,12 @@ from sqlalchemy import (
     DateTime,
     Text,
     ForeignKey,
+    Float,
     Enum as SAEnum,
 )
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import relationship
+from pgvector.sqlalchemy import Vector
 
 from db.database import Base
 
@@ -115,3 +117,26 @@ class ApplicationComment(Base):
 
     application = relationship("Application", back_populates="comments")
     user = relationship("User", back_populates="comments")
+
+
+class FaqChunk(Base):
+    __tablename__ = "faq_chunks"
+
+    id = Column(Integer, primary_key=True, index=True)
+    entry_id = Column(String(255), unique=True, index=True, nullable=False)
+    question = Column(Text, nullable=False)
+    answer = Column(Text, nullable=False)
+    content_hash = Column(String(64), nullable=False)
+    embedding = Column(Vector(768), nullable=False)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+
+class FaqQueryLog(Base):
+    __tablename__ = "faq_query_logs"
+
+    id = Column(Integer, primary_key=True, index=True)
+    question = Column(Text, nullable=False)
+    top_distance = Column(Float, nullable=True)
+    grounded = Column(Boolean, nullable=False)
+    matched_ids = Column(JSONB, nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow)

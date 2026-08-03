@@ -30,6 +30,7 @@ class Settings(BaseSettings):
     VITE_DEMO_USER_EMAIL: str = ""
     VITE_DEMO_USER_PASSWORD: str = ""
     PUBLIC_GA_MEASUREMENT_ID: str = ""
+    ENABLE_FAQ_CHAT: bool = False
 
     @computed_field
     @property

@@ -15,6 +15,8 @@ Built as a full-stack showcase of **multi-agent AI orchestration** (Google ADK +
 - **🗂️ Application tracking board** — every analysis becomes an application card on a Kanban board with statuses (`open`, `in progress`, `accepted`, `rejected`), filtering, and sorting.
 - **💬 Comments & interview notes** — attach typed notes (general, company research, interview, Q&A) to each application.
 - **🔐 Secure by default** — JWT authentication (argon2 password hashing) on all protected endpoints; per-user data isolation.
+- **🙋 Ask-the-app chatbot** — a chat bubble on every page answers questions about how the app works.
+- **🖥️ Self-hosting** — the entire stack (PostgreSQL + FastAPI + SvelteKit + Caddy) is containerized and runs with a single command; no local Python/Node setup required.
 
 ---
 
@@ -25,7 +27,7 @@ The core of the app is a **multi-agent pipeline** built with the [Google Agent D
 ```
 SequentialAgent (root_agent — "cv_job_matcher")
   │
-  ├── [1] JD Agent     — scrapes the job posting (scrape_url tool) or parses pasted
+  ├── [1] JD Agent     — scrapes the job posting (scrape_url tool) or  parses pasted
   │                      text into structured data (title, company, required skills…)
   │                      → writes state["jd_data"]
   │
@@ -50,15 +52,22 @@ SequentialAgent (root_agent — "cv_job_matcher")
 
 ---
 
+## 🙋 FAQ Chatbot (RAG)
+
+A public chat bubble — available, on every page — answers questions about how the app works. The FAQ content is **version-controlled markdown** (`backend/faq/faq.md`), not database rows: each entry carries a stable id, so editing an answer re-embeds only that entry. The index is reconciled with the markdown on every app startup.
+
+---
+
 ## 🏗️ Architecture
 
 | Layer | Tech |
 |---|---|
 | AI / Agents | Google ADK (`SequentialAgent`), Gemini 2.5 Flash, custom scraping tool |
+| RAG / FAQ chat | pgvector + `gemini-embedding-2` (768d), markdown corpus |
 | Backend | FastAPI, async SQLAlchemy + asyncpg, Alembic migrations, Pydantic v2 |
 | Auth | JWT (`python-jose`) + argon2 (`passlib`) |
 | Frontend | SvelteKit 2 (Svelte 5 runes), TypeScript, Tailwind CSS v4, Vite 8 |
-| Database | PostgreSQL (users, profiles, applications, comments) |
+| Database | PostgreSQL + pgvector (users, profiles, applications, comments, FAQ chunks) |
 | Tooling | Ruff, ESLint 9, Prettier, svelte-check, pre-commit hooks |
 | Deployment | Multi-stage Dockerfile (Node build → Python runtime) fronted by Caddy |
 | Reverse Proxy | Caddy (static frontend + reverse proxy to FastAPI, scanner blocking, security headers) |
@@ -131,6 +140,10 @@ POST   /api/applications/{id}/analyze    (Re-)run AI analysis
 GET    /api/applications/{id}/comments   List comments
 POST   /api/applications/{id}/comments   Add comment
 DELETE /api/applications/{id}/comments/{cid}  Delete comment
+
+POST /api/faq/ask                        Ask the FAQ chatbot (public, no auth)
+POST /api/feedback                       Send feedback
+GET  /api/config                         Public frontend config flags
 ```
 
 All `/api/profile` and `/api/applications/*` routes require a Bearer token. Interactive docs at `http://localhost:8000/docs`.
@@ -144,12 +157,14 @@ job_board/
 ├── backend/
 │   ├── main.py                 # FastAPI entry point
 │   ├── agents/                 # 🤖 Google ADK agents (orchestrator + 4 sub-agents)
-│   ├── api/routes/             # auth, profile, applications endpoints
-│   ├── services/               # business logic + analysis pipeline entry
-│   ├── tools/                  # pdf_parser, web_scraper (ADK tool)
+│   ├── faq/                    # 🙋 FAQ markdown corpus (chatbot source of truth)
+│   ├── api/routes/             # auth, profile, applications, faq, feedback endpoints
+│   ├── services/               # business logic, analysis pipeline, FAQ index/query
+│   ├── tools/                  # pdf_parser, web_scraper (ADK tool), embeddings
 │   ├── db/                     # async engine + ORM models
 │   ├── schemas/                # Pydantic request/response models
-│   ├── core/                   # config, JWT security, auth middleware
+│   ├── core/                   # config, JWT security, auth middleware, rate limiting
+│   ├── tests/                  # pytest suite
 │   └── alembic/                # DB migrations
 ├── publish/                    # SvelteKit frontend (Svelte 5 + Tailwind v4)
 │   └── src/
@@ -169,6 +184,7 @@ job_board/
 
 ```bash
 pre-commit run --all-files      # ruff + prettier + eslint + svelte-check
+cd backend && pytest            # backend tests
 cd publish && npm run check     # TypeScript type-checking
 cd publish && npm run lint      # ESLint
 python -m alembic revision --autogenerate -m "description"   # new migration

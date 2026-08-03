@@ -7,6 +7,7 @@ import type {
   UpdateApplicationPayload,
   AddCommentPayload,
   ProfileUpdatePayload,
+  FaqAnswer,
 } from "./types.js";
 import { appConfigStore } from "./stores.js";
 
@@ -267,6 +268,13 @@ export function deleteComment(
 ): Promise<void> {
   return request<void>(`/api/applications/${appId}/comments/${commentId}`, {
     method: "DELETE",
+  });
+}
+
+export async function askFaq(question: string): Promise<FaqAnswer> {
+  return request<FaqAnswer>("/api/faq/ask", {
+    method: "POST",
+    json: { question },
   });
 }
 

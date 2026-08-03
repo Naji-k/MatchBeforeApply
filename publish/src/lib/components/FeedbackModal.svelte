@@ -90,16 +90,17 @@
     position: fixed;
     inset: 0;
     background: rgba(0, 0, 0, 0.4);
-    z-index: 50;
+    z-index: 80;
   }
   .dialog {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 51;
+    z-index: 81;
     width: min(92vw, 440px);
     display: flex;
+    padding: 0.5rem;
     flex-direction: column;
   }
 </style>
