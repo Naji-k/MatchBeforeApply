@@ -125,6 +125,10 @@ export interface FaqMessage {
   role: "user" | "assistant";
   content: string;
   failed?: boolean;
+  // Only set on assistant replies that reached the backend. Left undefined on
+  // user messages and on transport failures, so `grounded === false` means "the
+  // model answered but could not ground it" and nothing else.
+  grounded?: boolean;
 }
 
 export const STATUS_OPTIONS: { status: ApplicationStatus; label: string }[] = [

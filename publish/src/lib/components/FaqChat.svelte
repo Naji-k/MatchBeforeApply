@@ -1,6 +1,7 @@
 <script lang="ts">
   import { appConfigStore } from "$lib/stores.js";
   import * as api from "$lib/api.js";
+  import FeedbackModal from "$lib/components/FeedbackModal.svelte";
   import type { FaqMessage } from "$lib/types.js";
 
   const MAX_QUESTION_LENGTH = 500;
@@ -10,6 +11,7 @@
   let pending = $state(false);
   let messages = $state<FaqMessage[]>([]);
   let logEl = $state<HTMLDivElement | null>(null);
+  let feedbackOpen = $state(false);
 
   const canSend = $derived(question.trim().length > 0 && !pending);
 
@@ -30,8 +32,14 @@
 
     try {
       const result = await api.askFaq(asked);
-      // A refusal is a valid answer, not an error — render it identically.
-      messages = [...messages, { role: "assistant", content: result.answer }];
+      messages = [
+        ...messages,
+        {
+          role: "assistant",
+          content: result.answer,
+          grounded: result.grounded,
+        },
+      ];
     } catch (error) {
       const content =
         error instanceof api.ApiError && error.status === 429
@@ -56,7 +64,7 @@
   {#if open}
     <div class="faq-panel">
       <div class="faq-header">
-        <span>Ask about this app</span>
+        <span>Ask about this app (BETA)</span>
         <button
           class="faq-close"
           onclick={() => (open = false)}
@@ -67,8 +75,8 @@
       <div class="faq-log" bind:this={logEl}>
         {#if messages.length === 0}
           <p class="faq-hint">
-            Ask how the CV match works, what the score means, or how to track
-            applications.
+            Hello! I'm a virtual assistant. Ask me questions about this app, and
+            I'll do my best to answer them.
           </p>
         {/if}
 
@@ -81,6 +89,15 @@
           >
             {message.content}
           </div>
+          {#if message.grounded === false}
+            <button
+              class="btn-primary"
+              style="align-self:flex-start;font-size:.8125rem;padding:.35rem .75rem"
+              onclick={() => (feedbackOpen = true)}
+            >
+              Feedback
+            </button>
+          {/if}
         {/each}
 
         {#if pending}
@@ -116,4 +133,8 @@
   >
     {open ? "×" : "?"}
   </button>
+
+  {#if feedbackOpen}
+    <FeedbackModal onclose={() => (feedbackOpen = false)} />
+  {/if}
 {/if}
