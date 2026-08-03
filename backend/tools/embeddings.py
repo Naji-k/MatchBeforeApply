@@ -1,5 +1,6 @@
 from google import genai
 from google.genai.types import EmbedContentConfig
+from pydantic import BaseModel
 
 from core.config import settings
 
@@ -7,6 +8,13 @@ EMBEDDING_MODEL = "gemini-embedding-2"
 EMBEDDING_DIMENSIONS = 768
 
 _client: genai.Client | None = None
+
+
+class GroundedAnswer(BaseModel):
+    """Structured reply from the FAQ model."""
+
+    answer: str = ""
+    answered: bool = False
 
 
 def _get_client() -> genai.Client:
@@ -35,12 +43,18 @@ async def embed_query(text: str) -> list[float]:
     return await _embed(f"task: search result | query: {text}")
 
 
-async def generate_answer(prompt: str) -> str:
+async def generate_answer(prompt: str) -> GroundedAnswer:
     """
     Generate an answer to a user question using the provided prompt.
-    The prompt should include the user question and any relevant context."""
+    The prompt should include the user question and any relevant context
+    The response will be a JSON object with the answer and whether it was grounded in the context.
+    """
     response = await _get_client().aio.models.generate_content(
         model=settings.MODEL,
         contents=prompt,
+        config={
+            "response_mime_type": "application/json",
+            "response_schema": GroundedAnswer,
+        },
     )
-    return (response.text or "").strip()
+    return GroundedAnswer.model_validate_json(response.text or "{}")

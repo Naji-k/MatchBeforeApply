@@ -10,6 +10,7 @@ from sqlalchemy import (
     DateTime,
     Text,
     ForeignKey,
+    Float,
     Enum as SAEnum,
 )
 from sqlalchemy.dialects.postgresql import JSONB
@@ -128,3 +129,14 @@ class FaqChunk(Base):
     content_hash = Column(String(64), nullable=False)
     embedding = Column(Vector(768), nullable=False)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+
+class FaqQueryLog(Base):
+    __tablename__ = "faq_query_logs"
+
+    id = Column(Integer, primary_key=True, index=True)
+    question = Column(Text, nullable=False)
+    top_distance = Column(Float, nullable=True)
+    grounded = Column(Boolean, nullable=False)
+    matched_ids = Column(JSONB, nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
