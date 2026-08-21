@@ -4,7 +4,42 @@
     <meta charset="utf-8" />
     <link rel="icon" href="%sveltekit.assets%/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      property="og:title"
+      content="MatchBeforeApply — Know Your Match Before You Apply"
+    />
+    <meta
+      property="og:description"
+      content="See your real CV-to-job match score, missing skills, and ATS tips in seconds. Free — no credit card required."
+    />
+    <meta property="og:site_name" content="MatchBeforeApply" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://matchbeforeapply.com" />
+    <meta
+      property="og:image"
+      content="https://matchbeforeapply.com/board.png"
+    />
+    <meta property="og:image:width" content="946" />
+    <meta property="og:image:height" content="400" />
+    <meta property="og:image:alt" content="MatchBeforeApply" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="MatchBeforeApply — Know Your Match Before You Apply"
+    />
+    <meta
+      name="twitter:description"
+      content="See your real CV-to-job match score, missing skills, and ATS tips in seconds. Free — no credit card required."
+    />
+    <meta
+      name="twitter:image"
+      content="https://matchbeforeapply.com/board.png"
+    />
+    <meta name="twitter:image:alt" content="MatchBeforeApply" />
+
     %sveltekit.head%
+
     <script
       src="https://accounts.google.com/gsi/client?hl=en"
       async
@@ -15,8 +50,7 @@
       const GA_MEASUREMENT_ID = "G-B2DKSDL9SG";
       if (GA_MEASUREMENT_ID) {
         const script = document.createElement("script");
-        script.src =
-          "https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}";
+        script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
         script.async = true;
         document.head.appendChild(script);
       }

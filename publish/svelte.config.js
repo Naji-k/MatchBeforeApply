@@ -9,6 +9,9 @@ const config = {
       precompress: false,
       fallback: "index.html",
     }),
+    files: {
+      assets: "assets",
+    },
   },
 };
 
