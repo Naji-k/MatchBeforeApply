@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { CircleCheck, CircleX } from "@lucide/svelte";
+
   let {
     matched = [],
     missing = [],
@@ -7,8 +9,8 @@
 
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
   <div class="card">
-    <h3 style="font-size:.95rem;font-weight:600;padding:.75rem">
-      ✅ Matched Skills
+    <h3 class="skill-head">
+      <CircleCheck size={16} color="var(--color-success)" /> Matched Skills
     </h3>
     <div style="display:flex;flex-wrap:wrap;gap:.45rem;padding:.75rem">
       {#if matched.length}
@@ -26,8 +28,8 @@
   </div>
 
   <div class="card">
-    <h3 style="font-size:.95rem;font-weight:600;padding:.75rem">
-      ❌ Missing Skills
+    <h3 class="skill-head">
+      <CircleX size={16} color="var(--color-danger)" /> Missing Skills
     </h3>
     <div style="display:flex;flex-wrap:wrap;gap:.45rem;padding:.75rem">
       {#if missing.length}
@@ -46,6 +48,16 @@
 </div>
 
 <style>
+  .skill-head {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding: 0.75rem;
+    margin: 0;
+  }
+
   @media (max-width: 560px) {
     div {
       grid-template-columns: 1fr !important;
