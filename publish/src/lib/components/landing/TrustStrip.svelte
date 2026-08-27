@@ -1,9 +1,9 @@
 <script lang="ts">
-  import { Bot, Gift, ShieldCheck, Sparkles } from "@lucide/svelte";
+  import { Bot, Gift, ShieldCheck, Kanban } from "@lucide/svelte";
 
   const signals = [
     { icon: Bot, label: "4-agent AI pipeline" },
-    { icon: Sparkles, label: "Powered by Google Gemini" },
+    { icon: Kanban, label: "Track your progress" },
     { icon: ShieldCheck, label: "Your CV stays private" },
     { icon: Gift, label: "3 free analyses every day" },
   ];
