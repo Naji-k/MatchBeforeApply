@@ -39,10 +39,10 @@
           class="btn-primary cta-primary"
           onclick={() => trackEvent("hero_cta_click")}
         >
-          Check my match — free
+          Check my match for free
         </a>
-        <a href="#sample-report" class="cta-secondary">
-          See a sample report
+        <a href="/login" class="cta-secondary">
+          try a demo
           <ArrowRight size={16} />
         </a>
       </div>
