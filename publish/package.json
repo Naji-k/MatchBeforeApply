@@ -14,7 +14,7 @@
     "@playwright/test": "^1.63.0",
     "@sveltejs/adapter-static": "^3.0.10",
     "@sveltejs/kit": "^2.70.3",
-    "@tailwindcss/vite": "^4.3.0",
+    "@tailwindcss/vite": "^4.3.4",
     "@types/eslint": "^9.6.0",
     "@types/node": "^26.6.6",
     "eslint": "^10.13.0",
