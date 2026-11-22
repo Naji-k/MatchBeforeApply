@@ -12,7 +12,7 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.65.0",
-    "@sveltejs/adapter-static": "^3.0.10",
+    "@sveltejs/adapter-static": "^4.0.1",
     "@sveltejs/kit": "^2.70.3",
     "@tailwindcss/vite": "^4.3.4",
     "@types/eslint": "^9.6.0",
