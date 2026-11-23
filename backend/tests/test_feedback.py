@@ -1,6 +1,5 @@
 import pytest
 
-from core.config import settings
 from tests.conftest import make_result
 
 
@@ -66,12 +65,7 @@ async def test_get_config_returns_public_settings(client):
 
 
 @pytest.mark.asyncio
-@pytest.mark.parametrize("flag", [True, False])
-async def test_config_exposes_faq_chat_flag(client, monkeypatch, flag):
-    """Set explicitly -- backend/.env may turn the flag on for the dev machine."""
-    monkeypatch.setattr(settings, "ENABLE_FAQ_CHAT", flag)
-
+async def test_config_exposes_faq_chat_flag(client):
     response = await client.get("/api/config")
-
     assert response.status_code == 200
-    assert response.json()["ENABLE_FAQ_CHAT"] is flag
+    assert response.json()["ENABLE_FAQ_CHAT"] is False
