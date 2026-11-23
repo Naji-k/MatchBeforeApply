@@ -7,8 +7,8 @@
     Lock,
     Sparkles,
   } from "@lucide/svelte";
-  import ScoreIndicator from "$lib/components/ScoreIndicator.svelte";
-  import { trackEvent } from "$lib/utils/analytics";
+  import ScoreIndicator from "#lib/components/ScoreIndicator.svelte";
+  import { trackEvent } from "#lib/utils/analytics.ts";
 
   const previewScore = 8;
   const matched = ["Python", "FastAPI", "PostgreSQL", "REST APIs", "AWS"];
@@ -86,8 +86,10 @@
                 {#each matched as skill, i (skill)}
                   <span
                     class="chip chip-match anim pop"
-                    style="animation-delay:{500 + i * 70}ms">{skill}</span
+                    style="animation-delay:{500 + i * 70}ms"
                   >
+                    {skill}
+                  </span>
                 {/each}
               </div>
             </div>
@@ -97,8 +99,10 @@
                 {#each missing as skill, i (skill)}
                   <span
                     class="chip chip-missing anim pop"
-                    style="animation-delay:{850 + i * 70}ms">{skill}</span
+                    style="animation-delay:{850 + i * 70}ms"
                   >
+                    {skill}
+                  </span>
                 {/each}
               </div>
             </div>

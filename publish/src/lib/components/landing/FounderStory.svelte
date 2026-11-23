@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { reveal } from "$lib/utils/reveal.js";
+  import { reveal } from "#lib/utils/reveal.js";
 </script>
 
 <section class="section">

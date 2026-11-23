@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { appConfigStore } from "$lib/stores.js";
-  import * as api from "$lib/api.js";
-  import FeedbackModal from "$lib/components/FeedbackModal.svelte";
-  import type { FaqMessage } from "$lib/types.js";
+  import { appConfigStore } from "#lib/stores.js";
+  import * as api from "#lib/api.js";
+  import FeedbackModal from "#lib/components/FeedbackModal.svelte";
+  import type { FaqMessage } from "#lib/types.js";
 
   const MAX_QUESTION_LENGTH = 500;
 
@@ -68,8 +68,10 @@
         <button
           class="faq-close"
           onclick={() => (open = false)}
-          aria-label="Close chat">×</button
+          aria-label="Close chat"
         >
+          ×
+        </button>
       </div>
 
       <div class="faq-log" bind:this={logEl}>
@@ -120,8 +122,10 @@
           class="faq-send"
           onclick={send}
           disabled={!canSend}
-          aria-label="Send question">↑</button
+          aria-label="Send question"
         >
+          ↑
+        </button>
       </div>
     </div>
   {/if}

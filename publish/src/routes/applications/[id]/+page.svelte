@@ -2,24 +2,24 @@
   import { goto } from "$app/navigation";
   import { page } from "$app/state";
   import { onMount } from "svelte";
-  import type { ApplicationStatus, CommentType } from "$lib/types.js";
+  import type { ApplicationStatus, CommentType } from "#lib/types.js";
   import {
     authStore,
     currentAppStore,
     incrementUsage,
     showToast,
-  } from "$lib/stores.js";
-  import * as api from "$lib/api.js";
-  import ResultsCard from "$lib/components/ResultsCard.svelte";
-  import SkillChips from "$lib/components/SkillChips.svelte";
-  import CommentTimeline from "$lib/components/CommentTimeline.svelte";
-  import LoadingSteps from "$lib/components/LoadingSteps.svelte";
-  import Modal from "$lib/components/Modal.svelte";
-  import ScoreIndicator from "$lib/components/ScoreIndicator.svelte";
-  import { formatDate } from "$lib/utils/helpers.js";
-  import { STATUS_OPTIONS } from "$lib/types.js";
-  import { isDemoUser } from "$lib/stores.js";
-  import { trackEvent } from "$lib/utils/analytics.js";
+  } from "#lib/stores.js";
+  import * as api from "#lib/api.js";
+  import ResultsCard from "#lib/components/ResultsCard.svelte";
+  import SkillChips from "#lib/components/SkillChips.svelte";
+  import CommentTimeline from "#lib/components/CommentTimeline.svelte";
+  import LoadingSteps from "#lib/components/LoadingSteps.svelte";
+  import Modal from "#lib/components/Modal.svelte";
+  import ScoreIndicator from "#lib/components/ScoreIndicator.svelte";
+  import { formatDate } from "#lib/utils/helpers.js";
+  import { STATUS_OPTIONS } from "#lib/types.js";
+  import { isDemoUser } from "#lib/stores.js";
+  import { trackEvent } from "#lib/utils/analytics.js";
 
   const COMMENT_TYPES: CommentType[] = [
     "general",
@@ -228,8 +228,9 @@
           <a
             href="/applications"
             style="color:var(--color-text-muted);font-size:.875rem;text-decoration:none"
-            >← Board</a
           >
+            ← Board
+          </a>
           <h1 style="font-size:1.6rem;font-weight:700;margin-top:.25rem">
             {app.jd_data?.job_title || "Application"}
           </h1>
@@ -320,8 +321,10 @@
           <button
             class="btn-primary"
             style="padding:.75rem 1.5rem"
-            onclick={reanalyze}>Run Analysis</button
+            onclick={reanalyze}
           >
+            Run Analysis
+          </button>
         </div>
       {/if}
       <!-- ATS -->
@@ -379,8 +382,9 @@
             target="_blank"
             rel="noopener noreferrer"
             style="font-size:.875rem;color:var(--color-accent);word-break:break-all"
-            >{app.jd_url}</a
           >
+            {app.jd_url}
+          </a>
         {:else}
           <div style="display:flex;gap:.75rem;align-items:center">
             <input

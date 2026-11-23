@@ -1,6 +1,6 @@
 <script lang="ts">
   import { BadgePercent, FileCheck, FileSearch, Kanban } from "@lucide/svelte";
-  import { reveal } from "$lib/utils/reveal.js";
+  import { reveal } from "#lib/utils/reveal.js";
 
   const features = [
     {

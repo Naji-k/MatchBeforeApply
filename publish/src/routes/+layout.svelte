@@ -11,11 +11,11 @@
     setUsage,
     setIsDemoUser,
     appConfigStore,
-  } from "$lib/stores.js";
-  import * as api from "$lib/api.js";
+  } from "#lib/stores.js";
+  import * as api from "#lib/api.js";
   import { onMount } from "svelte";
-  import Navbar from "$lib/components/Navbar.svelte";
-  import FaqChat from "$lib/components/FaqChat.svelte";
+  import Navbar from "#lib/components/Navbar.svelte";
+  import FaqChat from "#lib/components/FaqChat.svelte";
 
   let { children }: { children: Snippet } = $props();
   let initialized = $state(false);

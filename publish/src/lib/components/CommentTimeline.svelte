@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { ApplicationComment } from "$lib/types.js";
+  import type { ApplicationComment } from "#lib/types.js";
   import CommentCard from "./CommentCard.svelte";
 
   let {

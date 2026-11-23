@@ -1,6 +1,6 @@
 <script lang="ts">
   import { ArrowRight, Ban, Compass } from "@lucide/svelte";
-  import { reveal } from "$lib/utils/reveal.js";
+  import { reveal } from "#lib/utils/reveal.js";
 
   const loop = [
     { word: "Apply", note: "fire off another one" },

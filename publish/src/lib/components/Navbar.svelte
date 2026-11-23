@@ -1,8 +1,8 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
   import { page } from "$app/state";
-  import { authStore, logout, usageStore, isDemoUser } from "$lib/stores.js";
-  import FeedbackModal from "$lib/components/FeedbackModal.svelte";
+  import { authStore, logout, usageStore, isDemoUser } from "#lib/stores.js";
+  import FeedbackModal from "#lib/components/FeedbackModal.svelte";
 
   let menuOpen = $state(false);
   let feedbackOpen = $state(false);
@@ -40,9 +40,9 @@
   <!-- User info + logout (desktop) -->
   <div class="desktop-user">
     {#if $authStore.user}
-      <span class="user-email"
-        >{$authStore.user.full_name || $authStore.user.email}</span
-      >
+      <span class="user-email">
+        {$authStore.user.full_name || $authStore.user.email}
+      </span>
     {/if}
     {#if $usageStore !== null}
       {#if !$isDemoUser}
@@ -54,9 +54,9 @@
         </span>
       {/if}
     {/if}
-    <button class="feedback-btn" onclick={() => (feedbackOpen = true)}
-      >Feedback</button
-    >
+    <button class="feedback-btn" onclick={() => (feedbackOpen = true)}>
+      Feedback
+    </button>
     <button onclick={handleLogout} class="logout-btn">Logout</button>
   </div>
 
@@ -83,9 +83,9 @@
       </a>
     {/each}
     {#if $authStore.user}
-      <span class="user-email" style="padding:.5rem 0"
-        >{$authStore.user.email}</span
-      >
+      <span class="user-email" style="padding:.5rem 0">
+        {$authStore.user.email}
+      </span>
     {/if}
     {#if $usageStore !== null && $isDemoUser === false}
       <span
@@ -102,13 +102,17 @@
       onclick={() => {
         menuOpen = false;
         feedbackOpen = true;
-      }}>Feedback</button
+      }}
     >
+      Feedback
+    </button>
     <button
       onclick={handleLogout}
       class="logout-btn"
-      style="text-align:left;padding:.5rem 0">Logout</button
+      style="text-align:left;padding:.5rem 0"
     >
+      Logout
+    </button>
   </div>
 {/if}
 

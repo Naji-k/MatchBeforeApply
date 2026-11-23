@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import { colorForScore, scorePercent } from "$lib/utils/helpers.js";
+  import { colorForScore, scorePercent } from "#lib/utils/helpers.js";
 
   let { score, size = "sm" }: { score: number; size?: "sm" | "lg" } = $props();
 
@@ -67,8 +67,9 @@
       <span style="font-size:2rem;font-weight:800;color:{color}">{pct}</span>
       <span
         style="font-size:.75rem;color:var(--color-text-muted);margin-top:.15rem"
-        >%</span
       >
+        %
+      </span>
     {:else}
       <span style="font-size:.9rem;font-weight:800;color:{color}">{pct}</span>
       <span style="font-size:.55rem;color:var(--color-text-muted)">%</span>

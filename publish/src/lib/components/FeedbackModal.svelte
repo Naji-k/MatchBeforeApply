@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { submitFeedback } from "$lib/api.js";
+  import { submitFeedback } from "#lib/api.js";
 
   let { onclose }: { onclose: () => void } = $props();
 

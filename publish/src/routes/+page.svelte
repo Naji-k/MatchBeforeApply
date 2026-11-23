@@ -2,18 +2,18 @@
   import { goto } from "$app/navigation";
   import { onMount } from "svelte";
   import { get } from "svelte/store";
-  import { authStore } from "$lib/stores.js";
+  import { authStore } from "#lib/stores.js";
 
-  import LandingNav from "$lib/components/landing/LandingNav.svelte";
-  import Hero from "$lib/components/landing/Hero.svelte";
-  import TrustStrip from "$lib/components/landing/TrustStrip.svelte";
-  import ProblemSection from "$lib/components/landing/ProblemSection.svelte";
-  import HowItWorks from "$lib/components/landing/HowItWorks.svelte";
-  import FeatureGrid from "$lib/components/landing/FeatureGrid.svelte";
-  import SampleReport from "$lib/components/landing/SampleReport.svelte";
-  import FounderStory from "$lib/components/landing/FounderStory.svelte";
-  import FinalCta from "$lib/components/landing/FinalCta.svelte";
-  import SiteFooter from "$lib/components/landing/SiteFooter.svelte";
+  import LandingNav from "#lib/components/landing/LandingNav.svelte";
+  import Hero from "#lib/components/landing/Hero.svelte";
+  import TrustStrip from "#lib/components/landing/TrustStrip.svelte";
+  import ProblemSection from "#lib/components/landing/ProblemSection.svelte";
+  import HowItWorks from "#lib/components/landing/HowItWorks.svelte";
+  import FeatureGrid from "#lib/components/landing/FeatureGrid.svelte";
+  import SampleReport from "#lib/components/landing/SampleReport.svelte";
+  import FounderStory from "#lib/components/landing/FounderStory.svelte";
+  import FinalCta from "#lib/components/landing/FinalCta.svelte";
+  import SiteFooter from "#lib/components/landing/SiteFooter.svelte";
 
   onMount(() => {
     if (get(authStore).isAuthenticated) {

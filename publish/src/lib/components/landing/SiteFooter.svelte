@@ -1,5 +1,5 @@
 <script lang="ts">
-  import BrandTitle from "$lib/components/BrandTitle.svelte";
+  import BrandTitle from "#lib/components/BrandTitle.svelte";
 
   const year = new Date().getFullYear();
 </script>

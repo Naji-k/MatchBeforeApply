@@ -1,7 +1,7 @@
 <script lang="ts">
   import { Menu, X } from "@lucide/svelte";
-  import { trackEvent } from "$lib/utils/analytics";
-  import BrandTitle from "$lib/components/BrandTitle.svelte";
+  import { trackEvent } from "#lib/utils/analytics.ts";
+  import BrandTitle from "#lib/components/BrandTitle.svelte";
 
   let menuOpen = $state(false);
 

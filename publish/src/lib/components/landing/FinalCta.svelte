@@ -1,7 +1,7 @@
 <script lang="ts">
   import { MessageCircle } from "@lucide/svelte";
-  import { appConfigStore } from "$lib/stores.js";
-  import { trackEvent } from "$lib/utils/analytics";
+  import { appConfigStore } from "#lib/stores.js";
+  import { trackEvent } from "#lib/utils/analytics.ts";
 </script>
 
 <section class="final-cta">
