@@ -48,8 +48,10 @@
         <button
           class="btn-danger"
           style="padding:.5rem 1.25rem"
-          onclick={onconfirm}>Delete</button
+          onclick={onconfirm}
         >
+          Delete
+        </button>
       </div>
     </div>
   </div>

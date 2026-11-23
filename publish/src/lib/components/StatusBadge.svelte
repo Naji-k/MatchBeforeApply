@@ -1,6 +1,6 @@
 <script lang="ts">
-  import type { ApplicationStatus } from "$lib/types.js";
-  import { statusLabel, statusClasses } from "$lib/utils/helpers.js";
+  import type { ApplicationStatus } from "#lib/types.js";
+  import { statusLabel, statusClasses } from "#lib/utils/helpers.js";
   let { status }: { status: ApplicationStatus } = $props();
 </script>
 

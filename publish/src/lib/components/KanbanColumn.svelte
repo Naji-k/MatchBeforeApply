@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Application, ApplicationStatus } from "$lib/types.js";
+  import type { Application, ApplicationStatus } from "#lib/types.js";
   import ApplicationCard from "./ApplicationCard.svelte";
 
   let {
@@ -48,8 +48,9 @@
   >
     <span
       style="font-size:.85rem;font-weight:700;color:var(--color-text-primary)"
-      >{label}</span
     >
+      {label}
+    </span>
     <span
       style="
         font-size:.7rem;font-weight:700;

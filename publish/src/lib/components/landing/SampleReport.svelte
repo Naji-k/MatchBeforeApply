@@ -1,9 +1,9 @@
 <script lang="ts">
   import { ArrowRight, Lightbulb } from "@lucide/svelte";
-  import ScoreIndicator from "$lib/components/ScoreIndicator.svelte";
-  import SkillChips from "$lib/components/SkillChips.svelte";
-  import { reveal } from "$lib/utils/reveal.js";
-  import { trackEvent } from "$lib/utils/analytics";
+  import ScoreIndicator from "#lib/components/ScoreIndicator.svelte";
+  import SkillChips from "#lib/components/SkillChips.svelte";
+  import { reveal } from "#lib/utils/reveal.js";
+  import { trackEvent } from "#lib/utils/analytics.ts";
 
   const previewScore = 8;
   const previewMatched = [

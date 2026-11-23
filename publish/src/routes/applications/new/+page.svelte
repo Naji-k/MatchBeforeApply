@@ -1,10 +1,10 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
-  import { createApplication, streamAnalysis, ApiError } from "$lib/api.js";
-  import LoadingSteps from "$lib/components/LoadingSteps.svelte";
-  import { authStore, showToast, incrementUsage } from "$lib/stores";
-  import { trackEvent } from "$lib/utils/analytics";
-  import { appConfigStore } from "$lib/stores";
+  import { createApplication, streamAnalysis, ApiError } from "#lib/api.js";
+  import LoadingSteps from "#lib/components/LoadingSteps.svelte";
+  import { authStore, showToast, incrementUsage } from "#lib/stores.ts";
+  import { trackEvent } from "#lib/utils/analytics.ts";
+  import { appConfigStore } from "#lib/stores.ts";
 
   let jdMode = $state<"text" | "url">("text");
   let jdText = $state("");
@@ -97,8 +97,9 @@
       <a
         href="/applications"
         style="color:var(--color-text-muted);font-size:.875rem;text-decoration:none"
-        >← Back</a
       >
+        ← Back
+      </a>
       <h1 style="font-size:1.6rem;font-weight:700">New Application</h1>
     </div>
 
@@ -154,9 +155,9 @@
             for="job-posting-url"
             style="font-size:.85rem;font-weight:600;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:.05em"
           >
-            Job Posting URL <span style="font-weight:400;opacity:.6"
-              >(optional)</span
-            >
+            Job Posting URL <span style="font-weight:400;opacity:.6">
+              (optional)
+            </span>
           </label>
           <input
             id="job-posting-url"
@@ -206,9 +207,9 @@
           "
           ></div>
         </div>
-        <span style="font-size:.9rem;color:var(--color-text-primary)"
-          >Run analysis immediately</span
-        >
+        <span style="font-size:.9rem;color:var(--color-text-primary)">
+          Run analysis immediately
+        </span>
       </div>
 
       <div style="display:flex;gap:.75rem;padding-top:.25rem">

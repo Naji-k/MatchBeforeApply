@@ -1,6 +1,6 @@
 <script lang="ts">
-  import type { ApplicationComment, CommentType } from "$lib/types.js";
-  import { formatDate } from "$lib/utils/helpers.js";
+  import type { ApplicationComment, CommentType } from "#lib/types.js";
+  import { formatDate } from "#lib/utils/helpers.js";
   let {
     comment,
     ondelete,
@@ -26,14 +26,17 @@
     </span>
     <span
       style="font-size:.75rem;color:var(--color-text-muted);margin-left:auto"
-      >{formatDate(comment.created_at)}</span
     >
+      {formatDate(comment.created_at)}
+    </span>
     <button
       class="delete-btn"
       onclick={ondelete}
       aria-label="Delete comment"
-      title="Delete">×</button
+      title="Delete"
     >
+      ×
+    </button>
   </div>
 
   {#if comment.question}

@@ -4,11 +4,11 @@
     STATUS_OPTIONS,
     type Application,
     type ApplicationStatus,
-  } from "$lib/types.js";
-  import { applicationsStore, showToast } from "$lib/stores.js";
-  import { listApplications, updateApplication } from "$lib/api.js";
-  import KanbanColumn from "$lib/components/KanbanColumn.svelte";
-  import ApplicationCard from "$lib/components/ApplicationCard.svelte";
+  } from "#lib/types.js";
+  import { applicationsStore, showToast } from "#lib/stores.js";
+  import { listApplications, updateApplication } from "#lib/api.js";
+  import KanbanColumn from "#lib/components/KanbanColumn.svelte";
+  import ApplicationCard from "#lib/components/ApplicationCard.svelte";
 
   let search = $state("");
   let draggedId = $state<number | null>(null);

@@ -1,7 +1,7 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
-  import type { Application } from "$lib/types.js";
-  import { formatDate } from "$lib/utils/helpers.js";
+  import type { Application } from "#lib/types.js";
+  import { formatDate } from "#lib/utils/helpers.js";
   import ScoreIndicator from "./ScoreIndicator.svelte";
   import StatusBadge from "./StatusBadge.svelte";
 
@@ -62,9 +62,9 @@
     {:else}
       <span></span>
     {/if}
-    <span style="font-size:.72rem;color:var(--color-text-muted)"
-      >{formatDate(app.created_at)}</span
-    >
+    <span style="font-size:.72rem;color:var(--color-text-muted)">
+      {formatDate(app.created_at)}
+    </span>
   </div>
 </button>
 

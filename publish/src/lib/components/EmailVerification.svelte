@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { verifyEmail, sendVerification } from "$lib/api.js";
-  import { setEmailVerified, showToast } from "$lib/stores.js";
+  import { verifyEmail, sendVerification } from "#lib/api.js";
+  import { setEmailVerified, showToast } from "#lib/stores.js";
 
   let { email, onVerified }: { email: string; onVerified: () => void } =
     $props();

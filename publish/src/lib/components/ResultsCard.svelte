@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { MatchBreakdown } from "$lib/types.js";
+  import type { MatchBreakdown } from "#lib/types.js";
 
   let { matchBreakdown }: { matchBreakdown: MatchBreakdown } = $props();
 

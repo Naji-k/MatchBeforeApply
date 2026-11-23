@@ -18,12 +18,12 @@
     setToken,
     setUser,
     showToast,
-  } from "$lib/stores.js";
-  import { login, register, googleAuth, getMe, demoLogin } from "$lib/api.js";
-  import EmailVerification from "$lib/components/EmailVerification.svelte";
-  import { validateEmail } from "$lib/utils/validation.js";
+  } from "#lib/stores.js";
+  import { login, register, googleAuth, getMe, demoLogin } from "#lib/api.js";
+  import EmailVerification from "#lib/components/EmailVerification.svelte";
+  import { validateEmail } from "#lib/utils/validation.js";
   import { onMount } from "svelte";
-  import { trackEvent } from "$lib/utils/analytics";
+  import { trackEvent } from "#lib/utils/analytics.ts";
 
   let mode = $state<"login" | "signup">("login");
   let email = $state("");
@@ -143,10 +143,9 @@
   }
 </script>
 
-<svelte:head
-  ><title>{mode === "signup" ? "Sign Up" : "Login"} — MatchBeforeApply</title
-  ></svelte:head
->
+<svelte:head>
+  <title>{mode === "signup" ? "Sign Up" : "Login"} — MatchBeforeApply</title>
+</svelte:head>
 
 <div
   style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1rem;background:var(--color-bg)"
@@ -169,9 +168,9 @@
       <p
         style="text-align:center;font-size:.875rem;color:var(--color-text-muted);margin-top:1rem"
       >
-        <a href="/applications" style="color:var(--color-accent)"
-          >Skip for now →</a
-        >
+        <a href="/applications" style="color:var(--color-accent)">
+          Skip for now →
+        </a>
       </p>
     </div>
   {:else}
@@ -207,8 +206,9 @@
             <label
               for="fullName"
               style="font-size:.85rem;font-weight:600;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:.05em;"
-              >Full Name</label
             >
+              Full Name
+            </label>
             <input
               id="fullName"
               type="text"
@@ -224,8 +224,9 @@
           <label
             for="email"
             style="font-size:.85rem;font-weight:600;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:.05em;"
-            >Email</label
           >
+            Email
+          </label>
           <input
             id="email"
             type="email"
@@ -240,8 +241,9 @@
           <label
             for="password"
             style="font-size:.85rem;font-weight:600;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:.05em"
-            >Password</label
           >
+            Password
+          </label>
           <input
             id="password"
             type="password"
@@ -312,15 +314,19 @@
               <button
                 type="button"
                 style="background:none;border:none;color:var(--color-accent);cursor:pointer;font-size:.875rem;font-weight:600;padding:0"
-                onclick={() => switchMode("signup")}>Sign up</button
+                onclick={() => switchMode("signup")}
               >
+                Sign up
+              </button>
             {:else}
               Already have an account?
               <button
                 type="button"
                 style="background:none;border:none;color:var(--color-accent);cursor:pointer;font-size:.875rem;font-weight:600;padding:0"
-                onclick={() => switchMode("login")}>Log in</button
+                onclick={() => switchMode("login")}
               >
+                Log in
+              </button>
             {/if}
           </p>
         {/if}
