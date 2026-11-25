@@ -1,5 +1,6 @@
 # MatchBeforeApply 🎯
-![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/naji-k/MatchBeforeApply/.github%2Fworkflows%2Fbackend-tests.yml?label=tests&link=https%3A%2F%2Fgithub.com%2FNaji-k%2FMatchBeforeApply%2Factions)
+
+[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/naji-k/MatchBeforeApply/.github%2Fworkflows%2Fbackend-tests.yml?label=Tests&link=https%3A%2F%2Fgithub.com%2FNaji-k%2FMatchBeforeApply%2Factions)](https://github.com/Naji-k/MatchBeforeApply/actions)
 
 **An AI-powered job application assistant** — upload your CV once, paste any job description, and get an instant match score with actionable ATS tips. Every analysis is automatically saved as an application card so you can track your job hunt from first look to final offer.
 
